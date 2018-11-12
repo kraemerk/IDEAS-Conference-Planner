@@ -6,7 +6,5 @@
         xmlns:local="clr-namespace:IDEAS_Conference_Planner"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <Frame x:Name="WindowFrame" Source="Pages/HomePage.xaml"/>
 </Window>
