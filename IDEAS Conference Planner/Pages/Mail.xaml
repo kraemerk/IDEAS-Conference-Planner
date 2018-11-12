@@ -1,0 +1,201 @@
+﻿<UserControl x:Class="ideashelper.UserControl2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ideashelper"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#FFFEFF5B">
+        <Label Content="Mail" HorizontalAlignment="Left" Margin="335,9,0,0" VerticalAlignment="Top" Height="74" Width="107" FontSize="48" FontFamily="Times New Roman"/>
+        <Button Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="45" Height="48">
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="hamburger.png"/>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Rectangle HorizontalAlignment="Left" Height="5" Margin="1,79,-3,0" Stroke="Black" VerticalAlignment="Top" Width="802" RenderTransformOrigin="0.5,0.5">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="367" Margin="0,83,0,-0.4" VerticalAlignment="Top" Width="164" Background="#FFD0D0D0"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="0,204,0,0" VerticalAlignment="Top" Width="164" RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="0,264,0,0" VerticalAlignment="Top" Width="164" RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Border.RenderTransform>
+        </Border>
+        <Button Content="Inbox" HorizontalAlignment="Left" Height="60" Margin="0,83,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" FontSize="20"/>
+        <Button Content="Sent Items" HorizontalAlignment="Left" Height="60" Margin="0,148,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" Click="Button_Click" FontSize="20"/>
+        <Button Content="Drafts" HorizontalAlignment="Left" Height="60" Margin="0,213,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" Click="Button_Click" FontSize="20"/>
+        <Button Content="Notes" HorizontalAlignment="Left" Height="60" Margin="0,278,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" Click="Button_Click" FontSize="20"/>
+        <Button Content="Trash" HorizontalAlignment="Left" Height="60" Margin="0,343,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" Click="Button_Click" FontSize="20"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="25" Margin="164,88,0,0" VerticalAlignment="Top" Width="192"/>
+        <Label Content="New + |   Mark as read | Flag" HorizontalAlignment="Left" Margin="164,88,0,0" VerticalAlignment="Top" Width="192" Background="White"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="336" Margin="164,113,0,0" VerticalAlignment="Top" Width="192" Background="White"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="0" Margin="169,170,0,0" VerticalAlignment="Top" Width="187"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,175,0,0" VerticalAlignment="Top" Width="187"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,240,0,0" VerticalAlignment="Top" Width="187"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,297,0,0" VerticalAlignment="Top" Width="187"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,353,0,0" VerticalAlignment="Top" Width="187"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,402,0,0" VerticalAlignment="Top" Width="187"/>
+        <Label Content="Palmquist, Alicia&#xD;&#xA;Today in the COC" HorizontalAlignment="Left" Margin="169,125,0,0" VerticalAlignment="Top"/>
+        <Grid Background="#FFFEFF5B" Margin="0,-1,0,0.6">
+            <Label Content="Mail" HorizontalAlignment="Left" Margin="335,9,0,0" VerticalAlignment="Top" Height="74" Width="107" FontSize="48" FontFamily="Times New Roman"/>
+            <Button Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="45" Height="48">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="hamburger.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Rectangle HorizontalAlignment="Left" Height="5" Margin="1,79,-3,0" Stroke="Black" VerticalAlignment="Top" Width="802" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="367" Margin="0,83,0,-0.4" VerticalAlignment="Top" Width="164" Background="#FFD0D0D0"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="0,204,0,0" VerticalAlignment="Top" Width="164" RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="0,264,0,0" VerticalAlignment="Top" Width="164" RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+            </Border>
+            <Button Content="Inbox" HorizontalAlignment="Left" Height="60" Margin="0,83,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" FontSize="20"/>
+            <Button Content="Sent Items" HorizontalAlignment="Left" Height="60" Margin="0,148,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" Click="Button_Click" FontSize="20"/>
+            <Button Content="Drafts" HorizontalAlignment="Left" Height="60" Margin="0,213,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" Click="Button_Click" FontSize="20"/>
+            <Button Content="Notes" HorizontalAlignment="Left" Height="60" Margin="0,278,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" Click="Button_Click" FontSize="20"/>
+            <Button Content="Trash" HorizontalAlignment="Left" Height="60" Margin="0,343,0,0" VerticalAlignment="Top" Width="164" Background="#FFDDDDDD" Click="Button_Click" FontSize="20"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="25" Margin="164,88,0,0" VerticalAlignment="Top" Width="192"/>
+            <Label Content="New + |   Mark as read | Flag" HorizontalAlignment="Left" Margin="164,88,0,0" VerticalAlignment="Top" Width="192" Background="White"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="336" Margin="164,113,0,0" VerticalAlignment="Top" Width="192" Background="White"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="0" Margin="169,170,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,175,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,240,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,297,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,353,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,402,0,0" VerticalAlignment="Top" Width="187"/>
+            <Label Content="Ronda, James&#xD;&#xA;The cultural divergence..." HorizontalAlignment="Left" Margin="169,190,0,0" VerticalAlignment="Top"/>
+            <Label Content="Palmquist, Alicia&#xA;Today in the COC..." HorizontalAlignment="Left" Margin="169,123,0,0" VerticalAlignment="Top"/>
+            <Label Content="..." HorizontalAlignment="Left" Margin="196,255,0,0" VerticalAlignment="Top"/>
+            <Label Content="..." HorizontalAlignment="Left" Margin="196,312,0,0" VerticalAlignment="Top"/>
+            <Label Content="..." HorizontalAlignment="Left" Margin="196,363,0,0" VerticalAlignment="Top"/>
+            <Label Content="..." HorizontalAlignment="Left" Margin="196,408,0,0" VerticalAlignment="Top"/>
+            <Label Content="Subject" HorizontalAlignment="Left" Margin="376,95,0,0" VerticalAlignment="Top"/>
+            <Label Content="To" HorizontalAlignment="Left" Margin="376,123,0,0" VerticalAlignment="Top"/>
+            <Label Content="CC" HorizontalAlignment="Left" Margin="376,150,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.075,-0.23"/>
+            <Label Content="BCC" HorizontalAlignment="Left" Margin="376,184,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.075,-0.23"/>
+            <TextBox HorizontalAlignment="Left" Height="19" Margin="431,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="97"/>
+            <TextBox HorizontalAlignment="Left" Height="19" Margin="404,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123"/>
+            <TextBox HorizontalAlignment="Left" Height="19" Margin="405,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123"/>
+            <TextBox HorizontalAlignment="Left" Height="19" Margin="411,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="116"/>
+            <TextBlock HorizontalAlignment="Left" Margin="376,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="171" Width="383" Background="White"/>
+            <Button Content="Send" HorizontalAlignment="Left" Margin="376,419,0,0" VerticalAlignment="Top" Width="75"/>
+
+        </Grid>
+        <Grid Background="#FFFEFF5B" Margin="0,-1,0,0.6">
+            <Label Content="Mail" HorizontalAlignment="Left" Margin="335,9,0,0" VerticalAlignment="Top" Height="74" Width="107" FontSize="48" FontFamily="Times New Roman"/>
+            <Button Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="45" Height="48">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="hamburger.png"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Rectangle HorizontalAlignment="Left" Height="5" Margin="1,79,-3,0" Stroke="Black" VerticalAlignment="Top" Width="802" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="367" Margin="0,83,0,-0.4" VerticalAlignment="Top" Width="164" Background="#FFB39FCB"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="0,204,0,0" VerticalAlignment="Top" Width="164" RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+            </Border>
+            <Button Content="Inbox" HorizontalAlignment="Left" Height="38" Margin="0,83,0,0" VerticalAlignment="Top" Width="164" Background="#FFE8D5FF" FontSize="20"/>
+            <Button Content="Sent Items" HorizontalAlignment="Left" Height="39" Margin="0,126,0,0" VerticalAlignment="Top" Width="164" Background="#FFE8D5FF" Click="Button_Click" FontSize="20"/>
+            <Button Content="Drafts" HorizontalAlignment="Left" Height="38" Margin="0,172,0,0" VerticalAlignment="Top" Width="164" Background="#FFE8D5FF" Click="Button_Click" FontSize="20"/>
+            <Button Content="Notes" HorizontalAlignment="Left" Height="36" Margin="0,215,0,0" VerticalAlignment="Top" Width="164" Background="#FFE8D5FF" Click="Button_Click" FontSize="20"/>
+            <Button Content="Trash" HorizontalAlignment="Left" Height="39" Margin="0,259,0,0" VerticalAlignment="Top" Width="164" Background="#FFE8D5FF" Click="Button_Click" FontSize="20"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="25" Margin="164,88,0,0" VerticalAlignment="Top" Width="192"/>
+            <Label Content="New + |   Mark as read | Flag" HorizontalAlignment="Left" Margin="164,88,0,0" VerticalAlignment="Top" Width="192" Background="White"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="336" Margin="164,113,0,0" VerticalAlignment="Top" Width="192" Background="White"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="0" Margin="169,170,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,175,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,240,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,297,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,353,0,0" VerticalAlignment="Top" Width="187"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="164,402,0,0" VerticalAlignment="Top" Width="187"/>
+            <Label Content="Ronda, James&#xA;The cultural divergence..." HorizontalAlignment="Left" Margin="169,190,0,0" VerticalAlignment="Top"/>
+            <Label Content="Palmquist, Alicia&#xA;Today in the COC..." HorizontalAlignment="Left" Margin="169,123,0,0" VerticalAlignment="Top"/>
+            <Label Content="..." HorizontalAlignment="Left" Margin="196,255,0,0" VerticalAlignment="Top"/>
+            <Label Content="..." HorizontalAlignment="Left" Margin="196,312,0,0" VerticalAlignment="Top"/>
+            <Label Content="..." HorizontalAlignment="Left" Margin="196,363,0,0" VerticalAlignment="Top"/>
+            <Label Content="..." HorizontalAlignment="Left" Margin="196,408,0,0" VerticalAlignment="Top"/>
+            <Label Content="Subject" HorizontalAlignment="Left" Margin="376,95,0,0" VerticalAlignment="Top"/>
+            <Label Content="To" HorizontalAlignment="Left" Margin="376,123,0,0" VerticalAlignment="Top"/>
+            <Label Content="CC" HorizontalAlignment="Left" Margin="376,150,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.075,-0.23"/>
+            <Label Content="BCC" HorizontalAlignment="Left" Margin="376,184,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.075,-0.23"/>
+            <TextBox HorizontalAlignment="Left" Height="19" Margin="431,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="97"/>
+            <TextBox HorizontalAlignment="Left" Height="19" Margin="404,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123"/>
+            <TextBox HorizontalAlignment="Left" Height="19" Margin="405,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123"/>
+            <TextBox HorizontalAlignment="Left" Height="19" Margin="411,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="116"/>
+            <TextBlock HorizontalAlignment="Left" Margin="376,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="171" Width="383" Background="White"/>
+            <Button Content="Send" HorizontalAlignment="Left" Margin="376,421,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.219,0.599"/>
+            <Button Content="Cancel" HorizontalAlignment="Left" Margin="476,419,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.219,0.599"/>
+
+        </Grid>
+
+    </Grid>
+</UserControl>
