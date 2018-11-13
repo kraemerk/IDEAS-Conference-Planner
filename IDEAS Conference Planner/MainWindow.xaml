@@ -5,6 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IDEAS_Conference_Planner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Frame x:Name="WindowFrame" Source="Pages/HomePage.xaml"/>
+        Title="MainWindow" Height="690" Width="1040">
+    <Frame x:Name="WindowFrame" Source="Pages/HomePage.xaml" NavigationUIVisibility="Hidden"/>
 </Window>
