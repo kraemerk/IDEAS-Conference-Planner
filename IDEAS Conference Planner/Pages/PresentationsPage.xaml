@@ -10,7 +10,7 @@
 
     <Grid>
         <Label Content="Presentations" HorizontalAlignment="Left" Margin="269,10,0,0" VerticalAlignment="Top" Height="74" Width="295" FontSize="48" FontFamily="Times New Roman"/>
-        <Button HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="45" Height="48">
+        <Button Name="Burger" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="45" Height="48" Click="Burger_Click">
             <Button.Template>
                 <ControlTemplate>
                     <Image Source="/Resources/hamburger.png"/>

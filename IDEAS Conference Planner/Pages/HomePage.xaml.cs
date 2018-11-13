@@ -27,7 +27,7 @@ namespace IDEAS_Conference_Planner.Pages
 
         private void PresentationsView_Click(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Uri("/Pages/PresentationsPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/PresentationsPage.xaml", UriKind.Relative));
         }
 
         private void AttendeesView_Click(object sender, RoutedEventArgs e)

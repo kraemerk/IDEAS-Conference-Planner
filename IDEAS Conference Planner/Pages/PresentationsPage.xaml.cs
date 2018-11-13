@@ -24,5 +24,10 @@ namespace IDEAS_Conference_Planner.Pages
         {
             InitializeComponent();
         }
+
+        private void Burger_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+        }
     }
 }
