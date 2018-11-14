@@ -24,7 +24,6 @@ namespace IDEAS_Conference_Planner.Pages
         {
             InitializeComponent();
         }
-
         private void Burger_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
@@ -38,6 +37,16 @@ namespace IDEAS_Conference_Planner.Pages
         private void PresentationsView_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/Pages/PresentationsPage.xaml", UriKind.Relative));
+        }
+
+        private void AttendeesView_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/AttendeesPage.xaml", UriKind.Relative));
+        }
+
+        private void MailView_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("mailto:");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
