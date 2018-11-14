@@ -18,11 +18,33 @@ namespace IDEAS_Conference_Planner.Pages
     /// <summary>
     /// Interaction logic for AttendeesPage.xaml
     /// </summary>
-    public partial class AttendeesPage : UserControl
+    public partial class AttendeesPage : Page
     {
         public AttendeesPage()
         {
             InitializeComponent();
         }
+
+        private void Burger_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+        }
+
+        private void HomeView_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+        }
+
+        private void PresentationsView_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/PresentationsPage.xaml", UriKind.Relative));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+       
     }
 }

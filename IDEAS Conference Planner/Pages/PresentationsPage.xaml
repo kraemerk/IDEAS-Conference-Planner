@@ -15,7 +15,18 @@
     <Grid>
         <Label Content="Presentations" HorizontalAlignment="Left" Margin="269,10,0,0" VerticalAlignment="Top" Height="74" Width="295" FontSize="48" FontFamily="Times New Roman"/>
         <Rectangle HorizontalAlignment="Left" Height="5" Margin="0,83,0,0" Stroke="Black" VerticalAlignment="Top" Width="938"/>
-        <DataGrid HorizontalAlignment="Left" Height="393" Margin="10,117,0,0" VerticalAlignment="Top" Width="919"/>
+        <DataGrid HorizontalAlignment="Left" Height="393" Margin="10,117,0,0" VerticalAlignment="Top" Width="919" FontSize="24">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Title" x:Name="Title"/>
+                <DataGridTextColumn Header="Abstract"/>
+                <DataGridTextColumn Header="Bio"/>
+                <DataGridTextColumn Header="Author(s)"/>
+                <DataGridTextColumn Header="Category"/>
+                <DataGridTextColumn Header="Demographics"/>
+                <DataGridTextColumn Header="Rating 1"/>
+                <DataGridTextColumn Header="Rating 2"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Label Content="Presentation Actions" HorizontalAlignment="Left" Margin="88,544,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label Content="Table Actions" HorizontalAlignment="Left" Margin="126,588,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Button Content="Send Message" HorizontalAlignment="Left" Margin="272,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>

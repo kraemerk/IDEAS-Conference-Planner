@@ -1,18 +1,32 @@
-﻿<UserControl x:Class="IDEAS_Conference_Planner.Pages.AttendeesPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:IDEAS_Conference_Planner.Pages"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="0,0,-241,-215.4">
-        <Label Content="Attendees" HorizontalAlignment="Left" Margin="325,10,0,0" VerticalAlignment="Top" Height="74" Width="295" FontSize="48" FontFamily="Times New Roman"/>
-        <Rectangle HorizontalAlignment="Left" Height="5" Margin="0,83,0,0" Stroke="Black" VerticalAlignment="Top" Width="1031"/>
-        <DataGrid HorizontalAlignment="Left" Height="393" Margin="10,117,0,0" VerticalAlignment="Top" Width="1021"/>
-        <Button Content="Send Message" HorizontalAlignment="Left" Margin="199,542,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
-        <Button Content="Add Attendee" HorizontalAlignment="Left" Margin="325,542,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
-        <Button Content="Remove Attendee" HorizontalAlignment="Left" Margin="447,542,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
+﻿<Page x:Class="IDEAS_Conference_Planner.Pages.AttendeesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IDEAS_Conference_Planner.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AttendeesPage">
+
+    <Grid Margin="0,0,-235,-281.4">
+        <Label Content="Attendees" HorizontalAlignment="Left" Margin="398,10,0,0" VerticalAlignment="Top" Height="74" Width="295" FontSize="48" FontFamily="Times New Roman"/>
+        <Rectangle HorizontalAlignment="Left" Height="5" Margin="42,84,0,0" Stroke="Black" VerticalAlignment="Top" Width="938"/>
+        <DataGrid HorizontalAlignment="Left" Height="503" Margin="10,94,0,0" VerticalAlignment="Top" Width="1005" FontSize="24">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="First Name" x:Name="Title"/>
+                <DataGridTextColumn Header="Last Name"/>
+                <DataGridTextColumn Header="E-mail"/>
+                <DataGridTextColumn Header="Manually Entered: y/n"/>
+                <DataGridTextColumn Header="Registration Date"/>
+                <DataGridTextColumn Header="Also a speaker: y/n"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <Button Content="Send Message" HorizontalAlignment="Left" Margin="262,630,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
+        <Button Content="Add Attendee" HorizontalAlignment="Left" Margin="388,630,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="Button_Click"/>
+        <Button Content="Remove Attendee" HorizontalAlignment="Left" Margin="510,630,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
+        <Button Content="Upload Table" HorizontalAlignment="Left" Margin="638,630,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
 
         <ToggleButton x:Name="Burger" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="48" Width="45">
             <ToggleButton.Template>
@@ -23,4 +37,4 @@
         </ToggleButton>
 
     </Grid>
-</UserControl>
+</Page>
