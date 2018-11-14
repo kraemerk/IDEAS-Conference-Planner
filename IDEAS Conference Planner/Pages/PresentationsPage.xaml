@@ -28,7 +28,7 @@
 
         <Grid Name="BurgerMenu" Background="Orange" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding ElementName=Burger, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" Height="1000" Width="200">
             <Button Name="HomeView" Content="Home" HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="HomeView_Click"/>
-            <Button Name="PresentationsView" Content="Presentations" HorizontalAlignment="Left" Margin="0,92,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="PresentationsView_Click"/>
+            <Button Name="PresentationsView" Content="Presentations" HorizontalAlignment="Left" Margin="0,92,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="PresentationsView_Click" IsEnabled="False"/>
             <Button Name="AttendeesView" Content="Attendees" HorizontalAlignment="Left" Margin="0,124,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="AttendeesView_Click"/>
             <Button Name="MailView" Content="Mail" HorizontalAlignment="Left" Margin="0,156,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="MailView_Click"/>
         </Grid>
