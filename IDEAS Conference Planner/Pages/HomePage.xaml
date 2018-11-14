@@ -5,29 +5,29 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:IDEAS_Conference_Planner.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="690" d:DesignWidth="1040"
-      Title="HomePage">
+      d:DesignHeight="690"
+      Title="HomePage" Width="916.092">
 
-    <Grid>
-        <Label Content="Home" HorizontalAlignment="Left" Margin="319,24,0,0" VerticalAlignment="Top" Height="74" Width="135" FontSize="48" FontFamily="Times New Roman"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="3" Margin="50,103,0,0" Stroke="Black" VerticalAlignment="Top" Width="695"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="212" Margin="51,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="192"/>
-        <Rectangle Fill="#FFE8D5FF" HorizontalAlignment="Left" Height="212" Margin="51,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="192"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="3" Margin="70,185,0,0" Stroke="Black" VerticalAlignment="Top" Width="133"/>
-        <Label Content="Presentations" HorizontalAlignment="Left" Height="28" Margin="70,151,0,0" VerticalAlignment="Top" Width="116" FontSize="16"/>
-        <Label Content="- 42 unrated pres...&#xD;&#xA;- 28 unviewed pre...&#xD;&#xA;- 340 uncategorized...&#xD;&#xA;...." HorizontalAlignment="Left" Height="93" Margin="70,194,0,0" VerticalAlignment="Top" Width="133"/>
-        <Button Name="PresentationsView" Content="View" HorizontalAlignment="Left" Height="26" Margin="95,308,0,0" VerticalAlignment="Top" Width="91" Click="PresentationsView_Click"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="212" Margin="298,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="192"/>
-        <Rectangle Fill="#FFE8D5FF" HorizontalAlignment="Left" Height="212" Margin="298,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="192"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="3" Margin="317,185,0,0" Stroke="Black" VerticalAlignment="Top" Width="134"/>
-        <Label Content="Attendees" HorizontalAlignment="Left" Height="28" Margin="317,151,0,0" VerticalAlignment="Top" Width="103" FontSize="16"/>
-        <Label Content="- 23 new attendees...&#xA;- 920 total attendee...&#xD;&#xA;...&#xD;&#xA;..." HorizontalAlignment="Left" Height="93" Margin="317,194,0,0" VerticalAlignment="Top" Width="134"/>
-        <Button Name="AttendeesView" Content="View" HorizontalAlignment="Left" Height="26" Margin="348,308,0,0" VerticalAlignment="Top" Width="92" Click="AttendeesView_Click"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="212" Margin="543,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="192"/>
-        <Rectangle Fill="#FFE8D5FF" HorizontalAlignment="Left" Height="212" Margin="543,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="192"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="3" Margin="562,185,0,0" Stroke="Black" VerticalAlignment="Top" Width="134"/>
-        <Label Content="Mail" HorizontalAlignment="Left" Height="28" Margin="562,151,0,0" VerticalAlignment="Top" Width="103" FontSize="16"/>
-        <Label Content="- 26 new messages&#xA;- Message from: ...&#xA;- 300 total messages&#xD;&#xA;...." HorizontalAlignment="Left" Height="93" Margin="562,194,0,0" VerticalAlignment="Top" Width="134"/>
-        <Button Name="MailView" Content="View" HorizontalAlignment="Left" Height="26" Margin="589,308,0,0" VerticalAlignment="Top" Width="92" Click="MailView_Click"/>
+    <Grid Margin="0,0,10,-0.4">
+        <Label Content="Home" HorizontalAlignment="Left" Margin="394,24,0,0" VerticalAlignment="Top" Height="74" Width="135" FontSize="48" FontFamily="Times New Roman"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="3" Margin="144,103,0,0" Stroke="Black" VerticalAlignment="Top" Width="695"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="305" Margin="51,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="229"/>
+        <Rectangle Fill="#FFE8D5FF" HorizontalAlignment="Left" Height="305" Margin="51,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="229"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="74,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="159"/>
+        <Label Content="Presentations" HorizontalAlignment="Left" Height="41" Margin="74,157,0,0" VerticalAlignment="Top" Width="138" FontSize="16"/>
+        <Label Content="- 42 unrated pres...&#xD;&#xA;- 28 unviewed pre...&#xD;&#xA;- 340 uncategorized...&#xD;&#xA;...." HorizontalAlignment="Left" Height="134" Margin="74,219,0,0" VerticalAlignment="Top" Width="159"/>
+        <Button Name="PresentationsView" Content="View" HorizontalAlignment="Left" Height="37" Margin="104,383,0,0" VerticalAlignment="Top" Width="108" Click="PresentationsView_Click"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="305" Margin="346,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="229"/>
+        <Rectangle Fill="#FFE8D5FF" HorizontalAlignment="Left" Height="305" Margin="346,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="229"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="369,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="160"/>
+        <Label Content="Attendees" HorizontalAlignment="Left" Height="41" Margin="369,157,0,0" VerticalAlignment="Top" Width="123" FontSize="16"/>
+        <Label Content="- 23 new attendees...&#xA;- 920 total attendee...&#xD;&#xA;...&#xD;&#xA;..." HorizontalAlignment="Left" Height="134" Margin="369,219,0,0" VerticalAlignment="Top" Width="160"/>
+        <Button Name="AttendeesView" Content="View" HorizontalAlignment="Left" Height="37" Margin="406,383,0,0" VerticalAlignment="Top" Width="109" Click="AttendeesView_Click"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="305" Margin="639,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="229"/>
+        <Rectangle Fill="#FFE8D5FF" HorizontalAlignment="Left" Height="305" Margin="639,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="229"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="4" Margin="661,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="160"/>
+        <Label Content="Mail" HorizontalAlignment="Left" Height="41" Margin="661,157,0,0" VerticalAlignment="Top" Width="123" FontSize="16"/>
+        <Label Content="- 26 new messages&#xA;- Message from: ...&#xA;- 300 total messages&#xD;&#xA;...." HorizontalAlignment="Left" Height="134" Margin="661,219,0,0" VerticalAlignment="Top" Width="160"/>
+        <Button Name="MailView" Content="View" HorizontalAlignment="Left" Height="37" Margin="693,383,0,0" VerticalAlignment="Top" Width="110" Click="MailView_Click"/>
     </Grid>
 </Page>
