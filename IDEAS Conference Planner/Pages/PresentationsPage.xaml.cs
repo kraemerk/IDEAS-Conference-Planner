@@ -29,5 +29,25 @@ namespace IDEAS_Conference_Planner.Pages
         {
             NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
         }
+        
+        private void HomeView_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/HomePage.xaml", UriKind.Relative));
+        }
+
+        private void PresentationsView_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/PresentationsPage.xaml", UriKind.Relative));
+        }
+
+        private void AttendeesView_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MailView_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("mailto:");
+        }
     }
 }

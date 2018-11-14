@@ -8,15 +8,12 @@
       d:DesignHeight="690" d:DesignWidth="1040"
       Title="PresentationsPage">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+
     <Grid>
         <Label Content="Presentations" HorizontalAlignment="Left" Margin="269,10,0,0" VerticalAlignment="Top" Height="74" Width="295" FontSize="48" FontFamily="Times New Roman"/>
-        <Button Name="Burger" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="45" Height="48" Click="Burger_Click">
-            <Button.Template>
-                <ControlTemplate>
-                    <Image Source="/Resources/hamburger.png"/>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
         <Rectangle HorizontalAlignment="Left" Height="5" Margin="0,83,0,0" Stroke="Black" VerticalAlignment="Top" Width="938"/>
         <DataGrid HorizontalAlignment="Left" Height="393" Margin="10,117,0,0" VerticalAlignment="Top" Width="919"/>
         <Label Content="Presentation Actions" HorizontalAlignment="Left" Margin="88,544,0,0" VerticalAlignment="Top" FontSize="16"/>
@@ -28,5 +25,19 @@
         <Button Content="Schedule" HorizontalAlignment="Left" Margin="770,545,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
         <Button Content="Download For EventMobi" HorizontalAlignment="Left" Margin="272,588,0,0" VerticalAlignment="Top" Width="169" Height="32"/>
         <Button Content="Upload to Access" HorizontalAlignment="Left" Margin="467,588,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
+
+        <Grid Name="BurgerMenu" Background="Orange" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding ElementName=Burger, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" Height="1000" Width="200">
+            <Button Name="HomeView" Content="Home" HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="HomeView_Click"/>
+            <Button Name="PresentationsView" Content="Presentations" HorizontalAlignment="Left" Margin="0,92,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="PresentationsView_Click"/>
+            <Button Name="AttendeesView" Content="Attendees" HorizontalAlignment="Left" Margin="0,124,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="AttendeesView_Click"/>
+            <Button Name="MailView" Content="Mail" HorizontalAlignment="Left" Margin="0,156,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="MailView_Click"/>
+        </Grid>
+        <ToggleButton Name="Burger" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Height="48" Width="45">
+            <ToggleButton.Template>
+                <ControlTemplate>
+                    <Image Source="/Resources/hamburger.png"/>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>
     </Grid>
 </Page>
