@@ -41,7 +41,7 @@ namespace IDEAS_Conference_Planner.Pages
 
         private void AttendeesView_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/AttendeesPage.xaml", UriKind.Relative));
+            
         }
 
         private void MailView_Click(object sender, RoutedEventArgs e)
