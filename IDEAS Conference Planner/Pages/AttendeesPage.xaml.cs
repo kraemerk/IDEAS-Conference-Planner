@@ -25,8 +25,9 @@ namespace IDEAS_Conference_Planner.Pages
         public string fname { get; set; }
         public string lname { get; set; }
         public string email { get; set; }
-        public bool manualEntry { get; set; }
-        public bool alsoSpeaker { get; set; }
+        public string manualEntry { get; set; }
+        public string alsoSpeaker { get; set; }
+        public string dateAdded { get; set; }
     }
 
     public partial class AttendeesPage : Page
@@ -34,6 +35,7 @@ namespace IDEAS_Conference_Planner.Pages
         public AttendeesPage()
         {
             InitializeComponent();
+            datagridattendees.ItemsSource = LoadCollectionData();
         }
         private void Burger_Click(object sender, RoutedEventArgs e)
         {
@@ -73,8 +75,9 @@ namespace IDEAS_Conference_Planner.Pages
                 fname = "Margaret",
                 lname = "Bush",
                 email = "mbush@gmail.com",
-                manualEntry = false,
-                alsoSpeaker = true
+                manualEntry = "n",
+                alsoSpeaker = "y",
+                dateAdded = "11/13/2018"
             });
 
             attendees.Add(new Attendee()
@@ -82,17 +85,19 @@ namespace IDEAS_Conference_Planner.Pages
                 fname = "Jonathan",
                 lname = "Richards",
                 email = "jrichards@gmail.com",
-                manualEntry = true,
-                alsoSpeaker = true
+                manualEntry = "y",
+                alsoSpeaker = "n",
+                dateAdded = "12/10/2018"
             });
 
             attendees.Add(new Attendee()
             {
                 fname = "Lindsey",
                 lname = "Fallstein",
-                email = "jrichards@gmail.com",
-                manualEntry = true,
-                alsoSpeaker = true
+                email = "lfallstein@gmail.com",
+                manualEntry = "n",
+                alsoSpeaker = "n",
+                dateAdded = "02/01/2019"
             });
 
             return attendees;

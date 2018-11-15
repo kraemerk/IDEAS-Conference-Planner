@@ -14,22 +14,17 @@
     <Grid>
         <Label Content="Attendees" HorizontalAlignment="Left" Margin="398,0,0,0" VerticalAlignment="Top" Height="74" Width="295" FontSize="48" FontFamily="Times New Roman"/>
         <Rectangle HorizontalAlignment="Left" Height="5" Margin="0,83,0,0" Stroke="Black" VerticalAlignment="Top" Width="1030"/>
-        <DataGrid HorizontalAlignment="Left" Height="393" Margin="10,117,0,0" VerticalAlignment="Top" Width="1020" FontSize="24">
+        <DataGrid x:Name="datagridattendees" HorizontalAlignment="Left" Height="393" Margin="10,117,0,0" VerticalAlignment="Top" Width="1020" FontSize="24">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="First Name" x:Name="Title"/>
-                <DataGridTextColumn Header="Last Name"/>
-                <DataGridTextColumn Header="E-mail"/>
-                <DataGridTextColumn Header="Manually Entered: y/n"/>
-                <DataGridTextColumn Header="Registration Date"/>
-                <DataGridTextColumn Header="Also a speaker: y/n"/>
+                <DataGridCheckBoxColumn Header="Select" x:Name="Title"/>
 
             </DataGrid.Columns>
 
         </DataGrid>
         <Button Content="Send Message" HorizontalAlignment="Left" Margin="272,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
         <Button Content="Add Attendee" HorizontalAlignment="Left" Margin="398,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
-        <Button Content="Remove Attendee" HorizontalAlignment="Left" Margin="520,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
-        <Button Content="Upload Table" HorizontalAlignment="Left" Margin="648,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
+        <Button Content="Remove Attendee" HorizontalAlignment="Left" Margin="520,544,0,0" VerticalAlignment="Top" Width="123" Height="32"/>
+        <Button Content="Upload Table" HorizontalAlignment="Left" Margin="672,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
 
         <Grid Name="BurgerMenu" Background="Orange" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding ElementName=Burger, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" Height="1000" Width="200">
             <Button Name="HomeView" Content="Home" HorizontalAlignment="Left" Margin="0,60,0,0" VerticalAlignment="Top" Height="32" Width="200" Click="HomeView_Click"/>

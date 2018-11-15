@@ -18,11 +18,24 @@ namespace IDEAS_Conference_Planner.Pages
     /// <summary>
     /// Interaction logic for PresentationsPage.xaml
     /// </summary>
+    /// 
+    public class Presentation
+    {
+        public string title { get; set; }
+        public string abstractSummary { get; set; }
+        public string bio { get; set; }
+        public string authors { get; set; }
+        public string cat { get; set; }
+        public string demographics { get; set; }
+        public int rating1 { get; set; }
+        public int rating2 { get; set; }
+    }
     public partial class PresentationsPage : Page
     {
         public PresentationsPage()
         {
             InitializeComponent();
+            datagridpresentations.ItemsSource = LoadCollectionData(); 
         }
 
         private void Burger_Click(object sender, RoutedEventArgs e)
@@ -49,5 +62,50 @@ namespace IDEAS_Conference_Planner.Pages
         {
             System.Diagnostics.Process.Start("mailto:");
         }
+
+        private List<Presentation> LoadCollectionData()
+        {
+            List<Presentation> presentations = new List<Presentation>();
+            presentations.Add(new Presentation()
+            {
+                title = "The growing industry",
+                abstractSummary = "Throughout the years...",
+                bio = "Bill is a special needs...",
+                authors = "Bill White",
+                cat = "Behavioral",
+                demographics = "White/Latino",
+                rating1 = 10,
+                rating2 = 23
+            });
+
+            presentations.Add(new Presentation()
+            {
+                title = "In spite of the...",
+                abstractSummary = "Due to the growing trend...",
+                bio = "Gina is a single mom...",
+                authors = "Gina Lazarus",
+                cat = "Co-teaching",
+                demographics = "Black",
+                rating1 = 28,
+                rating2 = 27
+            });
+
+            presentations.Add(new Presentation()
+            {
+                title = "For the development...",
+                abstractSummary = "During early adolescence...",
+                bio = "Paul lives in Alpharetta...",
+                authors = "Paul Blanche",
+                cat = "Autism",
+                demographics = "Asian",
+                rating1 = 22,
+                rating2 = 23
+            });
+
+            return presentations;
+        }
+
+
     }
 }
+
