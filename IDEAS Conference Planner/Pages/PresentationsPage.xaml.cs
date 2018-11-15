@@ -109,14 +109,19 @@ namespace IDEAS_Conference_Planner.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Presentation sp = datagridpresentations.SelectedItem as Presentation;
-            sp.rating2 = 25;
-            datagridpresentations.Items.Refresh();
+            //Presentation sp = datagridpresentations.SelectedItem as Presentation;
+            //sp.rating2 = 25;
+            //datagridpresentations.Items.Refresh();
             NavigationService.Navigate(new Uri("/Pages/ratingwindow.xaml", UriKind.Relative));
 
 
 
 
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/scheduler.xaml", UriKind.Relative));
         }
     }
 }

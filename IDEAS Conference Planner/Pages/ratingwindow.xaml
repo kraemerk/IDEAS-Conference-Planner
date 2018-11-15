@@ -20,7 +20,7 @@
         <Label Content="/5" HorizontalAlignment="Left" Margin="120,309,0,0" VerticalAlignment="Top"/>
         <Label Content="Interest" HorizontalAlignment="Left" Margin="10,337,0,0" VerticalAlignment="Top"/>
         <Label Content="/5" HorizontalAlignment="Left" Margin="120,340,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="finishrating" Content="Rate" HorizontalAlignment="Left" Margin="359,462,0,0" VerticalAlignment="Top" Width="75" Click="finishrating_Click"/>
+        <Button x:Name="finishrating" Content="Rate" HorizontalAlignment="Left" Margin="295,462,0,0" VerticalAlignment="Top" Width="75" Click="finishrating_Click"/>
         <Label Content="Content" HorizontalAlignment="Left" Margin="10,367,0,0" VerticalAlignment="Top"/>
         <Label Content="/5" HorizontalAlignment="Left" Margin="120,370,0,0" VerticalAlignment="Top"/>
         <Label Content="Novel" HorizontalAlignment="Left" Margin="10,398,0,0" VerticalAlignment="Top"/>
@@ -30,5 +30,6 @@
         <TextBox HorizontalAlignment="Left" Height="23" Margin="74,343,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="74,372,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="74,404,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41" RenderTransformOrigin="0.562,1.004"/>
+        <Button x:Name="finishrating_Copy" Content="Cancel" HorizontalAlignment="Left" Margin="375,462,0,0" VerticalAlignment="Top" Width="75" Click="finishrating_Click"/>
     </Grid>
 </Page>

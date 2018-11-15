@@ -24,7 +24,7 @@
         <Button Content="Accept/Reject" HorizontalAlignment="Left" Margin="398,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
         <Button x:Name="ratebutton" Content="Rate/View" HorizontalAlignment="Left" Margin="520,544,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="Button_Click"/>
         <Button Content="Categorize" HorizontalAlignment="Left" Margin="648,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
-        <Button Content="Schedule" HorizontalAlignment="Left" Margin="770,545,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
+        <Button Content="Schedule" HorizontalAlignment="Left" Margin="770,545,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="Button_Click_1"/>
         <Button Content="Download For EventMobi" HorizontalAlignment="Left" Margin="272,588,0,0" VerticalAlignment="Top" Width="169" Height="32"/>
         <Button Content="Upload to Access" HorizontalAlignment="Left" Margin="467,588,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
 

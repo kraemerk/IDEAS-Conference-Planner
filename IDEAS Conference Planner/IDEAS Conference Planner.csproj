@@ -83,6 +83,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\scheduler.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Pages\ratingwindow.xaml.cs">
@@ -96,6 +100,9 @@
     </Compile>
     <Compile Include="Pages\PresentationsPage.xaml.cs">
       <DependentUpon>PresentationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\scheduler.xaml.cs">
+      <DependentUpon>scheduler.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -124,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\hamburger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\schedule.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
