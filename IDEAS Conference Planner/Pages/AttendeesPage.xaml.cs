@@ -18,6 +18,17 @@ namespace IDEAS_Conference_Planner.Pages
     /// <summary>
     /// Interaction logic for AttendeesPage.xaml
     /// </summary>
+    /// 
+
+    public class Attendee
+    {
+        public string fname { get; set; }
+        public string lname { get; set; }
+        public string email { get; set; }
+        public bool manualEntry { get; set; }
+        public bool alsoSpeaker { get; set; }
+    }
+
     public partial class AttendeesPage : Page
     {
         public AttendeesPage()
@@ -54,6 +65,39 @@ namespace IDEAS_Conference_Planner.Pages
 
         }
 
-       
+        private List<Attendee> LoadCollectionData()
+        {
+            List<Attendee> attendees = new List<Attendee>();
+            attendees.Add(new Attendee()
+            {
+                fname = "Margaret",
+                lname = "Bush",
+                email = "mbush@gmail.com",
+                manualEntry = false,
+                alsoSpeaker = true
+            });
+
+            attendees.Add(new Attendee()
+            {
+                fname = "Jonathan",
+                lname = "Richards",
+                email = "jrichards@gmail.com",
+                manualEntry = true,
+                alsoSpeaker = true
+            });
+
+            attendees.Add(new Attendee()
+            {
+                fname = "Lindsey",
+                lname = "Fallstein",
+                email = "jrichards@gmail.com",
+                manualEntry = true,
+                alsoSpeaker = true
+            });
+
+            return attendees;
+        }
+
+
     }
 }
