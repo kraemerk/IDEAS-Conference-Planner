@@ -15,10 +15,7 @@
         <Label Content="Attendees" HorizontalAlignment="Left" Margin="398,0,0,0" VerticalAlignment="Top" Height="74" Width="295" FontSize="48" FontFamily="Times New Roman"/>
         <Rectangle HorizontalAlignment="Left" Height="5" Margin="0,83,0,0" Stroke="Black" VerticalAlignment="Top" Width="1030"/>
         <DataGrid x:Name="datagridattendees" HorizontalAlignment="Left" Height="393" Margin="10,117,0,0" VerticalAlignment="Top" Width="1020" FontSize="24">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Select" x:Name="Title"/>
-
-            </DataGrid.Columns>
+           
 
         </DataGrid>
         <Button Content="Send Message" HorizontalAlignment="Left" Margin="272,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>

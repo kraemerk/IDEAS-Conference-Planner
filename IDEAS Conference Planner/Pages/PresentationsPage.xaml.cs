@@ -19,6 +19,8 @@ namespace IDEAS_Conference_Planner.Pages
     /// Interaction logic for PresentationsPage.xaml
     /// </summary>
     /// 
+
+
     public class Presentation
     {
         public string title { get; set; }
@@ -75,7 +77,7 @@ namespace IDEAS_Conference_Planner.Pages
                 cat = "Behavioral",
                 demographics = "White/Latino",
                 rating1 = 10,
-                rating2 = 23
+                rating2 = -1
             });
 
             presentations.Add(new Presentation()
@@ -87,7 +89,7 @@ namespace IDEAS_Conference_Planner.Pages
                 cat = "Co-teaching",
                 demographics = "Black",
                 rating1 = 28,
-                rating2 = 27
+                rating2 = -1
             });
 
             presentations.Add(new Presentation()
@@ -99,13 +101,23 @@ namespace IDEAS_Conference_Planner.Pages
                 cat = "Autism",
                 demographics = "Asian",
                 rating1 = 22,
-                rating2 = 23
+                rating2 = -1
             });
 
             return presentations;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Presentation sp = datagridpresentations.SelectedItem as Presentation;
+            sp.rating2 = 25;
+            datagridpresentations.Items.Refresh();
+            NavigationService.Navigate(new Uri("/Pages/ratingwindow.xaml", UriKind.Relative));
 
+
+
+
+        }
     }
 }
 

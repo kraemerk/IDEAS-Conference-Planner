@@ -16,16 +16,13 @@
         <Label Content="Presentations" HorizontalAlignment="Left" Margin="381,0,0,0" VerticalAlignment="Top" Height="74" Width="295" FontSize="48" FontFamily="Times New Roman"/>
         <Rectangle HorizontalAlignment="Left" Height="5" Margin="0,83,0,0" Stroke="Black" VerticalAlignment="Top" Width="1040"/>
         <DataGrid x:Name="datagridpresentations" HorizontalAlignment="Left" Height="393" Margin="10,117,0,0" VerticalAlignment="Top" Width="1020" FontSize="24">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Select" x:Name="Title"/>
-                
-            </DataGrid.Columns>
+            
         </DataGrid>
         <Label Content="Presentation Actions" HorizontalAlignment="Left" Margin="88,544,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label Content="Table Actions" HorizontalAlignment="Left" Margin="126,588,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Button Content="Send Message" HorizontalAlignment="Left" Margin="272,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
         <Button Content="Accept/Reject" HorizontalAlignment="Left" Margin="398,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
-        <Button Content="Rate/View" HorizontalAlignment="Left" Margin="520,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
+        <Button x:Name="ratebutton" Content="Rate/View" HorizontalAlignment="Left" Margin="520,544,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="Button_Click"/>
         <Button Content="Categorize" HorizontalAlignment="Left" Margin="648,544,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
         <Button Content="Schedule" HorizontalAlignment="Left" Margin="770,545,0,0" VerticalAlignment="Top" Width="97" Height="32"/>
         <Button Content="Download For EventMobi" HorizontalAlignment="Left" Margin="272,588,0,0" VerticalAlignment="Top" Width="169" Height="32"/>

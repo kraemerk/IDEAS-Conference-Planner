@@ -18,11 +18,16 @@ namespace IDEAS_Conference_Planner.Pages
     /// <summary>
     /// Interaction logic for addingrows.xaml
     /// </summary>
-    public partial class addingrows : Page
+    public partial class ratingwindow : Page
     {
-        public addingrows()
+        public ratingwindow()
         {
             InitializeComponent();
+        }
+
+        private void finishrating_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/PresentationsPage.xaml", UriKind.Relative));
         }
     }
 }
