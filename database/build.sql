@@ -42,7 +42,6 @@ CREATE TABLE IF NOT EXISTS IDEAS.presentation (
   objective_1 text NOT NULL,
   objective_2 text NOT NULL,
   objective_3 text NOT NULL,
-  /* uncomment if we need to store acceptance of each term, I'm assuming they can't apply if they don't accept them all therefore we shouldn't need to store this
   repurposed_agreement boolean NOT NULL,
   setup_agreement boolean NOT NULL,
   equipment_agreement boolean NOT NULL,
@@ -56,7 +55,6 @@ CREATE TABLE IF NOT EXISTS IDEAS.presentation (
   posting_agreement boolean NOT NULL,
   vendor boolean NOT NULL,
   vendor_agreement boolean CONSTRAINT need_vendor CHECK(vendor = (vendor_agreement IS NOT NULL)),
-  */
   comments text,
   presenter_id integer REFERENCES attendee(id) NOT NULL,
   biography text NOT NULL,
