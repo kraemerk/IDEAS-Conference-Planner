@@ -1,8 +1,9 @@
-CREATE SCHEMA IDEAS;
-
 CREATE EXTENSION citext;
 
-CREATE TABLE IF NOT EXISTS IDEAS.attendee (
+DROP SCHEMA IF EXISTS ideas CASCADE;
+CREATE SCHEMA ideas;
+
+CREATE TABLE IF NOT EXISTS ideas.attendee (
   id serial primary key,
   creation_date timestamp,
   prefix text,
@@ -16,25 +17,25 @@ CREATE TABLE IF NOT EXISTS IDEAS.attendee (
   UNIQUE(prefix, first, last)
 );
 
-CREATE TABLE IF NOT EXISTS IDEAS.category (
+CREATE TABLE IF NOT EXISTS ideas.category (
   id serial primary key,
   title text NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS IDEAS.reviewer (
+CREATE TABLE IF NOT EXISTS ideas.reviewer (
   id serial primary key,
   first text NOT NULL,
   last text NOT NULL,
   UNIQUE(first, last)
 );
 
-CREATE TABLE IF NOT EXISTS IDEAS.review (
+CREATE TABLE IF NOT EXISTS ideas.review (
   id serial primary key,
-  reviewer_id integer REFERENCES reviewer(id) NOT NULL
+  reviewer_id integer REFERENCES ideas.reviewer(id) NOT NULL
   -- need to put required fields
 );
 
-CREATE TABLE IF NOT EXISTS IDEAS.presentation (
+CREATE TABLE IF NOT EXISTS ideas.presentation (
   id serial primary key,
   submission_date timestamp NOT NULL,
   title text NOT NULL,
@@ -56,14 +57,14 @@ CREATE TABLE IF NOT EXISTS IDEAS.presentation (
   vendor boolean NOT NULL,
   vendor_agreement boolean CONSTRAINT need_vendor CHECK(vendor = (vendor_agreement IS NOT NULL)),
   comments text,
-  presenter_id integer REFERENCES attendee(id) NOT NULL,
+  presenter_id integer REFERENCES ideas.attendee(id) NOT NULL,
   biography text NOT NULL,
-  copresenter_1_id integer REFERENCES attendee(id),
-  copresenter_2_id integer REFERENCES attendee(id),
-  copresenter_3_id integer REFERENCES attendee(id),
+  copresenter_1_id integer REFERENCES ideas.attendee(id),
+  copresenter_2_id integer REFERENCES ideas.attendee(id),
+  copresenter_3_id integer REFERENCES ideas.attendee(id),
   time tstzrange,
   room text,
-  category_id integer REFERENCES category(id),
+  category_id integer REFERENCES ideas.category(id),
   accepted boolean,
   CONSTRAINT unique_presenters CHECK (
     (copresenter_1_id IS NULL OR (copresenter_1_id != presenter_id)) AND
@@ -72,8 +73,8 @@ CREATE TABLE IF NOT EXISTS IDEAS.presentation (
   )
 );
 
-CREATE TABLE IF NOT EXISTS IDEAS.presentation_review (
-  presentation_id integer REFERENCES presentation(id) NOT NULL,
-  review_id integer REFERENCES review(id) NOT NULL UNIQUE,
+CREATE TABLE IF NOT EXISTS ideas.presentation_review (
+  presentation_id integer REFERENCES ideas.presentation(id) NOT NULL,
+  review_id integer REFERENCES ideas.review(id) NOT NULL UNIQUE,
   primary key (presentation_id, review_id)
 );
