@@ -5,7 +5,7 @@ CREATE SCHEMA ideas;
 
 CREATE TABLE IF NOT EXISTS ideas.attendee (
   id serial primary key,
-  creation_date timestamp,
+  creation_date timestamp default current_timestamp,
   prefix text,
   first text NOT NULL,
   last text NOT NULL,
