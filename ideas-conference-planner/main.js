@@ -61,6 +61,4 @@ function ingestCSV (file) {
     // })
 }
 
-ingestCSV('/home/micah/Documents/School-Work/CS3312/presentations.csv');
-
 app.on('ready', createWindow);
