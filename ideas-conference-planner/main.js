@@ -2,6 +2,10 @@ var fs = require('fs');
 var config;
 const { app, BrowserWindow } = require('electron');
 
+function myFunction(x) {// don't delete this 
+  x.classList.toggle("change");
+}
+
 function createWindow () {
   win = new BrowserWindow({ width: 800, height: 600 });
   win.loadFile('index.html');
