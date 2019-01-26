@@ -202,6 +202,27 @@ function ingestCSV (file) {
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
 
-ingestCSV('/home/micah/Documents/School-Work/CS3312/presentations.csv');
+function popPresentations () {
+  var sequelize = getDB();
 
-// app.on('ready', createWindow);
+  sequelize.transaction(function (tx) {
+    tx.executeSQL("SELECT * FROM ideas.presentation ORDER BY submission_date ASC LIMIT 10", [], function() {
+      var data = result.rows;
+      var html = '';
+
+      for(var i = 0; i < dataset.length; ++i) {
+        var row = data.item(i);
+
+        html += row;
+        Document.getElementById('presentationTable').innerHTML += html;
+      }
+    }
+    );
+  });
+}
+
+
+ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv');
+popPresentations();
+
+app.on('ready', createWindow);
