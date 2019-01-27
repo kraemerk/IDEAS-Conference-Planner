@@ -29,7 +29,9 @@ function refreshPresentations() {
 document.addEventListener('DOMContentLoaded', refreshPresentations);
 
 ipc.on('query-presentations-reply', function(event, arg) {
-  generateTable(arg);
+  var query = JSON.parse(arg);
+  generateTable(query);
+  console.log(query);
 })
 
 /*

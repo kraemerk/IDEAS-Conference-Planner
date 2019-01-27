@@ -226,7 +226,7 @@ function queryPresentations (event) {
     // presentations is an array of presentatin objects, with Presenter/Copresenter1-3 attendee objects
     // This is presenting the array to the console. Use it to figure out how to write it to the table
     //console.log(presentations)
-    event.sender.send('query-presentations-reply', presentations);
+    event.sender.send('query-presentations-reply', JSON.stringify(presentations));
   });
 }
 
