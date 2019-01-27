@@ -6,78 +6,36 @@
 
     <meta charset="UTF-8">
     <title>IDEAS Conference Planner</title>
+    <script type="text/javascript" src="index.js"></script>
     <link rel = "stylesheet" type = "text/css"href = "styles.css">
   </head>
 
   <body>
     <!-- Navigation bar at the top-->
     <div class="navbar">
-  <div class="container" onclick="myFunction(this)" style = "float: left;padding-left: 30px">
-  <div class="bar1"></div>
-  <div class="bar2"></div>
-  <div class="bar3"></div>
-</div>
-  <img style="float: left; width:55px;height:50px;padding-left: 30px"src = "images/idea.png">
-<h1 style = "font-size: 20px;padding-left: 20px; color: white; float: left"> IDEA Conference Planner</h1>
-  <a style = "padding-left: 100px" href="#home">Email</a>
-  <a href="#contact">Calendar</a>
-  <a href="#contact">Resource</a>
+      <div class="container" onclick="myFunction(this)" style = "float: left;padding-left: 30px">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+      <img style="float: left; width:55px;height:50px;padding-left: 30px" src="images/idea.png" alt="idea logo">
+      <h1 style = "font-size: 20px;padding-left: 20px; color: white; float: left"> IDEA Conference Planner</h1>
+      <a style = "padding-left: 100px" href="#home">Email</a>
+      <a href="#contact">Calendar</a>
+      <a href="#contact">Resource</a>
 
-
-</div>
-<!-- End of navigation bar at top -->
-
-<div style = "padding: 5px 30px 25px">
- <!--   <h1 >IDEAS Conference Planner</h1> --> 
-    <h2 style = "margin-bottom: 1cm; margin-top :2cm">Submitted Presentations:</h2>
-    <div id="presentationDiv">
-    	<table id="presentationTable"></table>
     </div>
-    
+    <!-- End of navigation bar at top -->
 
-<!-- This is just a dummy table for now, will populate from DB in the future, also it will be created dynamically once connected to the Database -->
-    <table style= "margin-bottom: 1cm">
-  <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
-  </tr>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
-  <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-  </tr>
-  <tr>
-    <td>Ernst Handel</td>
-    <td>Roland Mendel</td>
-    <td>Austria</td>
-  </tr>
-  <tr>
-    <td>Island Trading</td>
-    <td>Helen Bennett</td>
-    <td>UK</td>
-  </tr>
-  <tr>
-    <td>Laughing Bacchus Winecellars</td>
-    <td>Yoshi Tannamuri</td>
-    <td>Canada</td>
-  </tr>
-  <tr>
-    <td>Magazzini Alimentari Riuniti</td>
-    <td>Giovanni Rovelli</td>
-    <td>Italy</td>
-  </tr>
-</table>
-<!-- End of dummy table & data  -->
+    <div style = "padding: 5px 30px 25px">
+      <h2 style = "margin-bottom: 1cm; margin-top :2cm">Submitted Presentations:</h2>
 
-   <i class="fas fa-file-import"></i> <text> Import JotForms:</text>&nbsp
-   <input style = "margin-bottom: 1cm;" type="file" id="getJotFile" value="Import JotForm">
+      <span class="fas fa-file-import"> Import JotForms:</span>&nbsp;
+      <input style = "margin-bottom: 1cm;" type="file" id="getJotFile" value="Import JotForm">
 
-</div>
+      <div id="presentationDiv">
+      </div>
+
+    </div>
   </body>
 </html>
