@@ -20,6 +20,7 @@ function generateTable() {
 
 function refreshPresentations() {
   var sqlData = ipc.sendSync('query-presentations', '');
+  
   //build the table
   //generateTable();
 }
