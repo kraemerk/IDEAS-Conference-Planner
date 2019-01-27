@@ -204,41 +204,43 @@ function ingestCSV (file) {
 }
 
 function queryPresentations () {
-  var Sequelize = getDB();
-  Sequelize.query('SELECT * FROM ideas.presentation',
-    {type: Sequelize.QueryTypes.SELECT}).then(results => {console.log(results)});
+  var sequelize = getDB();
+  return sequelize.query('SELECT * FROM ideas.presentation',
+    {type: Sequelize.QueryTypes.SELECT});
 
-  const Presentation = Sequelize.define('presentation', {
-    id: Sequelize.INTEGER,
-    submission_date: Sequelize.DATE,
-    title: Sequelize.TEXT,
-    description: Sequelize.TEXT,
-    objective_1: Sequelize.TEXT,
-    objective_2: Sequelize.TEXT,
-    objective_3: Sequelize.TEXT,
-    repurposed_agreement: Sequelize.BOOLEAN,
-    setup_agreement: Sequelize.BOOLEAN,
-    equipment_agreement: Sequelize.BOOLEAN,
-    backup_agreement: Sequelize.BOOLEAN,
-    timelimit_agreement: Sequelize.BOOLEAN,
-    time_agreement: Sequelize.BOOLEAN,
-    handout_agreement: Sequelize.BOOLEAN,
-    acceptance_agreement: Sequelize.BOOLEAN,
-    registration_agreement: Sequelize.BOOLEAN,
-    copyright_agreement: Sequelize.BOOLEAN,
-    vendor: Sequelize.BOOLEAN,
-    vendor_agreement: Sequelize.BOOLEAN,
-    comments: Sequelize.TEXT,
-    presenter_id: Sequelize.INTEGER,
-    presenter_biography: Sequelize.TEXT,
-    copresenter_1_id: Sequelize.INTEGER,
-    copresenter_2_id: Sequelize.INTEGER,
-    copresenter_3_id: Sequelize.INTEGER,
-    time: Sequelize.RANGE(Sequelize.DATE),
-    room: Sequelize.TEXT,
-    category_id: Sequelize.INTEGER,
-    accepted: Sequelize.BOOLEAN,
-  });
+  // const Presentation = sequelize.define('presentation', {
+  //   id: { type: Sequelize.INTEGER, primaryKey: true },
+  //   submission_date: Sequelize.DATE,
+  //   title: Sequelize.TEXT,
+  //   description: Sequelize.TEXT,
+  //   objective_1: Sequelize.TEXT,
+  //   objective_2: Sequelize.TEXT,
+  //   objective_3: Sequelize.TEXT,
+  //   repurposed_agreement: Sequelize.BOOLEAN,
+  //   setup_agreement: Sequelize.BOOLEAN,
+  //   equipment_agreement: Sequelize.BOOLEAN,
+  //   backup_agreement: Sequelize.BOOLEAN,
+  //   timelimit_agreement: Sequelize.BOOLEAN,
+  //   time_agreement: Sequelize.BOOLEAN,
+  //   handout_agreement: Sequelize.BOOLEAN,
+  //   acceptance_agreement: Sequelize.BOOLEAN,
+  //   registration_agreement: Sequelize.BOOLEAN,
+  //   copyright_agreement: Sequelize.BOOLEAN,
+  //   vendor: Sequelize.BOOLEAN,
+  //   vendor_agreement: Sequelize.BOOLEAN,
+  //   comments: Sequelize.TEXT,
+  //   presenter_id: Sequelize.INTEGER,
+  //   presenter_biography: Sequelize.TEXT,
+  //   copresenter_1_id: Sequelize.INTEGER,
+  //   copresenter_2_id: Sequelize.INTEGER,
+  //   copresenter_3_id: Sequelize.INTEGER,
+  //   time: Sequelize.RANGE(Sequelize.DATE),
+  //   room: Sequelize.TEXT,
+  //   category_id: Sequelize.INTEGER,
+  //   accepted: Sequelize.BOOLEAN,
+  // });
+
+  // return sequelize.query('SELECT * FROM ideas.presentation', { model: Presentation });
 
 }
 
