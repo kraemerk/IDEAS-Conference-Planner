@@ -203,24 +203,17 @@ function ingestCSV (file) {
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
 
-function popPresentations () {
+function queryPresentations () {
   var sequelize = getDB();
 
-
   sequelize.query('SELECT * FROM ideas.presentation ',
-            {type: sequelize.QueryTypes.SELECT}).then(results => {console.log(results)});
+        {type: sequelize.QueryTypes.SELECT}).then(results => {return results});
 }
 
 ipc.on('query-presentations', function() {
-  //call popPresentations()
-
-  //send the data
-  //ipc.send('presentation-data', THE_DATA);
+  var presentationQueryResults = queryPresentations;
+  ipc.send('presentation-data', presentationQueryResults);
 })
 
-
-//ingestCSV('/Users/kkraemer/Library/Mobile Documents/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
-
-popPresentations();
+//ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv);
 app.on('ready', createWindow);
-
