@@ -2,6 +2,7 @@ var fs = require('fs');
 const Sequelize = require('sequelize');
 var config;
 const { app, BrowserWindow } = require('electron');
+const ipc = require('electron').ipcMain;
 
 function createWindow () {
   win = new BrowserWindow({ width: 800, height: 600 });
@@ -214,15 +215,22 @@ function popPresentations () {
         var row = data.item(i);
 
         html += row;
-        Document.getElementById('presentationTable').innerHTML += html;
+        Document.getElementById('presentationDiv').innerHTML += html;
       }
     }
     );
   });
 }
 
+ipc.on('query-presentations', function() {
+  //call popPresentations()
 
-ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv');
-popPresentations();
+  //send the data
+  //ipc.send('presentation-data', THE_DATA);
+})
+
+
+//ingestCSV('/Users/kkraemer/Library/Mobile Documents/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
 
 app.on('ready', createWindow);
+

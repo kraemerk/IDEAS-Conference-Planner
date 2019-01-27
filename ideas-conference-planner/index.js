@@ -1,3 +1,5 @@
+const ipc = require('electron').ipcRenderer;
+
 function generateTable() {
   var presentationDiv = document.getElementById('presentationDiv');
   var table = document.createElement('table');
@@ -16,4 +18,13 @@ function generateTable() {
   presentationDiv.appendChild(table);
 }
 
-document.addEventListener('DOMContentLoaded', generateTable);
+function refreshPresentations() {
+  ipc.send('query-presentations');
+}
+
+document.addEventListener('DOMContentLoaded', generateTable); //should be refreshPresentations
+
+ipc.on('presentation-data', function(event, arg) {
+  //build the table
+  //generateTable();
+})
