@@ -212,9 +212,11 @@ function queryPresentations () {
 
 ipc.on('query-presentations', function(event, arg) {
   //should be queryPresentations and pass back the query results on a send.
+  console.log(queryPresentations());
+  event.returnValue = 'pong'; // should = queryPresentations();
 })
 
 
 
-//ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv);
+//ingestCSV('/Users/kkraemer/Library/Mobile\ Documents/com\~apple\~CloudDocs/Documents/GT/cs3312/presentations.csv');
 app.on('ready', createWindow);

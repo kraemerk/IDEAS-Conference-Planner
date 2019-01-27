@@ -19,16 +19,13 @@ function generateTable() {
 }
 
 function refreshPresentations() {
-  ipc.send('query-presentations');
+  var sqlData = ipc.sendSync('query-presentations', '');
+  //build the table
+  //generateTable();
 }
 
 document.addEventListener('DOMContentLoaded', generateTable); //should be refreshPresentations
-//document.addEventListener('DOMContentLoaded', refreshPresentations);
-
-ipc.on('presentation-data', function(event, arg) {
-  //build the table
-  //generateTable();
-})
+document.addEventListener('DOMContentLoaded', refreshPresentations);
 
 /*
 build table using correct indexing into sql results
