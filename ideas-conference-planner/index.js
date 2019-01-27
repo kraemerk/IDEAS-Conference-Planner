@@ -106,14 +106,18 @@ function refreshPresentations() {
 //document.addEventListener('DOMContentLoaded', generateTable); //should be refreshPresentations
 document.addEventListener('DOMContentLoaded', refreshPresentations);
 
+document.getElementById("getjotfile").addEventListener("change", ingestCSV);
+
+function ingestCSV() {
+  var jotfile = document.getElementById("getjotfile");
+  ipc.send('ingest-csv', jotfile.files[0].path);
+}
+
+ipc.on('ingest-csv', function(event, arg) {
+  alert(arg);
+});
+
 ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
-  console.log(query);
   generateTable(query);
-})
-
-/*
-build table using correct indexing into sql results
-actually be able to retrieve sql results using ipc
-merge two branches
-*/
+});

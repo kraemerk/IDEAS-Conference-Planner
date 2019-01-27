@@ -12,7 +12,8 @@ const sequelize = new Sequelize(config.database.database, config.database.user, 
   dialect: 'postgres',
   host: config.database.host,
   port: config.database.port,
-  operatorsAliases: false
+  operatorsAliases: false,
+  logging: false
 });
 
 const Attendee = sequelize.define('attendee', {
@@ -230,10 +231,14 @@ function queryPresentations (event) {
   });
 }
 
+ipc.on('ingest-csv', function(event, arg) {
+  ingestCSV(arg);
+  event.returnValue = queryPresentations(event);
+});
 
 ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
-})
+});
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
 app.on('ready', createWindow);
