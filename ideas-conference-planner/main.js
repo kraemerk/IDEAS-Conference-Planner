@@ -212,7 +212,7 @@ function queryPresentations () {
 
 ipc.on('query-presentations', function() {
   var presentationQueryResults = queryPresentations;
-  ipc.send('presentation-data', presentationQueryResults);
+  win.webContents.send('presentation-data', presentationQueryResults);
 })
 
 //ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv);
