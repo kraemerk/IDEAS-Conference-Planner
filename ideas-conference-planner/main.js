@@ -2,6 +2,7 @@ var fs = require('fs');
 const Sequelize = require('sequelize');
 var config;
 const { app, BrowserWindow } = require('electron');
+const ipc = require('electron').ipcMain;
 
 function createWindow () {
   win = new BrowserWindow({ width: 800, height: 600 });
@@ -206,12 +207,36 @@ function popPresentations () {
   var sequelize = getDB();
 
 
+<<<<<<< HEAD
   sequelize.query('SELECT * FROM ideas.presentation ',
             {type: sequelize.QueryTypes.SELECT}).then(results => {console.log(results)});
+=======
+      for(var i = 0; i < dataset.length; ++i) {
+        var row = data.item(i);
+
+        html += row;
+        Document.getElementById('presentationDiv').innerHTML += html;
+      }
+    }
+    );
+  });
+>>>>>>> 98c5290d307e2f1963f21db90aeaa5aeb36d0d25
 }
 
+ipc.on('query-presentations', function() {
+  //call popPresentations()
 
+<<<<<<< HEAD
 //ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv');
 popPresentations();
+=======
+  //send the data
+  //ipc.send('presentation-data', THE_DATA);
+})
+
+
+//ingestCSV('/Users/kkraemer/Library/Mobile Documents/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
+>>>>>>> 98c5290d307e2f1963f21db90aeaa5aeb36d0d25
 
 app.on('ready', createWindow);
+
