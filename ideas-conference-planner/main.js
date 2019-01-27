@@ -4,24 +4,71 @@ var config;
 const { app, BrowserWindow } = require('electron');
 const ipc = require('electron').ipcMain;
 
+ini = require('ini');
+
+config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
+
+const sequelize = new Sequelize(config.database.database, config.database.user, config.database.password, {
+  dialect: 'postgres',
+  host: config.database.host,
+  port: config.database.port,
+  operatorsAliases: false
+});
+
+const Attendee = sequelize.define('attendee', {
+  prefix: Sequelize.TEXT,
+  first: Sequelize.TEXT,
+  last: Sequelize.TEXT,
+  email: Sequelize.TEXT,
+  phone: Sequelize.TEXT,
+  agency: Sequelize.TEXT,
+  role: Sequelize.TEXT
+}, {
+  schema: config.database.schema,
+  freezeTableName: true,
+  timestamps: false
+});
+
+const Presentation = sequelize.define('presentation', {
+  submission_date: Sequelize.DATE,
+  title: Sequelize.TEXT,
+  description: Sequelize.TEXT,
+  objective_1: Sequelize.TEXT,
+  objective_2: Sequelize.TEXT,
+  objective_3: Sequelize.TEXT,
+  repurposed_agreement: Sequelize.BOOLEAN,
+  setup_agreement: Sequelize.BOOLEAN,
+  equipment_agreement: Sequelize.BOOLEAN,
+  backup_agreement: Sequelize.BOOLEAN,
+  timelimit_agreement: Sequelize.BOOLEAN,
+  comments: Sequelize.TEXT,
+  time_agreement: Sequelize.BOOLEAN,
+  handout_agreement: Sequelize.BOOLEAN,
+  acceptance_agreement: Sequelize.BOOLEAN,
+  registration_agreement: Sequelize.BOOLEAN,
+  copyright_agreement: Sequelize.BOOLEAN,
+  vendor: Sequelize.BOOLEAN,
+  vendor_agreement: Sequelize.BOOLEAN,
+  presenter_biography: Sequelize.TEXT,
+  presenter: Sequelize.TEXT,
+  presenter_id: Sequelize.INTEGER,
+  copresenter_1_id: Sequelize.INTEGER,
+  copresenter_2_id: Sequelize.INTEGER,
+  copresenter_3_id: Sequelize.INTEGER
+}, {
+  schema: config.database.schema,
+  freezeTableName: true,
+  timestamps: false
+});
+
+Presentation.belongsTo(Attendee, {as: 'Presenter', foreignKey: 'presenter_id'});
+Presentation.belongsTo(Attendee, {as: 'Copresenter1', foreignKey: 'copresenter_1_id'});
+Presentation.belongsTo(Attendee, {as: 'Copresenter2', foreignKey: 'copresenter_2_id'});
+Presentation.belongsTo(Attendee, {as: 'Copresenter3', foreignKey: 'copresenter_3_id'});
+
 function createWindow () {
   win = new BrowserWindow({ width: 800, height: 600 });
   win.loadFile('index.html');
-}
-
-function getDB () {
-  ini = require('ini');
-
-  config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
-
-  const sequelize = new Sequelize(config.database.database, config.database.user, config.database.password, {
-    dialect: 'postgres',
-    host: config.database.host,
-    port: config.database.port,
-    operatorsAliases: false
-  });
-
-  return sequelize;
 }
 
 function insertObj(sequelize, obj, insertfunc, errfunc) {
@@ -41,8 +88,6 @@ function ingestCSV (file) {
 
   var parser = csv.parse(options);
 
-  var sequelize = getDB();
-
   sequelize
     .authenticate()
     .then(() => {
@@ -52,51 +97,6 @@ function ingestCSV (file) {
       console.error('Unable to connect to the database:', err);
     });
 
-  var Attendee = sequelize.define('attendee', {
-    prefix: Sequelize.TEXT,
-    first: Sequelize.TEXT,
-    last: Sequelize.TEXT,
-    email: Sequelize.TEXT,
-    phone: Sequelize.TEXT,
-    agency: Sequelize.TEXT,
-    role: Sequelize.TEXT
-  }, {
-    schema: config.database.schema,
-    freezeTableName: true,
-    timestamps: false
-  });
-
-  var Presentation = sequelize.define('presentation', {
-    submission_date: Sequelize.DATE,
-    title: Sequelize.TEXT,
-    description: Sequelize.TEXT,
-    objective_1: Sequelize.TEXT,
-    objective_2: Sequelize.TEXT,
-    objective_3: Sequelize.TEXT,
-    repurposed_agreement: Sequelize.BOOLEAN,
-    setup_agreement: Sequelize.BOOLEAN,
-    equipment_agreement: Sequelize.BOOLEAN,
-    backup_agreement: Sequelize.BOOLEAN,
-    timelimit_agreement: Sequelize.BOOLEAN,
-    comments: Sequelize.TEXT,
-    time_agreement: Sequelize.BOOLEAN,
-    handout_agreement: Sequelize.BOOLEAN,
-    acceptance_agreement: Sequelize.BOOLEAN,
-    registration_agreement: Sequelize.BOOLEAN,
-    copyright_agreement: Sequelize.BOOLEAN,
-    vendor: Sequelize.BOOLEAN,
-    vendor_agreement: Sequelize.BOOLEAN,
-    presenter_biography: Sequelize.TEXT,
-    presenter: Sequelize.TEXT,
-    presenter_id: Sequelize.INTEGER,
-    copresenter_1_id: Sequelize.INTEGER,
-    copresenter_2_id: Sequelize.INTEGER,
-    copresenter_3_id: Sequelize.INTEGER
-  }, {
-    schema: config.database.schema,
-    freezeTableName: true,
-    timestamps: false
-  });
 
   var transform = csv.transform(function(row) {
     Object.keys(row).forEach((key) => {if (row[key] == '') row[key] = null});
@@ -204,43 +204,29 @@ function ingestCSV (file) {
 }
 
 function queryPresentations () {
-  var sequelize = getDB();
-  return sequelize.query('SELECT * FROM ideas.presentation',
-    {type: Sequelize.QueryTypes.SELECT});
-
-  // const Presentation = sequelize.define('presentation', {
-  //   id: { type: Sequelize.INTEGER, primaryKey: true },
-  //   submission_date: Sequelize.DATE,
-  //   title: Sequelize.TEXT,
-  //   description: Sequelize.TEXT,
-  //   objective_1: Sequelize.TEXT,
-  //   objective_2: Sequelize.TEXT,
-  //   objective_3: Sequelize.TEXT,
-  //   repurposed_agreement: Sequelize.BOOLEAN,
-  //   setup_agreement: Sequelize.BOOLEAN,
-  //   equipment_agreement: Sequelize.BOOLEAN,
-  //   backup_agreement: Sequelize.BOOLEAN,
-  //   timelimit_agreement: Sequelize.BOOLEAN,
-  //   time_agreement: Sequelize.BOOLEAN,
-  //   handout_agreement: Sequelize.BOOLEAN,
-  //   acceptance_agreement: Sequelize.BOOLEAN,
-  //   registration_agreement: Sequelize.BOOLEAN,
-  //   copyright_agreement: Sequelize.BOOLEAN,
-  //   vendor: Sequelize.BOOLEAN,
-  //   vendor_agreement: Sequelize.BOOLEAN,
-  //   comments: Sequelize.TEXT,
-  //   presenter_id: Sequelize.INTEGER,
-  //   presenter_biography: Sequelize.TEXT,
-  //   copresenter_1_id: Sequelize.INTEGER,
-  //   copresenter_2_id: Sequelize.INTEGER,
-  //   copresenter_3_id: Sequelize.INTEGER,
-  //   time: Sequelize.RANGE(Sequelize.DATE),
-  //   room: Sequelize.TEXT,
-  //   category_id: Sequelize.INTEGER,
-  //   accepted: Sequelize.BOOLEAN,
-  // });
-
-  // return sequelize.query('SELECT * FROM ideas.presentation', { model: Presentation });
+  Presentation.findAll({
+    attributes: ['title', 'description'],
+    include: [
+      {
+        model: Attendee,
+        as: 'Presenter'
+      }, {
+        model: Attendee,
+        as: 'Copresenter1'
+      }, {
+        model: Attendee,
+        as: 'Copresenter2'
+      }, {
+        model: Attendee,
+        as: 'Copresenter3'
+      }
+    ]
+  }).then(presentations => {
+    // This then function is what will happen when the find query completes
+    // presentations is an array of presentatin objects, with Presenter/Copresenter1-3 attendee objects
+    // This is presenting the array to the console. Use it to figure out how to write it to the table
+    console.log(presentations)
+  });
 
 }
 
@@ -253,5 +239,5 @@ ipc.on('query-presentations', function(event, arg) {
 
 
 
-//ingestCSV('/Users/kkraemer/Library/Mobile\ Documents/com\~apple\~CloudDocs/Documents/GT/cs3312/presentations.csv');
+//ingestCSV('/home/micah/Documents/School-Work/CS3312/presentations.csv');
 app.on('ready', createWindow);
