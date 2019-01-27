@@ -205,7 +205,7 @@ function ingestCSV (file) {
 
 function queryPresentations (event) {
   Presentation.findAll({
-    attributes: ['title', 'description'],
+    attributes: ['title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],
     include: [
       {
         model: Attendee,
@@ -222,19 +222,12 @@ function queryPresentations (event) {
       }
     ]
   }).then(presentations => {
-    // This then function is what will happen when the find query completes
-    // presentations is an array of presentatin objects, with Presenter/Copresenter1-3 attendee objects
-    // This is presenting the array to the console. Use it to figure out how to write it to the table
-    //console.log(presentations)
     event.sender.send('query-presentations-reply', JSON.stringify(presentations));
   });
 }
 
 
 ipc.on('query-presentations', function(event, arg) {
-  //should be queryPresentations and pass back the query results on a send.
-  //console.log(queryPresentations());
-  //event.returnValue = 'pong'; // should = queryPresentations();
   event.returnValue = queryPresentations(event);
 })
 
