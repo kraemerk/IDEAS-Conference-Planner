@@ -10,9 +10,9 @@ CREATE TABLE IF NOT EXISTS ideas.attendee (
   first text NOT NULL,
   last text NOT NULL,
   email citext NOT NULL,
-  phone char(10) NOT NULL,
+  phone text,
   agency text NOT NULL, -- might be another table with foreign key when we learn more
-  role text NOT NULL, -- might be another table with foreign key when we learn more
+  role text, -- might be another table with foreign key when we learn more
   -- Add more attendee fields when we see eventmobi registration process
   UNIQUE(prefix, first, last)
 );
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS ideas.review (
 CREATE TABLE IF NOT EXISTS ideas.presentation (
   id serial primary key,
   submission_date timestamp NOT NULL,
-  title text NOT NULL,
+  title text NOT NULL UNIQUE,
   description text NOT NULL,
   objective_1 text NOT NULL,
   objective_2 text NOT NULL,
@@ -53,12 +53,12 @@ CREATE TABLE IF NOT EXISTS ideas.presentation (
   acceptance_agreement boolean NOT NULL,
   registration_agreement boolean NOT NULL,
   copyright_agreement boolean NOT NULL,
-  posting_agreement boolean NOT NULL,
+  --posting_agreement boolean NOT NULL,
   vendor boolean NOT NULL,
   vendor_agreement boolean CONSTRAINT need_vendor CHECK(vendor = (vendor_agreement IS NOT NULL)),
   comments text,
   presenter_id integer REFERENCES ideas.attendee(id) NOT NULL,
-  biography text NOT NULL,
+  presenter_biography text NOT NULL,
   copresenter_1_id integer REFERENCES ideas.attendee(id),
   copresenter_2_id integer REFERENCES ideas.attendee(id),
   copresenter_3_id integer REFERENCES ideas.attendee(id),
