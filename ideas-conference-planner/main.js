@@ -203,34 +203,31 @@ function ingestCSV (file) {
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
 
-function queryPresentations () {
-  const promise = new Promise((resolve, reject) => {
-    Presentation.findAll({
-      attributes: ['title', 'description'],
-      include: [
-        {
-          model: Attendee,
-          as: 'Presenter'
-        }, {
-          model: Attendee,
-          as: 'Copresenter1'
-        }, {
-          model: Attendee,
-          as: 'Copresenter2'
-        }, {
-          model: Attendee,
-          as: 'Copresenter3'
-        }
-      ]
-    }).then(presentations => {
-      // This then function is what will happen when the find query completes
-      // presentations is an array of presentatin objects, with Presenter/Copresenter1-3 attendee objects
-      // This is presenting the array to the console. Use it to figure out how to write it to the table
-      //console.log(presentations)
-      resolve(presentations);
-    });
+function queryPresentations (event) {
+  Presentation.findAll({
+    attributes: ['title', 'description'],
+    include: [
+      {
+        model: Attendee,
+        as: 'Presenter'
+      }, {
+        model: Attendee,
+        as: 'Copresenter1'
+      }, {
+        model: Attendee,
+        as: 'Copresenter2'
+      }, {
+        model: Attendee,
+        as: 'Copresenter3'
+      }
+    ]
+  }).then(presentations => {
+    // This then function is what will happen when the find query completes
+    // presentations is an array of presentatin objects, with Presenter/Copresenter1-3 attendee objects
+    // This is presenting the array to the console. Use it to figure out how to write it to the table
+    //console.log(presentations)
+    event.sender.send('query-presentations-reply', presentations);
   });
-  return promise;
 }
 
 
@@ -238,10 +235,10 @@ ipc.on('query-presentations', function(event, arg) {
   //should be queryPresentations and pass back the query results on a send.
   //console.log(queryPresentations());
   //event.returnValue = 'pong'; // should = queryPresentations();
-  event.returnValue = queryPresentations();
+  event.returnValue = queryPresentations(event);
 })
 
 
 
-//ingestCSV('/home/micah/Documents/School-Work/CS3312/presentations.csv');
+//ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
 app.on('ready', createWindow);

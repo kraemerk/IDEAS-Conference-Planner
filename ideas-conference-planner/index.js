@@ -19,17 +19,18 @@ function generateTable(data) {
 }
 
 function refreshPresentations() {
-  var sqlPromise = ipc.sendSync('query-presentations', '');
-  sqlPromise.then((data) => {
-    generateTable(data);
-  })
+  ipc.send('query-presentations', '');
 
   //build the table
   //generateTable();
 }
 
-document.addEventListener('DOMContentLoaded', generateTable); //should be refreshPresentations
+//document.addEventListener('DOMContentLoaded', generateTable); //should be refreshPresentations
 document.addEventListener('DOMContentLoaded', refreshPresentations);
+
+ipc.on('query-presentations-reply', function(event, arg) {
+  generateTable(arg);
+})
 
 /*
 build table using correct indexing into sql results
