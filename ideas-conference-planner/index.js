@@ -1,6 +1,6 @@
 const ipc = require('electron').ipcRenderer;
 
-function generateTable(queryResults) {
+function generateTable() {
   var presentationDiv = document.getElementById('presentationDiv');
   var table = document.createElement('table');
   table.setAttribute('border','1');
@@ -8,7 +8,7 @@ function generateTable(queryResults) {
   for (i = 0; i < 10; ++i) {
     var row = table.insertRow(i);
     for(j = 1; j < 10; ++j) {
-      var text = "buildmytable";
+      var text = document.createTextNode(String.fromCharCode(j + 64));
       var cell = row.insertCell(j - 1);
       cell.setAttribute('align','center');
       cell.appendChild(text);
@@ -22,12 +22,12 @@ function refreshPresentations() {
   ipc.send('query-presentations');
 }
 
-document.addEventListener('DOMContentLoaded', refreshPresentations); //should be refreshPresentations
+document.addEventListener('DOMContentLoaded', generateTable); //should be refreshPresentations
+//document.addEventListener('DOMContentLoaded', refreshPresentations);
 
 ipc.on('presentation-data', function(event, arg) {
   //build the table
   //generateTable();
-  generateTable(queryResults);
 })
 
 /*

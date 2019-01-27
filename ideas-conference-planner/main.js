@@ -205,15 +205,16 @@ function ingestCSV (file) {
 
 function queryPresentations () {
   var sequelize = getDB();
-
-  sequelize.query('SELECT * FROM ideas.presentation ',
-        {type: sequelize.QueryTypes.SELECT}).then(results => {return results});
+    sequelize.query('SELECT * FROM ideas.presentation',
+    {type: sequelize.QueryTypes.SELECT}).then(results => {console.log(results)});
 }
 
-ipc.on('query-presentations', function() {
-  var presentationQueryResults = queryPresentations;
-  win.webContents.send('presentation-data', presentationQueryResults);
+
+ipc.on('query-presentations', function(event, arg) {
+  //should be queryPresentations and pass back the query results on a send.
 })
+
+
 
 //ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv);
 app.on('ready', createWindow);
