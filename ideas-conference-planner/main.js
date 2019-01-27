@@ -205,24 +205,13 @@ function ingestCSV (file) {
 function popPresentations () {
   var sequelize = getDB();
 
-  sequelize.transaction(function (tx) {
-    tx.executeSQL("SELECT * FROM ideas.presentation ORDER BY submission_date ASC LIMIT 10", [], function() {
-      var data = result.rows;
-      var html = '';
 
-      for(var i = 0; i < dataset.length; ++i) {
-        var row = data.item(i);
-
-        html += row;
-        Document.getElementById('presentationTable').innerHTML += html;
-      }
-    }
-    );
-  });
+  sequelize.query('SELECT * FROM ideas.presentation ',
+            {type: sequelize.QueryTypes.SELECT}).then(results => {console.log(results)});
 }
 
 
-ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv');
+//ingestCSV('/Users/hylandwolleat/Documents/GT/cs3312/presentations.csv');
 popPresentations();
 
 app.on('ready', createWindow);
