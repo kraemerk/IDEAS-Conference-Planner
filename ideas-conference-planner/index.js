@@ -1,6 +1,6 @@
 const ipc = require('electron').ipcRenderer;
 
-function generateTable() {
+function generateTable(data) {
   var presentationDiv = document.getElementById('presentationDiv');
   var table = document.createElement('table');
   table.setAttribute('border','1');
@@ -19,8 +19,11 @@ function generateTable() {
 }
 
 function refreshPresentations() {
-  var sqlData = ipc.sendSync('query-presentations', '');
-  
+  var sqlPromise = ipc.sendSync('query-presentations', '');
+  sqlPromise.then((data) => {
+    generateTable(data);
+  })
+
   //build the table
   //generateTable();
 }
