@@ -16,11 +16,11 @@ function generateTable(data) {
   var th = document.createElement('th');
   th.appendChild(document.createTextNode('Date'));
   row.appendChild(th);
-
-  th = document.createElement('th');
   th.onclick= function(){sortTable(0);} ; 
 
+  th = document.createElement('th');
   th.appendChild(document.createTextNode('Title'));
+  th.onclick= function(){sortTable(1);} ; 
   row.appendChild(th);
 
   th = document.createElement('th');
