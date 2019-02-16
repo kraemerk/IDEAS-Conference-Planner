@@ -1,13 +1,21 @@
 const ipc = require('electron').ipcRenderer;
+const remote = require('electron').remote;
+const main = remote.require('./main.js');
 var hilighted = false;
-var selectedPresentation;
 
 function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
 }
 
 function ratePresentation() {
-  ipc.send('rate-presentation', '');
+  var button = document.createElement('button');
+  button.textContent = 'Rate Presentation';
+  button.addEventListener('click', () => {
+    var window = remote.getCurrentWindow();
+    main.openWindow('index-rating');
+    window.close();
+  }, false)
+  document.body.appendChild(button);
 }
 
 function generateTable(data) {
@@ -122,13 +130,11 @@ function generateTable(data) {
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
         hilighted = true;
-        selectedPresentation = data[i];
         ratePresentation();
       } else {
         this.style.backgroundColor=this.origColor;
         this.hilite = false;
         hilighted = false;
-        selectedPresentation = NULL;
       }
     }
   }
