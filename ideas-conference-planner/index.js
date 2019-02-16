@@ -9,7 +9,6 @@ function getAttendeeName(attendee) {
 function ratePresentation(rowID) {
   var button = document.createElement('button');
   button.textContent = 'Rate';
-
   var actionSpace = document.getElementById('actions' + rowID);
 
   button.addEventListener('click', () => {
@@ -17,22 +16,6 @@ function ratePresentation(rowID) {
     main.openWindow('index-rating');
     window.close();
   }, false)
-  actionSpace.appendChild(button);
-}
-
-function categorizePresentation(rowID) {
-
-  var button = document.createElement('button');
-  button.textContent = 'Categorize';
-
-
-  var actionSpace = document.getElementById('actions' + rowID);
-
-
-  button.addEventListener('click', () => {
-    main.openWindow('categorize');
-    window.close();
-  }, true)
 
   actionSpace.appendChild(button);
 }
@@ -101,10 +84,6 @@ function generateTable(data) {
   th.appendChild(document.createTextNode('Rating 2'));
   row.appendChild(th);
 
-  th = document.createElement('th');
-  th.appendChild(document.createTextNode('Category'));
-  row.appendChild(th);
-
   for (i = 0; i < numRows; ++i) {
     var row = table.insertRow(i + 1);
     row.id =  i;
@@ -163,17 +142,11 @@ function generateTable(data) {
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating2)));
     row.appendChild(td);
 
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(data[i].category));
-    row.appendChild(td);
-
     row.onclick= function () {
-
      if(!this.hilite){
         var row = this;
         row.style.backgroundColor = this.origColor;
         row.hilite = false;
-
         ratePresentation(this.id);
         categorizePresentation(this.id);
         this.origColor=this.style.backgroundColor;
@@ -185,8 +158,6 @@ function generateTable(data) {
         this.hilite = false;
         var actionSpace = document.getElementById('actions' + this.id);
         actionSpace.innerHTML = '';
-
-
       }
     }
   }
