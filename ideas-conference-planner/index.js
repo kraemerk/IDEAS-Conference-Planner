@@ -1,7 +1,13 @@
 const ipc = require('electron').ipcRenderer;
+var hilighted = false;
+var selectedPresentation;
 
 function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
+}
+
+function ratePresentation() {
+  ipc.send('rate-presentation', '');
 }
 
 function generateTable(data) {
@@ -111,13 +117,18 @@ function generateTable(data) {
     row.appendChild(td);
 
     row.onclick= function () {
-      if(!this.hilite){
+      if(!this.hilite && !hilighted){
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
+        hilighted = true;
+        selectedPresentation = data[i];
+        ratePresentation();
       } else {
         this.style.backgroundColor=this.origColor;
         this.hilite = false;
+        hilighted = false;
+        selectedPresentation = NULL;
       }
     }
   }
@@ -125,8 +136,6 @@ function generateTable(data) {
   presentationDiv.innerHTML = '';
   presentationDiv.appendChild(table);
 }
-
-
 
 function refreshPresentations() {
   ipc.send('query-presentations', '');

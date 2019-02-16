@@ -1,6 +1,8 @@
 var fs = require('fs');
 const Sequelize = require('sequelize');
 var config;
+var mainWindow;
+var ratingWindow;
 const { app, BrowserWindow } = require('electron');
 const ipc = require('electron').ipcMain;
 
@@ -72,8 +74,14 @@ function myFunction(x) {// don't delete this
 }
 
 function createWindow () {
-  win = new BrowserWindow({ width: 800, height: 600 });
-  win.loadFile('index.html');
+  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow.loadFile('index.html');
+}
+
+function createRatingWindow () {
+  ratingWindow = new BrowserWindow({ width : 600, height: 400,
+    parent: mainWindow});
+  ratingWindow.loadFile('index-rating.html');
 }
 
 function insertObj(sequelize, obj, insertfunc, errfunc) {
@@ -238,6 +246,11 @@ ipc.on('ingest-csv', function(event, arg) {
 
 ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
+});
+
+ipc.on('rate-presentation', function(event, arg) {
+  createRatingWindow();
+  event.returnValue = false;
 });
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
