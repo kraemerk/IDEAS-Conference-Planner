@@ -11,3 +11,7 @@ function displayEntry(row) {
 function updateCategorgy(rowID) {
 	ipc.send('update-category', rowID);
 }
+
+ipc.on('display-entry', function(event, arg) {
+	event.returnValue = displayEntry(event);
+}
