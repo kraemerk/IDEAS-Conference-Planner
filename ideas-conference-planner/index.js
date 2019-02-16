@@ -31,11 +31,14 @@ function categorizePresentation(rowID) {
 
   button.addEventListener('click', () => {
     var window = remote.getCurrentWindow();
-    main.openWindow('index-rating');
+    main.openWindow('categorizer');
     window.close();
   }, true)
 
   actionSpace.appendChild(button);
+  event.sender.send()
+
+  
 }
 
 function generateTable(data) {
@@ -102,6 +105,10 @@ function generateTable(data) {
   th.appendChild(document.createTextNode('Rating 2'));
   row.appendChild(th);
 
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Category'));
+  row.appendChild(th);
+
   for (i = 0; i < numRows; ++i) {
     var row = table.insertRow(i + 1);
     row.id =  i;
@@ -160,6 +167,10 @@ function generateTable(data) {
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating2)));
     row.appendChild(td);
 
+    td = document.createElement('td');
+    td.appendChild(document.createTextNode(data[i].category));
+    row.appendChild(td);
+
     row.onclick= function () {
      if(!this.hilite){
         var row = this;
@@ -201,6 +212,11 @@ function ingestCSV() {
 ipc.on('ingest-csv', function(event, arg) {
   alert(arg);
 });
+
+ipc.on('categorize', function(event, arg) {
+  event.returnValue = document.getElementById(rowID);
+});
+
 
 ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);

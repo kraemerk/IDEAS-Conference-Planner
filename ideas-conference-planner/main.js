@@ -56,7 +56,8 @@ const Presentation = sequelize.define('presentation', {
   presenter_id: Sequelize.INTEGER,
   copresenter_1_id: Sequelize.INTEGER,
   copresenter_2_id: Sequelize.INTEGER,
-  copresenter_3_id: Sequelize.INTEGER
+  copresenter_3_id: Sequelize.INTEGER,
+  category: Sequelize.TEXT
 }, {
   schema: config.database.schema,
   freezeTableName: true,
@@ -246,10 +247,10 @@ ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
 });
 
-ipc.on('rate-presentation', function(event, arg) {
-  createRatingWindow();
-  event.returnValue = false;
-});
+// ipc.on('rate-presentation', function(event, arg) {
+//   createRatingWindow();
+//   event.returnValue = false;
+// });
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
 app.on('ready', createWindow);
