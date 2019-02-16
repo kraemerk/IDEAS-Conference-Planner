@@ -8,14 +8,7 @@ function getAttendeeName(attendee) {
 }
 
 function ratePresentation() {
-  var button = document.createElement('button');
-  button.textContent = 'Rate Presentation';
-  button.addEventListener('click', () => {
-    var window = remote.getCurrentWindow();
-    main.openWindow('index-rating');
-    window.close();
-  }, false)
-  document.body.appendChild(button);
+
 }
 
 function generateTable(data) {
@@ -141,6 +134,14 @@ function generateTable(data) {
 
   presentationDiv.innerHTML = '';
   presentationDiv.appendChild(table);
+  var button = document.createElement('button');
+  button.textContent = 'Rate Presentation';
+  button.addEventListener('click', () => {
+    var window = remote.getCurrentWindow();
+    main.openWindow('index-rating');
+    window.close();
+  }, false)
+  document.body.appendChild(button);
 }
 
 function refreshPresentations() {

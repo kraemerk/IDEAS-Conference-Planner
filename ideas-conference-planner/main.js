@@ -79,7 +79,7 @@ function createWindow () {
 
 exports.openWindow = (filename) => {
   let win = new BrowserWindow({width: 800, height: 600});
-  win.loadURL('file://' + __dirname +'/'+ filename + '.html')﻿;
+  win.loadURL('file://' + __dirname +'/'+ filename + '.html')﻿
 }
 
 function insertObj(sequelize, obj, insertfunc, errfunc) {
