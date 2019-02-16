@@ -20,6 +20,24 @@ function ratePresentation(rowID) {
   actionSpace.appendChild(button);
 }
 
+function categorizePresentation(rowID) {
+
+  var button = document.createElement('button');
+  button.textContent = 'Categorize';
+  
+
+  var actionSpace = document.getElementById('actions' + rowID);
+
+
+  button.addEventListener('click', () => {
+    var window = remote.getCurrentWindow();
+    main.openWindow('index-rating');
+    window.close();
+  }, true)
+
+  actionSpace.appendChild(button);
+}
+
 function generateTable(data) {
   var presentationDiv = document.getElementById('presentationDiv');
   var table = document.createElement('table');
