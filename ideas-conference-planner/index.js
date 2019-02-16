@@ -52,6 +52,14 @@ function generateTable(data) {
   th.appendChild(document.createTextNode('Co-Presenter 3'));
   row.appendChild(th);
 
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Rating 1'));
+  row.appendChild(th);
+
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Rating 2'));
+  row.appendChild(th);
+
   for (i = 0; i < numRows; ++i) {
     var row = table.insertRow(i + 1);
     var td = document.createElement('td');
@@ -94,16 +102,36 @@ function generateTable(data) {
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Copresenter3)));
     row.appendChild(td);
 
+    td = document.createElement('td');
+    td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating1)));
+    row.appendChild(td);
+
+    td = document.createElement('td');
+    td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating2)));
+    row.appendChild(td);
+
+    row.onclick= function () {
+      if(!this.hilite){
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+      } else {
+        this.style.backgroundColor=this.origColor;
+        this.hilite = false;
+      }
+    }
   }
+
   presentationDiv.innerHTML = '';
   presentationDiv.appendChild(table);
 }
+
+
 
 function refreshPresentations() {
   ipc.send('query-presentations', '');
 }
 
-//document.addEventListener('DOMContentLoaded', generateTable); //should be refreshPresentations
 document.addEventListener('DOMContentLoaded', refreshPresentations);
 
 document.getElementById("getjotfile").addEventListener("change", ingestCSV);
