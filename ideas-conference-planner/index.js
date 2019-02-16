@@ -31,12 +31,12 @@ function categorizePresentation(rowID) {
 
   button.addEventListener('click', () => {
     var window = remote.getCurrentWindow();
+    ipc.send('display-entry', document.getElementById(rowID));
     main.openWindow('categorizer');
     window.close();
   }, true)
 
   actionSpace.appendChild(button);
-  event.sender.send()
 
   
 }

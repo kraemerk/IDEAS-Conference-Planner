@@ -2,16 +2,14 @@
 // presentation category to be changed
 
 function displayEntry(row) {
-	ipc.send('display-entry');
-	var title = row[1];
-	var header = document.getElementById('categorizedTitle');
-	header.append(title);
-}
+	var header = document.createElement("header"),
+		h1 = document.createElement("h1");
 
-function updateCategorgy(rowID) {
-	ipc.send('update-category', rowID);
+	header.textContent = "helloKitty";
+	header.appendChild(h1);
+	document.body.appendChild(header);
 }
 
 ipc.on('display-entry', function(event, arg) {
-	event.returnValue = displayEntry(event);
-}
+	displayEntry(event);
+})
