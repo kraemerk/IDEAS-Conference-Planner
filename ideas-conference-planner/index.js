@@ -1,7 +1,6 @@
 const ipc = require('electron').ipcRenderer;
 const remote = require('electron').remote;
 const main = remote.require('./main.js');
-var hilighted = false;
 
 function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
@@ -21,6 +20,23 @@ function ratePresentation(rowID) {
   actionSpace.appendChild(button);
 }
 
+function categorizePresentation(rowID) {
+
+  var button = document.createElement('button');
+  button.textContent = 'Categorize';
+
+
+  var actionSpace = document.getElementById('actions' + rowID);
+
+
+  button.addEventListener('click', () => {
+    main.openWindow('categorize');
+    window.close();
+  }, true)
+
+  actionSpace.appendChild(button);
+}
+
 function generateTable(data) {
   var presentationDiv = document.getElementById('presentationDiv');
   var table = document.createElement('table');
@@ -30,6 +46,8 @@ function generateTable(data) {
   table.setAttribute('width','100%');
   var numRows = data.length;
   var row = table.insertRow(0);
+
+
 
   var th = document.createElement('th');
   th.appendChild(document.createTextNode('Actions'));
