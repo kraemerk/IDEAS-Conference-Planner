@@ -1,6 +1,4 @@
 const ipc = require('electron').ipcRenderer;
-const remote = require('electron').remote;
-const main = remote.require('./main.js');
 
 function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
@@ -8,8 +6,6 @@ function getAttendeeName(attendee) {
 
 
 function ratePresentation(rowID) {
-
-
   var button = document.createElement('button');
   button.textContent = 'Rate';
   var actionSpace = document.getElementById('actions' + rowID);
