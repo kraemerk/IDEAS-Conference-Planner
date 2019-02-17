@@ -1,6 +1,9 @@
+window.alert('hello');
 
-function displayEntry() {
-	var t = document.createElement("p");
-	var node = document.createTextNode("this is working");
-	t.appendChild(node);
-}
+// function displayEntry() {
+// 	var para = document.createElement("p");
+// 	var node = document.createTextNode("This is new.");
+// 	para.appendChild(node);
+// }
+
+// document.addEventListener('DOMContentLoaded', displayEntry);
