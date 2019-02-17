@@ -20,9 +20,10 @@ function ratePresentation(rowID) {
 
 function addCategorization(rowID) {
   var categorySpace = document.getElementById('categorySpace' + rowID);
-
+  categorySpace.innerHTML = '';
   var dropDownMenu = document.createElement("SELECT");
   categorySpace.appendChild(dropDownMenu);
+
 
 }
 
