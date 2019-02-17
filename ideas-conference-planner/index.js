@@ -1,4 +1,6 @@
 const ipc = require('electron').ipcRenderer;
+var selectedRow;
+
 
 function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
@@ -160,6 +162,9 @@ function generateTable(data) {
     td = document.createElement('td');
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating2)));
     row.appendChild(td);
+
+
+    
 
     // td = document.createElement('td');
     // td.appendChild(document.createTextNode(data[i].category));

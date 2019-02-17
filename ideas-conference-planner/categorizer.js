@@ -1,9 +1,9 @@
-window.alert('hello\n' + sessionStorage.row);
+// window.alert('hello\n' + sessionStorage.row);
 
 function displayEntry() {
-	var para = document.createElement("p");
-	var node = document.createTextNode(sessionStorage.row);
-	para.appendChild(node);
+	var para = document.getElementById("para1");
+	para.innerHTML = sessionStorage.row;
+	document.body.appendChild(para);
 }
 
-// document.addEventListener('DOMContentLoaded', displayEntry);
+document.addEventListener('DOMContentLoaded', displayEntry);
