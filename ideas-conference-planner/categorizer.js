@@ -10,6 +10,4 @@ function displayEntry(row) {
 	document.body.appendChild(header);
 }
 
-ipc.on('display-entry', function(event, arg) {
-	displayEntry(event);
-})
+document.addEventListener('DOMContentLoaded', displayEntry);

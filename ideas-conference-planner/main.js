@@ -78,11 +78,6 @@ function createWindow () {
   win.loadFile('index.html');
 }
 
-exports.openWindow = (filename) => {
-  let win = new BrowserWindow({width: 800, height: 600});
-  win.loadURL('file://' + __dirname +'/'+ filename + '.html')﻿
-}
-
 function insertObj(sequelize, obj, insertfunc, errfunc) {
   var p = sequelize.transaction(function(t) {
     return obj.save({transaction: t}).then(insertfunc).catch(errfunc)
@@ -247,10 +242,10 @@ ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
 });
 
-// ipc.on('rate-presentation', function(event, arg) {
-//   createRatingWindow();
-//   event.returnValue = false;
-// });
+ipc.on('rate-presentation', function(event, arg) {
+  createRatingWindow();
+  event.returnValue = false;
+});
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
 app.on('ready', createWindow);
