@@ -177,7 +177,7 @@ function generateTable(data) {
         row.style.backgroundColor = this.origColor;
         row.hilite = false;
         ratePresentation(this.id);
-        categorizePresentation(this.id);
+        // categorizePresentation(this.id);
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
@@ -189,7 +189,33 @@ function generateTable(data) {
         actionSpace.innerHTML = '';
       }
     }
+
+    row.ondblclick = function() {
+      var pEntry = document.getElementById('pEntry');
+      pEntry.innerHTML = this.innerHTML;
+
+      var modal = document.getElementById('myModal');
+      var span = document.getElementsByClassName("close")[0];
+
+
+      modal.style.display = "block";
+      
+
+
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+
+    }
+
   }
+
 
   presentationDiv.innerHTML = '';
   presentationDiv.appendChild(table);
