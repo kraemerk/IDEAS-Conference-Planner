@@ -165,11 +165,9 @@ function generateTable(data) {
     row.appendChild(td);
 
 
-    
-
-    // td = document.createElement('td');
-    // td.appendChild(document.createTextNode(data[i].category));
-    // row.appendChild(td);
+    td = document.createElement('td');
+    td.id = 'categorySpace';
+    row.appendChild(td);
 
     row.onclick= function () {
      if(!this.hilite){
@@ -199,30 +197,35 @@ function generateTable(data) {
       var length = this.cells.length - 1;
       var nextCell = document.createElement('p');
             
-      
-      nextCell.innerHTML = this.cells[1].innerHTML;
-      pEntry.appendChild(nextCell);
-      nextCell = document.createElement('p');
+      for (i = 0; i < length; i++) {
+        nextCell.innerHTML = this.cells[i].innerHTML;
+        pEntry.appendChild(nextCell);
+        nextCell = document.createElement('p');
+      }
 
-      nextCell.innerHTML = this.cells[2].innerHTML;
-      pEntry.appendChild(nextCell);
-      nextCell = document.createElement('p');
+      // nextCell.innerHTML = this.cells[1].innerHTML;
+      // pEntry.appendChild(nextCell);
+      // nextCell = document.createElement('p');
 
-      nextCell.innerHTML = this.cells[3].innerHTML;
-      pEntry.appendChild(nextCell);
-      nextCell = document.createElement('p');
+      // nextCell.innerHTML = this.cells[2].innerHTML;
+      // pEntry.appendChild(nextCell);
+      // nextCell = document.createElement('p');
 
-      nextCell.innerHTML = this.cells[4].innerHTML;
-      pEntry.appendChild(nextCell);
-      nextCell = document.createElement('p');
+      // nextCell.innerHTML = this.cells[3].innerHTML;
+      // pEntry.appendChild(nextCell);
+      // nextCell = document.createElement('p');
 
-      nextCell.innerHTML = this.cells[5].innerHTML;
-      pEntry.appendChild(nextCell);
-      nextCell = document.createElement('p');
+      // nextCell.innerHTML = this.cells[4].innerHTML;
+      // pEntry.appendChild(nextCell);
+      // nextCell = document.createElement('p');
 
-      nextCell.innerHTML = this.cells[6].innerHTML;
-      pEntry.appendChild(nextCell);
-      nextCell = document.createElement('p');
+      // nextCell.innerHTML = this.cells[5].innerHTML;
+      // pEntry.appendChild(nextCell);
+      // nextCell = document.createElement('p');
+
+      // nextCell.innerHTML = this.cells[6].innerHTML;
+      // pEntry.appendChild(nextCell);
+      // nextCell = document.createElement('p');
 
       
 
