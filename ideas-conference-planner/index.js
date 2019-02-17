@@ -1,5 +1,6 @@
 const ipc = require('electron').ipcRenderer;
 var selectedRow;
+const Sequelize = require('sequelize');
 
 
 function getAttendeeName(attendee) {
@@ -23,7 +24,8 @@ function addCategorization(rowID) {
   categorySpace.innerHTML = '';
   var dropDownMenu = document.createElement("SELECT");
   categorySpace.appendChild(dropDownMenu);
-
+  
+  
 
 }
 
@@ -174,6 +176,8 @@ function generateTable(data) {
         this.hilite = false;
         var actionSpace = document.getElementById('actions' + this.id);
         actionSpace.innerHTML = '';
+
+        var categorySpace = document.getElementById('categorySpace' + this.id);
       }
     }
 
