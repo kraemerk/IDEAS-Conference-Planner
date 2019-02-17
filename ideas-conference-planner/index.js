@@ -190,8 +190,6 @@ function generateTable(data) {
 
     row.ondblclick = function() {
       var pEntry = document.getElementById('pEntry');
-      // var date = this.cells[1].text;
-      // pEntry.appendChild(date);
 
       pEntry.innerHTML = '';
       var length = this.cells.length - 1;
@@ -203,33 +201,6 @@ function generateTable(data) {
         nextCell = document.createElement('p');
       }
 
-      // nextCell.innerHTML = this.cells[1].innerHTML;
-      // pEntry.appendChild(nextCell);
-      // nextCell = document.createElement('p');
-
-      // nextCell.innerHTML = this.cells[2].innerHTML;
-      // pEntry.appendChild(nextCell);
-      // nextCell = document.createElement('p');
-
-      // nextCell.innerHTML = this.cells[3].innerHTML;
-      // pEntry.appendChild(nextCell);
-      // nextCell = document.createElement('p');
-
-      // nextCell.innerHTML = this.cells[4].innerHTML;
-      // pEntry.appendChild(nextCell);
-      // nextCell = document.createElement('p');
-
-      // nextCell.innerHTML = this.cells[5].innerHTML;
-      // pEntry.appendChild(nextCell);
-      // nextCell = document.createElement('p');
-
-      // nextCell.innerHTML = this.cells[6].innerHTML;
-      // pEntry.appendChild(nextCell);
-      // nextCell = document.createElement('p');
-
-      
-
-      // pEntry.innerHTML = this.innerHTML;
       var modal = document.getElementById('myModal');
       var span = document.getElementsByClassName("close")[0];
 
