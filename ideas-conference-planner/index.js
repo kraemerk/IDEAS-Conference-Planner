@@ -8,14 +8,19 @@ function getAttendeeName(attendee) {
 
 
 function ratePresentation(rowID) {
-  var presentation = document.getElementById(rowID).cells[1].innerHTML;
+
+
   var button = document.createElement('button');
   button.textContent = 'Rate';
   var actionSpace = document.getElementById('actions' + rowID);
 
   button.addEventListener('click', () => {
     // stores the raw html data for the row in session storage.
-    sessionStorage.row = presentation;
+    sessionStorage.presTitle = document.getElementById(rowID).cells[2].innerHTML;
+    sessionStorage.presDesc = document.getElementById(rowID).cells[3].innerHTML;
+    sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
+    sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
+    sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
     window.location = "index-rating.html";
   }, false)
 
