@@ -1,7 +1,4 @@
 const ipc = require('electron').ipcRenderer;
-const remote = require('electron').remote;
-const main = remote.require('./main.js');
-var selectedRow;
 
 function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
@@ -13,10 +10,8 @@ function ratePresentation(rowID) {
   var actionSpace = document.getElementById('actions' + rowID);
 
   button.addEventListener('click', () => {
-    // var window = remote.getCurrentWindow();
-    // main.openWindow('index-rating');
-    // window.close();
-  }, false)
+    window.location = 'index-rating.html'
+  }, false);
 
   actionSpace.appendChild(button);
 }
@@ -31,9 +26,8 @@ function categorizePresentation(rowID) {
 
   button.addEventListener('click', () => {
     window.location = "categorizer.html";
-    selectedRow = document.getElementById(rowID);
-
-  }, true)
+    //selectedRow = document.getElementById(rowID);
+  }, false)
 
   actionSpace.appendChild(button);
 
