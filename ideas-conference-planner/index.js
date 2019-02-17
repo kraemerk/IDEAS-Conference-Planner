@@ -189,6 +189,8 @@ function generateTable(data) {
     }
 
     row.ondblclick = function() {
+      var actionSpace = document.getElementById('actions' + this.id);
+      actionSpace.innerHTML = '';
       var pEntry = document.getElementById('pEntry');
 
       pEntry.innerHTML = '';
