@@ -12,9 +12,9 @@ function ratePresentation(rowID) {
   var actionSpace = document.getElementById('actions' + rowID);
 
   button.addEventListener('click', () => {
-    var window = remote.getCurrentWindow();
-    main.openWindow('index-rating');
-    window.close();
+    // stores the raw html data for the row in session storage.
+    sessionStorage.row = document.getElementById(rowID).outerHTML;
+    window.location = "index-rating.html";
   }, false)
 
   actionSpace.appendChild(button);
@@ -144,14 +144,12 @@ function generateTable(data) {
 
     row.onclick= function () {
      if(!this.hilite){
-        var row = this;
-        row.style.backgroundColor = this.origColor;
-        row.hilite = false;
-        ratePresentation(this.id);
-        categorizePresentation(this.id);
+        this.style.backgroundColor = this.origColor;
+        this.hilite = false;
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
+        ratePresentation(this.id);
       }
       else {
         this.style.backgroundColor=this.origColor;
@@ -187,4 +185,8 @@ ipc.on('ingest-csv', function(event, arg) {
 ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
   generateTable(query);
+});
+
+ipc.on('rating', function(event, arg) {
+  event.returnValue = document.getElementById(rowID);
 });
