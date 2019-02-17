@@ -6,14 +6,16 @@ function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
 }
 
+
 function ratePresentation(rowID) {
+  var presentation = document.getElementById(rowID).cells[1].innerHTML;
   var button = document.createElement('button');
   button.textContent = 'Rate';
   var actionSpace = document.getElementById('actions' + rowID);
 
   button.addEventListener('click', () => {
     // stores the raw html data for the row in session storage.
-    sessionStorage.row = document.getElementById(rowID).outerHTML;
+    sessionStorage.row = presentation;
     window.location = "index-rating.html";
   }, false)
 
@@ -29,8 +31,6 @@ function generateTable(data) {
   table.setAttribute('width','100%');
   var numRows = data.length;
   var row = table.insertRow(0);
-
-
 
   var th = document.createElement('th');
   th.appendChild(document.createTextNode('Actions'));
@@ -185,8 +185,4 @@ ipc.on('ingest-csv', function(event, arg) {
 ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
   generateTable(query);
-});
-
-ipc.on('rating', function(event, arg) {
-  event.returnValue = document.getElementById(rowID);
 });
