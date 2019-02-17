@@ -29,7 +29,7 @@ function categorizePresentation(rowID) {
   button.addEventListener('click', () => {
     // stores the raw html data for the row in session storage.
     actionSpace.innerHTML = '';
-    sessionStorage.row = document.getElementById(rowID).outerHTML;
+    sessionStorage.row = document.getElementById(rowID).innerHTML;
     window.location = "categorizer.html";
   }, false)
 
