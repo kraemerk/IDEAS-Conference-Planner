@@ -1,15 +1,6 @@
-// functions to allow for the manipulation of the current
-// presentation category to be changed
 
-function displayEntry(row) {
-	var header = document.createElement("header"),
-		h1 = document.createElement("h1");
-
-	header.textContent = "helloKitty";
-	header.appendChild(h1);
-	document.body.appendChild(header);
+function displayEntry() {
+	var t = document.createElement("p");
+	var node = document.createTextNode("this is working");
+	t.appendChild(node);
 }
-
-ipc.on('display-entry', function(event, arg) {
-	displayEntry(event);
-})
