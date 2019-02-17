@@ -18,24 +18,13 @@ function ratePresentation(rowID) {
   actionSpace.appendChild(button);
 }
 
-function categorizePresentation(rowID) {
+function addCategorization(rowID) {
+  var categorySpace = document.getElementById('categorySpace' + rowID);
 
-  var button = document.createElement('button');
-  button.textContent = 'Categorize';
-  
+  for (i = 0; i < categories.length; i++) {
+    
+  }
 
-  var actionSpace = document.getElementById('actions' + rowID);
-
-  button.addEventListener('click', () => {
-    // stores the raw html data for the row in session storage.
-    actionSpace.innerHTML = '';
-    sessionStorage.row = document.getElementById(rowID).innerHTML;
-    window.location = "categorizer.html";
-  }, false)
-
-  actionSpace.appendChild(button);
-
-  
 }
 
 function generateTable(data) {
@@ -166,7 +155,7 @@ function generateTable(data) {
 
 
     td = document.createElement('td');
-    td.id = 'categorySpace';
+    td.id = 'categorySpace' + i;
     row.appendChild(td);
 
     row.onclick= function () {
@@ -175,7 +164,7 @@ function generateTable(data) {
         row.style.backgroundColor = this.origColor;
         row.hilite = false;
         ratePresentation(this.id);
-        // categorizePresentation(this.id);
+        addCategorization(this.id);
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
