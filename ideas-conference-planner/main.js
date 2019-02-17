@@ -56,8 +56,7 @@ const Presentation = sequelize.define('presentation', {
   presenter_id: Sequelize.INTEGER,
   copresenter_1_id: Sequelize.INTEGER,
   copresenter_2_id: Sequelize.INTEGER,
-  copresenter_3_id: Sequelize.INTEGER,
-  category: Sequelize.TEXT
+  copresenter_3_id: Sequelize.INTEGER
 }, {
   schema: config.database.schema,
   freezeTableName: true,

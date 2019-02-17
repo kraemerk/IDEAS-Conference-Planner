@@ -161,9 +161,9 @@ function generateTable(data) {
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating2)));
     row.appendChild(td);
 
-    td = document.createElement('td');
-    td.appendChild(document.createTextNode(data[i].category));
-    row.appendChild(td);
+    // td = document.createElement('td');
+    // td.appendChild(document.createTextNode(data[i].category));
+    // row.appendChild(td);
 
     row.onclick= function () {
      if(!this.hilite){
