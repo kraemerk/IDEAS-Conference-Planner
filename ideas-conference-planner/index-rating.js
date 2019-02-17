@@ -1,22 +1,24 @@
 
-var ratingDiv = document.getElementById('ratingDiv');
+var titleDiv = document.getElementById('titleDiv');
+var descDiv = document.getElementById('descDiv');
+var objDiv = document.getElementById('objDiv');
 
 var td = document.createElement('td');
 td.appendChild(document.createTextNode(sessionStorage.presTitle));
-ratingDiv.appendChild(td);
+titleDiv.appendChild(td);
 
 var td = document.createElement('td');
 td.appendChild(document.createTextNode(sessionStorage.presDesc));
-ratingDiv.appendChild(td);
+descDiv.appendChild(td);
 
 var td = document.createElement('td');
 td.appendChild(document.createTextNode(sessionStorage.presObj1));
-ratingDiv.appendChild(td);
+objDiv.appendChild(td);
 
 var td = document.createElement('td');
 td.appendChild(document.createTextNode(sessionStorage.presObj2));
-ratingDiv.appendChild(td);
+objDiv.appendChild(td);
 
 var td = document.createElement('td');
 td.appendChild(document.createTextNode(sessionStorage.presObj3));
-ratingDiv.appendChild(td);
+objDiv.appendChild(td);
