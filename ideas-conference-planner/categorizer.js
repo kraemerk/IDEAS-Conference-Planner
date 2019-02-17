@@ -1,4 +1,4 @@
-window.alert('hello');
+window.alert('hello\n' + sessionStorage.row);
 
 // function displayEntry() {
 // 	var para = document.createElement("p");

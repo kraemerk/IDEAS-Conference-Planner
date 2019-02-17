@@ -25,8 +25,9 @@ function categorizePresentation(rowID) {
   var actionSpace = document.getElementById('actions' + rowID);
 
   button.addEventListener('click', () => {
+    // stores the raw html data for the row in session storage.
+    sessionStorage.row = document.getElementById(rowID).outerHTML;
     window.location = "categorizer.html";
-    //selectedRow = document.getElementById(rowID);
   }, false)
 
   actionSpace.appendChild(button);
