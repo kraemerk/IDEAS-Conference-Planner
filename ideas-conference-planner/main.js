@@ -100,8 +100,20 @@ function insertObj(sequelize, obj, insertfunc, errfunc) {
   });
 }
 
+function populateCategories() {
+  var categories = ["Communication", "Wellness", "Understanding", "Classroom Dynamics"];
+
+  for (i = 0; i < categories.length; i++) {
+    Category.build({
+      categoryValue: categories[i]
+    })
+  }
+}
+
 function ingestCSV (file) {
   var csv = require('csv');
+
+  populateCategories();
 
   var options = {
     columns: true,
