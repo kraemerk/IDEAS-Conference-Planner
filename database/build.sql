@@ -29,20 +29,6 @@ CREATE TABLE IF NOT EXISTS ideas.reviewer (
   UNIQUE(first, last)
 );
 
-CREATE TABLE IF NOT EXISTS ideas.review (
-  id serial primary key,
-  reviewer_id integer REFERENCES ideas.reviewer(id) NOT NULL,
-  presentation_id integer REFERENCES ideas.presentation(id) NOT NULL,
-  grammar_rating integer NOT NULL,
-  title_rating integer NOT NULL,
-  credibility_rating integer NOT NULL,
-  interest_rating integer NOT NULL,
-  content_rating integer NOT NULL,
-  novelty_rating integer NOT NULL
-  overall_rating integer NOT NULL
-  -- these rating categories may change as we find out more concrete information
-);
-
 CREATE TABLE IF NOT EXISTS ideas.presentation (
   id serial primary key,
   submission_date timestamp NOT NULL,
@@ -80,4 +66,18 @@ CREATE TABLE IF NOT EXISTS ideas.presentation (
     (copresenter_2_id IS NULL OR (copresenter_1_id IS NOT NULL AND copresenter_2_id != presenter_id AND copresenter_2_id != copresenter_1_id)) AND
     (copresenter_3_id IS NULL OR (copresenter_1_id IS NOT NULL AND copresenter_2_id IS NOT NULL AND copresenter_3_id != presenter_id AND copresenter_3_id != copresenter_1_id AND copresenter_3_id != copresenter_2_id))
   )
+);
+
+CREATE TABLE IF NOT EXISTS ideas.review (
+  id serial primary key,
+  reviewer_id integer REFERENCES ideas.reviewer(id) NOT NULL,
+  presentation_id integer REFERENCES ideas.presentation(id) NOT NULL,
+  grammar_rating integer NOT NULL,
+  title_rating integer NOT NULL,
+  credibility_rating integer NOT NULL,
+  interest_rating integer NOT NULL,
+  content_rating integer NOT NULL,
+  novelty_rating integer NOT NULL,
+  overall_rating integer NOT NULL
+  -- these rating categories may change as we find out more concrete information
 );
