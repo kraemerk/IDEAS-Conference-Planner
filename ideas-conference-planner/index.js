@@ -1,10 +1,10 @@
 const ipc = require('electron').ipcRenderer;
 var selectedRow;
 const Sequelize = require('sequelize');
-var config;
-ini = require('ini');
+// var config;
+// ini = require('ini');
 
-config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
+// config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
 
 
 function getAttendeeName(attendee) {
