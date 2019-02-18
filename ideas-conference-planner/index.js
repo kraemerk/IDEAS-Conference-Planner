@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 
 var clickedCategory = false;
 var clickedEdit = false;
+var changedValue = false;
 
 // var config;
 // ini = require('ini');
@@ -27,23 +28,71 @@ function ratePresentation(rowID) {
 }
 
 function addCategorization(rowID) {
+  //gets the place where the items are to be added
   var categorySpace = document.getElementById('categorySpace' + rowID);
-  categorySpace.innerHTML = '';
-  var dropDownMenu = document.createElement("SELECT");
-  categorySpace.appendChild(dropDownMenu);
   
+  //resets the space of all objects  
+    categorySpace.innerHTML = '';
+    // alert("Recreated td");
+
+
+
+
+  //creates the dropdown menu and id's it by the row
+  var dropDownMenu = document.createElement("SELECT");
+  dropDownMenu.id = "categoryDropDown" + rowID;
+  
+  //loop for every category and add an option
+  //for each one
+  // for (i = 0; i < categories.length; i++) {
+    var option = document.createElement('option');
+    option.text = "uncategorized";
+    dropDownMenu.add(option);
+  //}
+
+  var option = document.createElement('option');
+  option.text = "categorized";
+  dropDownMenu.add(option);
+
+  
+  
+  //create edit button with edit picture
   var editButton = document.createElement('button');
   editButton.innerHTML = "<img src='images/editCategories.png'/>";
-  categorySpace.appendChild(editButton);
+  
 
 
+  //when dropdown is clicked set the category value to the selected item
   dropDownMenu.onclick = function() {
     clickedCategory = true;
   }
 
+  //when the value of the dropdown is changed
+  //the whole window should not reload
+  dropDownMenu.onchange = function() {
+    changedValue = true;
+    var selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
+    dropDownMenu.value = selectedCategory;
+    changedValue = false;
+    clickedEdit =false;
+    clickedCategory = false;
+
+
+    //do sql query to change the value of the selected presentation's category
+
+
+  }
+
   editButton.onclick = function() {
     clickedEdit = true;
+    editCategories();
   }
+
+  //add dropdown to the category space
+  categorySpace.appendChild(dropDownMenu);
+
+  //add the edit button to the category space
+  categorySpace.appendChild(editButton);
 
 
 }
@@ -180,26 +229,37 @@ function generateTable(data) {
     row.appendChild(td);
 
     row.onclick= function () {
-     if(!this.hilite){
+      //if the row is not highlighted
+      if(!this.hilite){
         var row = this;
         row.style.backgroundColor = this.origColor;
         row.hilite = false;
+
+        //when a row that was not highlighted
+        //is clicked, the whole process is restarted
         clickedCategory = false;
         clickedEdit = false;
+        changedValue = false;
+
+
         ratePresentation(this.id);
         addCategorization(this.id);
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
-      }
-      else {
-        this.style.backgroundColor=this.origColor;
-        this.hilite = false;
-        var actionSpace = document.getElementById('actions' + this.id);
-        actionSpace.innerHTML = '';
-
-        var categorySpace = document.getElementById('categorySpace' + this.id);
-        if (!clickedCategory && !clickedEdit) {
+      
+      //if the row is highlighted
+      } else {
+        // if the select has not been chosen or
+        // the edit button has not been chosen or
+        // the input box has not been changed
+        //reset everything
+        if (!clickedCategory && !clickedEdit && !changedValue) {
+          this.style.backgroundColor=this.origColor;
+          this.hilite = false;
+          var actionSpace = document.getElementById('actions' + this.id);
+          actionSpace.innerHTML = '';
+          var categorySpace = document.getElementById('categorySpace' + this.id);
           categorySpace.innerHTML = '';
         }
       }
