@@ -29,15 +29,15 @@ function addCategorization(rowID) {
   var categorySpace = document.getElementById('categorySpace' + rowID);
   
   //resets the space of all objects  
-    categorySpace.innerHTML = '';
-    // alert("Recreated td");
+  // categorySpace.innerHTML = '';
 
-
-
+  //---------------------------------------------------------------------- --------------> MICAH: set the selected category to the current value in the database for that presentation
+  selectedCategory = categorySpace.innerHTML;
 
   //creates the dropdown menu and id's it by the row
   var dropDownMenu = document.createElement("SELECT");
   dropDownMenu.id = "categoryDropDown" + rowID;
+  dropDownMenu.options[dropDownMenu.selectedIndex] = categorySpace.innerHTML;
   
   //-------------------------------------------------------------------------------------> MICAH: add all entries in category table
   //loop for every category and add an option
@@ -55,15 +55,11 @@ function addCategorization(rowID) {
   var option = document.createElement('option');
   option.text = "category2";
   dropDownMenu.add(option);
-
-  
   
   //create edit button with edit picture
   var editButton = document.createElement('button');
   editButton.innerHTML = "<img src='images/editCategories.png'/>";
   
-
-
   //when dropdown is clicked set the category value to the selected item
   dropDownMenu.onclick = function() {
     clickedCategory = true;
