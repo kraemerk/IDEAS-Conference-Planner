@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS ideas.reviewer (
 CREATE TABLE IF NOT EXISTS ideas.review (
   id serial primary key,
   reviewer_id integer REFERENCES ideas.reviewer(id) NOT NULL,
+  presentation_id integer REFERENCES ideas.presentation(id) NOT NULL,
   grammar_rating integer NOT NULL,
   title_rating integer NOT NULL,
   credibility_rating integer NOT NULL,
@@ -79,10 +80,4 @@ CREATE TABLE IF NOT EXISTS ideas.presentation (
     (copresenter_2_id IS NULL OR (copresenter_1_id IS NOT NULL AND copresenter_2_id != presenter_id AND copresenter_2_id != copresenter_1_id)) AND
     (copresenter_3_id IS NULL OR (copresenter_1_id IS NOT NULL AND copresenter_2_id IS NOT NULL AND copresenter_3_id != presenter_id AND copresenter_3_id != copresenter_1_id AND copresenter_3_id != copresenter_2_id))
   )
-);
-
-CREATE TABLE IF NOT EXISTS ideas.presentation_review (
-  presentation_id integer REFERENCES ideas.presentation(id) NOT NULL,
-  review_id integer REFERENCES ideas.review(id) NOT NULL UNIQUE,
-  primary key (presentation_id, review_id)
 );
