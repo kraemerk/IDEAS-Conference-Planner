@@ -338,7 +338,7 @@ ipc.on('ingest-csv', function(event, arg) {
 
 ipc.on('get-categories-reply', function(event, arg) {
   categoryList = JSON.parse(arg);
-  alert(arg);
+  // alert(arg);
 });
 
 ipc.on('query-presentations-reply', function(event, arg) {
