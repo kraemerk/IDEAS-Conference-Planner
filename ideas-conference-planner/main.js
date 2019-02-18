@@ -77,11 +77,6 @@ function createWindow () {
   win.loadFile('index.html');
 }
 
-exports.openWindow = (filename) => {
-  let win = new BrowserWindow({width: 800, height: 600});
-  win.loadURL('file://' + __dirname +'/'+ filename + '.html')﻿
-}
-
 function insertObj(sequelize, obj, insertfunc, errfunc) {
   var p = sequelize.transaction(function(t) {
     return obj.save({transaction: t}).then(insertfunc).catch(errfunc)
@@ -237,6 +232,28 @@ function queryPresentations (event) {
   });
 }
 
+
+
+function updateRating (event, arg) {
+  sequelize.query({
+    text: "SELECT upsert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+    values: [ arg.presID,
+              arg.gramVal,
+              arg.credVal,
+              arg.intrVal,
+              arg.contVal,
+              arg.novVal,
+              arg.overVal,
+              arg.rateFName,
+              arg.rateLName
+    ]
+  }, function(u_err, u_result) {
+    if(err) {
+      console.error("Can not update rating data.");
+    }
+  });
+}
+
 ipc.on('ingest-csv', function(event, arg) {
   ingestCSV(arg);
   event.returnValue = queryPresentations(event);
@@ -246,9 +263,12 @@ ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
 });
 
-ipc.on('rate-presentation', function(event, arg) {
-  createRatingWindow();
-  event.returnValue = false;
+ipc.on('update-rating', function(event, arg) {
+  event.returnValue = updateRating(event, arg);
+});
+
+ipc.on('validate-rater', function(event, arg) {
+  event.returnValue = validateRater(event,arg);
 });
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');

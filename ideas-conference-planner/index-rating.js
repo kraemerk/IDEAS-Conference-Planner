@@ -40,9 +40,9 @@ function getRatingVals() {
     contVal: document.querySelector('input[name="group5"]:checked').value,
     novVal: document.querySelector('input[name="group6"]:checked').value,
     overVal: document.querySelector('input[name="group7"]:checked').value,
-    raterVal: document.querySelector('input[name="group8"]:checked').value,
     rateFName: document.getElementById(fname).value,
-    rateLName: document.getElementById(lname).value
+    rateLName: document.getElementById(lname).value,
+    presID: sessionStorage.rowID
   };
   return ratingVals;
 }

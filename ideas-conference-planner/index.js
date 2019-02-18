@@ -17,6 +17,7 @@ function ratePresentation(rowID) {
     sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
     sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
     sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
+    sessionStorage.presID = rowID;
     window.location = "index-rating.html";
   }, false)
 
