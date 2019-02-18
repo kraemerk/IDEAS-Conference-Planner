@@ -28,10 +28,7 @@ function addCategorization(rowID) {
   categorySpace.innerHTML = '';
   var dropDownMenu = document.createElement("SELECT");
   categorySpace.appendChild(dropDownMenu);
-  var config;
-  ini = require('ini');
-
-config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
+  
 
 
 }
