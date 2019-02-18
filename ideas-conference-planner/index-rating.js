@@ -46,9 +46,3 @@ function getRatingVals() {
   };
   return ratingVals;
 }
-
-function sendRating() {
-  var ratings = getRatingVals;
-  ipc.send('ingest-rating', ratings);
-  window.location = 'index.html';
-}
