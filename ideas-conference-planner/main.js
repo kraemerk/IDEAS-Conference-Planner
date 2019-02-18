@@ -16,9 +16,8 @@ const sequelize = new Sequelize(config.database.database, config.database.user, 
   operatorsAliases: false,
   logging: false
 });
-// var sessionStorage;
 
-// sessionStorage.sequelize = sequelize;
+
 
 const Attendee = sequelize.define('attendee', {
   prefix: Sequelize.TEXT,

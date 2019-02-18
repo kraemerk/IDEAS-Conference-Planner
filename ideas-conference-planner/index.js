@@ -5,10 +5,7 @@ var clickedCategory = false;
 var clickedEdit = false;
 var changedValue = false;
 
-// var config;
-// ini = require('ini');
-
-// config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
+var selectedCategory;
 
 
 function getAttendeeName(attendee) {
@@ -46,12 +43,16 @@ function addCategorization(rowID) {
   //for each one
   // for (i = 0; i < categories.length; i++) {
     var option = document.createElement('option');
-    option.text = "uncategorized";
+    option.text = " ";
     dropDownMenu.add(option);
   //}
 
   var option = document.createElement('option');
-  option.text = "categorized";
+  option.text = "category1";
+  dropDownMenu.add(option);
+
+  var option = document.createElement('option');
+  option.text = "category2";
   dropDownMenu.add(option);
 
   
@@ -71,17 +72,25 @@ function addCategorization(rowID) {
   //the whole window should not reload
   dropDownMenu.onchange = function() {
     changedValue = true;
-    var selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
+    selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
     dropDownMenu.value = selectedCategory;
-    changedValue = false;
-    clickedEdit =false;
-    clickedCategory = false;
-
-
+  
     //do sql query to change the value of the selected presentation's category
-
-
   }
+
+  dropDownMenu.onblur = function() {
+    changedValue = false;
+    clickedEdit = false;
+    clickedCategory = false;
+  }
+
+  editButton.onblur = function() {
+    changedValue = false;
+    clickedEdit = false;
+    clickedCategory = false;
+  }
+
+
 
   editButton.onclick = function() {
     clickedEdit = true;
@@ -260,7 +269,8 @@ function generateTable(data) {
           var actionSpace = document.getElementById('actions' + this.id);
           actionSpace.innerHTML = '';
           var categorySpace = document.getElementById('categorySpace' + this.id);
-          categorySpace.innerHTML = '';
+          categorySpace.innerHTML = selectedCategory;
+          
         }
       }
     }
