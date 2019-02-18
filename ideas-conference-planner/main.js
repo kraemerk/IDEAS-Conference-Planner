@@ -18,11 +18,11 @@ const sequelize = new Sequelize(config.database.database, config.database.user, 
 });
 
 const Category = sequelize.define('category', {
-  categoryValue: Sequelize.TEXT,
   id: {
     type: Sequelize.TEXT,
     primaryKey: true,
-  }
+  },
+  title: Sequelize.TEXT
 }, {
   schema: config.database.schema,
   freezeTableName: true,
@@ -68,17 +68,21 @@ const Presentation = sequelize.define('presentation', {
   presenter_id: Sequelize.INTEGER,
   copresenter_1_id: Sequelize.INTEGER,
   copresenter_2_id: Sequelize.INTEGER,
-  copresenter_3_id: Sequelize.INTEGER
+  copresenter_3_id: Sequelize.INTEGER,
+  category: Sequelize.TEXT
 }, {
   schema: config.database.schema,
   freezeTableName: true,
   timestamps: false
 });
 
+Presentation.belongsTo(Category, {as: 'Category', foreignKey: 'id'});
 Presentation.belongsTo(Attendee, {as: 'Presenter', foreignKey: 'presenter_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter1', foreignKey: 'copresenter_1_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter2', foreignKey: 'copresenter_2_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter3', foreignKey: 'copresenter_3_id'});
+
+populateCategories();
 
 function myFunction(x) {// don't delete this
   x.classList.toggle("change");
@@ -105,15 +109,28 @@ function populateCategories() {
 
   for (i = 0; i < categories.length; i++) {
     Category.build({
-      categoryValue: categories[i]
+      id: i,
+      title: categories[i]
     })
   }
+}
+
+function getCategory(entryID) {
+
+}
+
+function getCategories(event) {
+  Category.findAll({
+    attributes: ['id', 'title'],
+  }).then(categories => {
+    event.sender.send('get-categories-reply', JSON.stringify(categories));
+  });
 }
 
 function ingestCSV (file) {
   var csv = require('csv');
 
-  populateCategories();
+  
 
   var options = {
     columns: true,
@@ -270,6 +287,10 @@ ipc.on('ingest-csv', function(event, arg) {
 ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
 });
+
+ipc.on('get-categories', function(event, arg) {
+  event.returnValue = getCategories(event);
+})
 
 ipc.on('rate-presentation', function(event, arg) {
   createRatingWindow();

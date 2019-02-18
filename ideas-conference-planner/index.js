@@ -4,6 +4,7 @@ var clickedCategory = false;
 var clickedEdit = false;
 var changedValue = false;
 
+var categoryList;
 var selectedCategory;
 
 
@@ -32,6 +33,8 @@ function addCategorization(rowID) {
 
   //---------------------------------------------------------------------- --------------> MICAH: set the selected category to the current value in the database for that presentation
   selectedCategory = categorySpace.innerHTML;
+  ipc.send('get-categories', '');
+  
 
   //creates the dropdown menu and id's it by the row
   var dropDownMenu = document.createElement("SELECT");
@@ -333,10 +336,10 @@ ipc.on('ingest-csv', function(event, arg) {
   alert(arg);
 });
 
-ipc.on('categorize', function(event, arg) {
-  event.returnValue = document.getElementById(rowID);
+ipc.on('get-categories-reply', function(event, arg) {
+  categoryList = JSON.parse(arg);
+  alert(arg);
 });
-
 
 ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
