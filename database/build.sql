@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS ideas.review (
   interest_rating integer NOT NULL,
   content_rating integer NOT NULL,
   novelty_rating integer NOT NULL
+  overall_rating integer NOT NULL
   -- these rating categories may change as we find out more concrete information
 );
 
@@ -71,6 +72,7 @@ CREATE TABLE IF NOT EXISTS ideas.presentation (
   time tstzrange,
   room text,
   category_id integer REFERENCES ideas.category(id),
+  overall_rating integer,
   accepted boolean,
   CONSTRAINT unique_presenters CHECK (
     (copresenter_1_id IS NULL OR (copresenter_1_id != presenter_id)) AND
