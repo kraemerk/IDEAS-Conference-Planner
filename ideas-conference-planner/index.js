@@ -1,5 +1,4 @@
 const ipc = require('electron').ipcRenderer;
-var selectedRow;
 const Sequelize = require('sequelize');
 
 var clickedCategory = false;
