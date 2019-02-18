@@ -39,6 +39,7 @@ function addCategorization(rowID) {
   var dropDownMenu = document.createElement("SELECT");
   dropDownMenu.id = "categoryDropDown" + rowID;
   
+  //-------------------------------------------------------------------------------------> MICAH: add all entries in category table
   //loop for every category and add an option
   //for each one
   // for (i = 0; i < categories.length; i++) {
@@ -75,6 +76,7 @@ function addCategorization(rowID) {
     selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
     dropDownMenu.value = selectedCategory;
   
+    //----------------------------------------------------------------------------------------> MICAH: change the value of the presentation's category
     //do sql query to change the value of the selected presentation's category
   }
 
@@ -233,6 +235,7 @@ function generateTable(data) {
     row.appendChild(td);
 
 
+    //-------------------------------------------------------------------------------------------->MICAH: show the category of the current presentation
     td = document.createElement('td');
     td.id = 'categorySpace' + i;
     row.appendChild(td);
