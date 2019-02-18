@@ -1,6 +1,9 @@
 const ipc = require('electron').ipcRenderer;
 var selectedRow;
 const Sequelize = require('sequelize');
+
+var clickedCategory = false;
+
 // var config;
 // ini = require('ini');
 
@@ -28,7 +31,9 @@ function addCategorization(rowID) {
   categorySpace.innerHTML = '';
   var dropDownMenu = document.createElement("SELECT");
   categorySpace.appendChild(dropDownMenu);
-  
+  dropDownMenu.onclick = function() {
+    clickedCategory = true;
+  }
 
 
 }
@@ -169,6 +174,7 @@ function generateTable(data) {
         var row = this;
         row.style.backgroundColor = this.origColor;
         row.hilite = false;
+        clickedCategory = false;
         ratePresentation(this.id);
         addCategorization(this.id);
         this.origColor=this.style.backgroundColor;
@@ -182,6 +188,9 @@ function generateTable(data) {
         actionSpace.innerHTML = '';
 
         var categorySpace = document.getElementById('categorySpace' + this.id);
+        if (!clickedCategory) {
+          categorySpace.innerHTML = '';
+        }
       }
     }
 
