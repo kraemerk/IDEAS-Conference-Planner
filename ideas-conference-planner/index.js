@@ -3,6 +3,7 @@ var selectedRow;
 const Sequelize = require('sequelize');
 
 var clickedCategory = false;
+var clickedEdit = false;
 
 // var config;
 // ini = require('ini');
@@ -31,8 +32,18 @@ function addCategorization(rowID) {
   categorySpace.innerHTML = '';
   var dropDownMenu = document.createElement("SELECT");
   categorySpace.appendChild(dropDownMenu);
+  
+  var editButton = document.createElement('button');
+  editButton.innerHTML = "<img src='images/editCategories.png'/>";
+  categorySpace.appendChild(editButton);
+
+
   dropDownMenu.onclick = function() {
     clickedCategory = true;
+  }
+
+  editButton.onclick = function() {
+    clickedEdit = true;
   }
 
 
@@ -175,6 +186,7 @@ function generateTable(data) {
         row.style.backgroundColor = this.origColor;
         row.hilite = false;
         clickedCategory = false;
+        clickedEdit = false;
         ratePresentation(this.id);
         addCategorization(this.id);
         this.origColor=this.style.backgroundColor;
@@ -188,7 +200,7 @@ function generateTable(data) {
         actionSpace.innerHTML = '';
 
         var categorySpace = document.getElementById('categorySpace' + this.id);
-        if (!clickedCategory) {
+        if (!clickedCategory && !clickedEdit) {
           categorySpace.innerHTML = '';
         }
       }
