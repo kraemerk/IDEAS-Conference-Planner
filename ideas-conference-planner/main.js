@@ -17,7 +17,17 @@ const sequelize = new Sequelize(config.database.database, config.database.user, 
   logging: false
 });
 
-
+const Category = sequelize.define('category', {
+  categoryValue: Sequelize.TEXT,
+  id: {
+    type: Sequelize.TEXT,
+    primaryKey: true,
+  }
+}, {
+  schema: config.database.schema,
+  freezeTableName: true,
+  timestamps: false
+});
 
 const Attendee = sequelize.define('attendee', {
   prefix: Sequelize.TEXT,
@@ -215,6 +225,7 @@ function ingestCSV (file) {
 
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
+
 
 function queryPresentations (event) {
   Presentation.findAll({
