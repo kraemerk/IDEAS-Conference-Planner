@@ -262,7 +262,10 @@ function generateTable(data) {
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
         
+=======
+>>>>>>> parent of 2c9476e... fixed extra button error
 =======
 >>>>>>> parent of 2c9476e... fixed extra button error
       
