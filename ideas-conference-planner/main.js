@@ -82,7 +82,7 @@ Presentation.belongsTo(Attendee, {as: 'Copresenter1', foreignKey: 'copresenter_1
 Presentation.belongsTo(Attendee, {as: 'Copresenter2', foreignKey: 'copresenter_2_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter3', foreignKey: 'copresenter_3_id'});
 
-populateCategories();
+getCategories('');
 
 function myFunction(x) {// don't delete this
   x.classList.toggle("change");
@@ -104,20 +104,16 @@ function insertObj(sequelize, obj, insertfunc, errfunc) {
   });
 }
 
-function populateCategories() {
-  var categories = ["Communication", "Wellness", "Understanding", "Classroom Dynamics"];
+// function populateCategories() {
+//   var categories = ["Communication", "Wellness", "Understanding", "Classroom Dynamics"];
 
-  for (i = 0; i < categories.length; i++) {
-    Category.build({
-      id: i,
-      title: categories[i]
-    })
-  }
-}
-
-function getCategory(entryID) {
-
-}
+//   for (i = 0; i < categories.length; i++) {
+//     Category.build({
+//       id: i,
+//       title: categories[i]
+//     })
+//   }
+// }
 
 function getCategories(event) {
   Category.findAll({
@@ -255,6 +251,10 @@ function ingestCSV (file) {
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
 
+function updateCategory(selectedCategory) {
+  
+}
+
 
 function queryPresentations (event) {
   Presentation.findAll({
@@ -286,6 +286,10 @@ ipc.on('ingest-csv', function(event, arg) {
 
 ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
+});
+
+ipc.on('update-category', function(event, arg) {
+  updateCategory(arg);
 });
 
 ipc.on('get-categories', function(event, arg) {

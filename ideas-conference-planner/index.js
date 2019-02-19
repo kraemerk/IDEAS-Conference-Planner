@@ -27,12 +27,11 @@ function ratePresentation(rowID) {
 function addCategorization(rowID) {
   //gets the place where the items are to be added
   var categorySpace = document.getElementById('categorySpace' + rowID);
-  
-  //resets the space of all objects  
-  // categorySpace.innerHTML = '';
+  clickedCategory = false;
+  clickedEdit = false;
+  changedValue = false;
 
-  //---------------------------------------------------------------------- --------------> MICAH: set the selected category to the current value in the database for that presentation
-  selectedCategory = categorySpace.innerHTML;
+  // selectedCategory = categorySpace.innerHTML;
   ipc.send('get-categories', '');
   
 
@@ -44,19 +43,17 @@ function addCategorization(rowID) {
   //-------------------------------------------------------------------------------------> MICAH: add all entries in category table
   //loop for every category and add an option
   //for each one
-  // for (i = 0; i < categories.length; i++) {
+
+  var option = document.createElement('option');
+  option.text = " ";
+  dropDownMenu.add(option);
+
+  for (i = 0; i < categoryList.length; i++) {
     var option = document.createElement('option');
-    option.text = " ";
+    option.text = categoryList[i].title;
     dropDownMenu.add(option);
-  //}
+  }
 
-  var option = document.createElement('option');
-  option.text = "category1";
-  dropDownMenu.add(option);
-
-  var option = document.createElement('option');
-  option.text = "category2";
-  dropDownMenu.add(option);
   
   //create edit button with edit picture
   var editButton = document.createElement('button');
@@ -74,6 +71,7 @@ function addCategorization(rowID) {
     selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
     dropDownMenu.value = selectedCategory;
   
+
     //----------------------------------------------------------------------------------------> MICAH: change the value of the presentation's category
     //do sql query to change the value of the selected presentation's category
   }
@@ -338,7 +336,6 @@ ipc.on('ingest-csv', function(event, arg) {
 
 ipc.on('get-categories-reply', function(event, arg) {
   categoryList = JSON.parse(arg);
-  // alert(arg);
 });
 
 ipc.on('query-presentations-reply', function(event, arg) {
