@@ -6,6 +6,7 @@ var changedValue = false;
 
 var categoryList;
 var selectedCategory;
+var selectedCategoryID;
 
 
 function getAttendeeName(attendee) {
@@ -44,9 +45,9 @@ function addCategorization(rowID) {
   //loop for every category and add an option
   //for each one
 
-  var option = document.createElement('option');
-  option.text = " ";
-  dropDownMenu.add(option);
+  // var option = document.createElement('option');
+  // option.text = " ";
+  // dropDownMenu.add(option);
 
   for (i = 0; i < categoryList.length; i++) {
     var option = document.createElement('option');
@@ -69,9 +70,11 @@ function addCategorization(rowID) {
   dropDownMenu.onchange = function() {
     changedValue = true;
     selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
+    selectedCategoryID
     dropDownMenu.value = selectedCategory;
   
-
+    selectedCategoryID = categoryList[dropDownMenu.selectedIndex].id;
+    alert(selectedCategoryID);
     //----------------------------------------------------------------------------------------> MICAH: change the value of the presentation's category
     //do sql query to change the value of the selected presentation's category
   }
@@ -245,17 +248,19 @@ function generateTable(data) {
 
         //when a row that was not highlighted
         //is clicked, the whole process is restarted
+
         clickedCategory = false;
         clickedEdit = false;
         changedValue = false;
+        ratePresentation(this.id);
+        addCategorization(this.id);
 
 
         
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
-        ratePresentation(this.id);
-        addCategorization(this.id);
+        
       
       //if the row is highlighted
       } else {
