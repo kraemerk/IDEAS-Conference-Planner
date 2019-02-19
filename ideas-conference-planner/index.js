@@ -1,12 +1,53 @@
 const ipc = require('electron').ipcRenderer;
-
+var tb = null;
 function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
+}
+
+function getReviewer(review) {
+  if (review[0] != null) {
+    reviewer = review[0].ReviewReviewer;
+    return reviewer.first + ' ' + reviewer.last;
+  } else {
+    return '';
+  }
+}
+
+function getReview(review) {
+  if (review[0] != null) {
+    review = review[0]
+    totalscore = review.content_rating+review.credibility_rating+review.grammar_rating+review.interest_rating+review.novelty_rating+review.overall_rating+review.title_rating;
+    return totalscore + '/21';
+  } else {
+    return '';
+  }
+}
+
+
+function ratePresentation(rowID, presID) {
+  var button = document.createElement('button');
+  button.textContent = 'Rate';
+  var actionSpace = document.getElementById('actions' + rowID);
+
+  button.addEventListener('click', () => {
+    // stores the raw html data for the row in session storage.
+    sessionStorage.presTitle = document.getElementById(rowID).cells[2].innerHTML;
+    sessionStorage.presDesc = document.getElementById(rowID).cells[3].innerHTML;
+    sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
+    sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
+    sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
+    sessionStorage.presID = presID;
+    window.location = "index-rating.html";
+  }, false)
+
+  actionSpace.appendChild(button);
 }
 
 function generateTable(data) {
   var presentationDiv = document.getElementById('presentationDiv');
   var table = document.createElement('table');
+  table.id = 'PresentationTable';
+
   table.setAttribute('border','1');
   table.setAttribute('width','100%');
   table.setAttribute('id', 'table');
@@ -14,6 +55,10 @@ function generateTable(data) {
   var row = table.insertRow(0);
 
   var th = document.createElement('th');
+  th.appendChild(document.createTextNode('Actions'));
+  row.appendChild(th);
+
+  th = document.createElement('th');
   th.appendChild(document.createTextNode('Date'));
   row.appendChild(th);
   th.onclick= function(){sortTable(0);} ; 
@@ -55,9 +100,25 @@ function generateTable(data) {
   th.appendChild(document.createTextNode('Co-Presenter 3'));
   row.appendChild(th);
 
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Reviewer'));
+  row.appendChild(th);
+
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Review'));
+  row.appendChild(th);
+
   for (i = 0; i < numRows; ++i) {
     var row = table.insertRow(i + 1);
+    row.id =  i;
+
     var td = document.createElement('td');
+    td.id = 'actions' + i;
+    td.appendChild(document.createTextNode(''));
+    row.appendChild(td);
+
+
+    td = document.createElement('td');
     td.appendChild(document.createTextNode(data[i].submission_date.slice(0, 10)));
     row.appendChild(td);
 
@@ -97,16 +158,52 @@ function generateTable(data) {
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Copresenter3)));
     row.appendChild(td);
 
+    td = document.createElement('td');
+    td.appendChild(document.createTextNode(getReviewer(data[i].PresentationReview)));
+    row.appendChild(td);
+
+    td = document.createElement('td');
+    td.appendChild(document.createTextNode(getReview(data[i].PresentationReview)));
+    row.appendChild(td);
+    row.onclick= function () {
+      console.log(data[this.id]);
+      if (tb == null){
+        tb = this;
+        this.style.backgroundColor = this.origColor;
+        //this.hilite = false;
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+        ratePresentation(this.id, data[this.id].id);
+      } else {
+        tb.style.backgroundColor=tb.origColor;
+        tb.hilite = false;
+        this.style.backgroundColor = this.origColor;
+        //this.hilite = false;
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+        var actionSpace = document.getElementById('actions' + tb.id);
+        tb = this;
+
+        actionSpace.innerHTML = '';
+        ratePresentation(this.id);
+
+      }
+    }
+
+
   }
+
   presentationDiv.innerHTML = '';
   presentationDiv.appendChild(table);
 }
+
 
 function refreshPresentations() {
   ipc.send('query-presentations', '');
 }
 
-//document.addEventListener('DOMContentLoaded', generateTable); //should be refreshPresentations
 document.addEventListener('DOMContentLoaded', refreshPresentations);
 
 document.getElementById("getjotfile").addEventListener("change", ingestCSV);
