@@ -69,7 +69,7 @@ const Presentation = sequelize.define('presentation', {
   copresenter_1_id: Sequelize.INTEGER,
   copresenter_2_id: Sequelize.INTEGER,
   copresenter_3_id: Sequelize.INTEGER,
-  category: Sequelize.TEXT
+  category_id: Sequelize.INTEGER
 }, {
   schema: config.database.schema,
   freezeTableName: true,
@@ -254,6 +254,17 @@ function ingestCSV (file) {
 function setCategory(presentationTitle, categoryID) {
   console.log(presentationTitle);
   console.log(categoryID);
+  Presentation.update({ category_id: categoryID },
+    { where: { title: presentationTitle }});
+
+
+  // Presentation.find({ where: { title: presentationTitle}}).then(presentation => {
+  //   if (presentation) {
+  //       presentation.update({
+  //         category: categoryID
+  //       })
+  //     }
+  //   })
 }
 
 
