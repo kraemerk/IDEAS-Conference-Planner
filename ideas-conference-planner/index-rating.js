@@ -26,13 +26,12 @@ td.appendChild(document.createTextNode(sessionStorage.presObj3));
 objDiv.appendChild(td);
 
 subButton.addEventListener('click', () => {
-  var ratingVals = getRatingVals;
-  ipc.send('update-rating', ratingVals);
+  ipc.send('update-rating', getRatingVals());
   window.location = "index.html";
 }, false)
 
 function getRatingVals() {
-  var ratingVals = {
+  return {
     titleVal: document.querySelector('input[name="group1"]:checked').value,
     gramVal: document.querySelector('input[name="group2"]:checked').value,
     credVal: document.querySelector('input[name="group3"]:checked').value,
@@ -40,9 +39,8 @@ function getRatingVals() {
     contVal: document.querySelector('input[name="group5"]:checked').value,
     novVal: document.querySelector('input[name="group6"]:checked').value,
     overVal: document.querySelector('input[name="group7"]:checked').value,
-    rateFName: document.getElementById(fname).value,
-    rateLName: document.getElementById(lname).value,
-    presID: sessionStorage.rowID
+    rateFName: document.getElementById('fname').value,
+    rateLName: document.getElementById('lname').value,
+    presID: sessionStorage.presID
   };
-  return ratingVals;
 }

@@ -5,7 +5,7 @@ function getAttendeeName(attendee) {
 }
 
 
-function ratePresentation(rowID) {
+function ratePresentation(rowID, presID) {
   var button = document.createElement('button');
   button.textContent = 'Rate';
   var actionSpace = document.getElementById('actions' + rowID);
@@ -17,7 +17,7 @@ function ratePresentation(rowID) {
     sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
     sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
     sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
-    sessionStorage.presID = rowID;
+    sessionStorage.presID = presID;
     window.location = "index-rating.html";
   }, false)
 
@@ -143,7 +143,6 @@ function generateTable(data) {
     td = document.createElement('td');
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating2)));
     row.appendChild(td);
-
     row.onclick= function () {
      if(!this.hilite){
         this.style.backgroundColor = this.origColor;
@@ -151,7 +150,8 @@ function generateTable(data) {
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
-        ratePresentation(this.id);
+        ratePresentation(this.id, data[this.id].id);
+
       }
       else {
         this.style.backgroundColor=this.origColor;

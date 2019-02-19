@@ -211,7 +211,7 @@ function ingestCSV (file) {
 
 function queryPresentations (event) {
   Presentation.findAll({
-    attributes: ['title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],
+    attributes: ['id', 'title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],
     include: [
       {
         model: Attendee,
@@ -235,17 +235,18 @@ function queryPresentations (event) {
 
 
 function updateRating (event, arg) {
+  var ratings = arg;
   sequelize.query({
     text: "SELECT upsert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-    values: [ arg.presID,
-              arg.gramVal,
-              arg.credVal,
-              arg.intrVal,
-              arg.contVal,
-              arg.novVal,
-              arg.overVal,
-              arg.rateFName,
-              arg.rateLName
+    values: [ ratings.presID,
+              ratings.gramVal,
+              ratings.credVal,
+              ratings.intrVal,
+              ratings.contVal,
+              ratings.novVal,
+              ratings.overVal,
+              ratings.rateFName,
+              ratings.rateLName
     ]
   }, function(u_err, u_result) {
     if(err) {
@@ -264,7 +265,8 @@ ipc.on('query-presentations', function(event, arg) {
 });
 
 ipc.on('update-rating', function(event, arg) {
-  event.returnValue = updateRating(event, arg);
+  console.log(arg.presID);
+  //event.returnValue = updateRating(event, arg);
 });
 
 ipc.on('validate-rater', function(event, arg) {
