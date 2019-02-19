@@ -250,11 +250,12 @@ function generateTable(data) {
         changedValue = false;
 
 
-        ratePresentation(this.id);
-        addCategorization(this.id);
+        
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
+        ratePresentation(this.id);
+        addCategorization(this.id);
       
       //if the row is highlighted
       } else {
