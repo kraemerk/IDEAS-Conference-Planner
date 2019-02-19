@@ -22,7 +22,6 @@
       <a style = "padding-left: 20px" href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015" target = "_blank">Email</a>
       <a href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin" target = "_blank">Calendar</a>
       <a href="#Resource">Resource</a>
-
     </div>
     <!-- End of navigation bar at top -->
 
@@ -31,7 +30,12 @@
 
       <span class="fas fa-file-import"> Import JotForms:</span>&nbsp;
       <input style = "margin-bottom: 1cm;" type="file" id="getjotfile" value="Import JotForm">
-
+        <div>
+          <span style="font-size:20px" class="fa">&#xf002;
+          </span>:&nbsp
+          <input type="text" style = "font-size:18px" id="myInput" onkeyup="searchFunc()" placeholder="Search for Titles..">
+        </div>
+        <br>
       <div id="presentationDiv">
       </div>
 

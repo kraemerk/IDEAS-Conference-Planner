@@ -50,6 +50,7 @@ function generateTable(data) {
 
   table.setAttribute('border','1');
   table.setAttribute('width','100%');
+  table.setAttribute('id', 'table');
   var numRows = data.length;
   var row = table.insertRow(0);
 
@@ -60,9 +61,11 @@ function generateTable(data) {
   th = document.createElement('th');
   th.appendChild(document.createTextNode('Date'));
   row.appendChild(th);
+  th.onclick= function(){sortTable(0);} ; 
 
   th = document.createElement('th');
   th.appendChild(document.createTextNode('Title'));
+  th.onclick= function(){sortTable(1);} ; 
   row.appendChild(th);
 
   th = document.createElement('th');
@@ -218,3 +221,61 @@ ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
   generateTable(query);
 });
+
+function sortTable(n) {
+        console.log("sorting")
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("table");
+        switching = true;
+        dir = "asc"; 
+        while (switching) {
+            switching = false;
+            rows = table.getElementsByTagName("tr");
+            for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("td")[n];
+            y = rows[i + 1].getElementsByTagName("td")[n];
+            if (dir == "asc") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                shouldSwitch= true;
+                break;
+            }
+        } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch= true;
+            break;
+            }
+        }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount ++; 
+        } else {
+        if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+        }
+        }
+        }
+    }
+function searchFunc() {
+  // Declare variables 
+  console.log("searching");
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    } 
+  }
+}
