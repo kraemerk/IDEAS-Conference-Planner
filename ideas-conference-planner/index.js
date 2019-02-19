@@ -256,11 +256,15 @@ function generateTable(data) {
         addCategorization(this.id);
 
 
-        
+        ratePresentation(this.id);
+        addCategorization(this.id);
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
+<<<<<<< HEAD
         
+=======
+>>>>>>> parent of 2c9476e... fixed extra button error
       
       //if the row is highlighted
       } else {
