@@ -25,9 +25,12 @@ function getAttendeeName(attendee) {
 }
 
 function getCategoryFromId(categoryID) {
-  for (category in categoryList) {
-    if (category.id == categoryID)
-      return category.title;
+  if (categoryID == null)
+    return "";
+  
+  for (var i = 0; i < categoryList.length; ++i) {
+    if (categoryList[i].id == categoryID)
+      return categoryList[i].title;
   }
   return "";
 }
@@ -471,7 +474,7 @@ function generateTable(data) {
 
     td.id = 'categorySpace' + i;
 
-    td.appendChild(document.createTextNode(getCategoryFromId(data[i].cateogory_id)));
+    td.appendChild(document.createTextNode(getCategoryFromId(data[i].category_id)));
 
     row.appendChild(td);
 
