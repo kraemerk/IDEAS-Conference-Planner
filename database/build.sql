@@ -78,6 +78,9 @@ CREATE TABLE IF NOT EXISTS ideas.review (
   interest_rating integer NOT NULL,
   content_rating integer NOT NULL,
   novelty_rating integer NOT NULL,
-  overall_rating integer NOT NULL
+  overall_rating integer NOT NULL,
+  UNIQUE(reviewer_id, presentation_id)
   -- these rating categories may change as we find out more concrete information
 );
+
+INSERT INTO ideas.reviewer (first, last) VALUES ('Micah', 'Halter');

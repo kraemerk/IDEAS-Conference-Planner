@@ -31,6 +31,29 @@ const Attendee = sequelize.define('attendee', {
   timestamps: false
 });
 
+const Reviewer = sequelize.define('reviewer', {
+  first: Sequelize.TEXT,
+  last: Sequelize.TEXT
+}, {
+  schema: config.database.schema,
+  freezeTableName: true,
+  timestamps: false
+});
+
+const Review = sequelize.define('review', {
+  grammar_rating: Sequelize.INTEGER,
+  title_rating: Sequelize.INTEGER,
+  credibility_rating: Sequelize.INTEGER,
+  interest_rating: Sequelize.INTEGER,
+  content_rating: Sequelize.INTEGER,
+  novelty_rating: Sequelize.INTEGER,
+  overall_rating: Sequelize.INTEGER
+}, {
+  schema: config.database.schema,
+  freezeTableName: true,
+  timestamps: false
+});
+
 const Presentation = sequelize.define('presentation', {
   submission_date: Sequelize.DATE,
   title: Sequelize.TEXT,
@@ -56,7 +79,8 @@ const Presentation = sequelize.define('presentation', {
   presenter_id: Sequelize.INTEGER,
   copresenter_1_id: Sequelize.INTEGER,
   copresenter_2_id: Sequelize.INTEGER,
-  copresenter_3_id: Sequelize.INTEGER
+  copresenter_3_id: Sequelize.INTEGER,
+  overall_rating: Sequelize.INTEGER
 }, {
   schema: config.database.schema,
   freezeTableName: true,
@@ -67,6 +91,9 @@ Presentation.belongsTo(Attendee, {as: 'Presenter', foreignKey: 'presenter_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter1', foreignKey: 'copresenter_1_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter2', foreignKey: 'copresenter_2_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter3', foreignKey: 'copresenter_3_id'});
+
+Review.belongsTo(Presentation, {as: 'presentation', foreignKey: 'presentation_id'});
+Review.belongsTo(Reviewer, {as: 'reviewer', foreignKey: 'reviewer_id'});
 
 function myFunction(x) {// don't delete this
   x.classList.toggle("change");
@@ -236,22 +263,31 @@ function queryPresentations (event) {
 
 function updateRating (event, arg) {
   var ratings = arg;
-  sequelize.query({
-    text: "SELECT upsert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-    values: [ ratings.presID,
-              ratings.gramVal,
-              ratings.credVal,
-              ratings.intrVal,
-              ratings.contVal,
-              ratings.novVal,
-              ratings.overVal,
-              ratings.rateFName,
-              ratings.rateLName
-    ]
-  }, function(u_err, u_result) {
-    if(err) {
-      console.error("Can not update rating data.");
-    }
+  Review.create({
+    reviewer_id: 1,
+    presentation_id: ratings.presID,
+    grammar_rating: ratings.gramVal,
+    title_rating: ratings.titleVal,
+    credibility_rating: ratings.credVal,
+    interest_rating: ratings.intrVal,
+    content_rating: ratings.contVal,
+    novelty_rating: ratings.novVal,
+    overall_rating: ratings.overVal
+  }).catch(Sequelize.ValidationError, function (err) {
+    Review.update({
+      grammar_rating: ratings.gramVal,
+      title_rating: ratings.titleVal,
+      credibility_rating: ratings.credVal,
+      interest_rating: ratings.intrVal,
+      content_rating: ratings.contVal,
+      novelty_rating: ratings.novVal,
+      overall_rating: ratings.overVal
+    },{
+      where: {
+        reviewer_id: 1,
+        presentation_id: ratings.presID
+      }
+    })
   });
 }
 
@@ -266,7 +302,7 @@ ipc.on('query-presentations', function(event, arg) {
 
 ipc.on('update-rating', function(event, arg) {
   console.log(arg.presID);
-  //event.returnValue = updateRating(event, arg);
+  event.returnValue = updateRating(event, arg);
 });
 
 ipc.on('validate-rater', function(event, arg) {
