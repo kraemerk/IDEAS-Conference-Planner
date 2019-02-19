@@ -43,6 +43,29 @@ const Attendee = sequelize.define('attendee', {
   timestamps: false
 });
 
+const Reviewer = sequelize.define('reviewer', {
+  first: Sequelize.TEXT,
+  last: Sequelize.TEXT
+}, {
+  schema: config.database.schema,
+  freezeTableName: true,
+  timestamps: false
+});
+
+const Review = sequelize.define('review', {
+  grammar_rating: Sequelize.INTEGER,
+  title_rating: Sequelize.INTEGER,
+  credibility_rating: Sequelize.INTEGER,
+  interest_rating: Sequelize.INTEGER,
+  content_rating: Sequelize.INTEGER,
+  novelty_rating: Sequelize.INTEGER,
+  overall_rating: Sequelize.INTEGER
+}, {
+  schema: config.database.schema,
+  freezeTableName: true,
+  timestamps: false
+});
+
 const Presentation = sequelize.define('presentation', {
   submission_date: Sequelize.DATE,
   title: Sequelize.TEXT,
@@ -69,18 +92,25 @@ const Presentation = sequelize.define('presentation', {
   copresenter_1_id: Sequelize.INTEGER,
   copresenter_2_id: Sequelize.INTEGER,
   copresenter_3_id: Sequelize.INTEGER,
-  category_id: Sequelize.INTEGER
+  category_id: Sequelize.INTEGER,
+  overall_rating: Sequelize.INTEGER
 }, {
   schema: config.database.schema,
   freezeTableName: true,
   timestamps: false
 });
 
+
 Presentation.belongsTo(Category, {as: 'Category', foreignKey: 'id'});
+
+Review.belongsTo(Presentation, {as: 'PresentationReview', foreignKey: 'presentation_id'});
+Review.belongsTo(Reviewer, {as: 'ReviewReviewer', foreignKey: 'reviewer_id'});
+
 Presentation.belongsTo(Attendee, {as: 'Presenter', foreignKey: 'presenter_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter1', foreignKey: 'copresenter_1_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter2', foreignKey: 'copresenter_2_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter3', foreignKey: 'copresenter_3_id'});
+Presentation.hasMany(Review, {as: 'PresentationReview', foreignKey: 'presentation_id'});
 
 getCategories('');
 
@@ -261,7 +291,8 @@ function setCategory(presentationTitle, categoryID) {
 
 function queryPresentations (event) {
   Presentation.findAll({
-    attributes: ['title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', 'category_id', ],
+    attributes: ['id', 'title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],
+
     include: [
       {
         model: Attendee,
@@ -275,10 +306,51 @@ function queryPresentations (event) {
       }, {
         model: Attendee,
         as: 'Copresenter3'
+      }, {
+        model: Review,
+        as: 'PresentationReview',
+        include: [
+          {
+            model: Reviewer,
+            as: 'ReviewReviewer'
+          }
+        ]
       }
     ]
   }).then(presentations => {
     event.sender.send('query-presentations-reply', JSON.stringify(presentations));
+  });
+}
+
+
+
+function updateRating (event, arg) {
+  var ratings = arg;
+  Review.create({
+    reviewer_id: 1,
+    presentation_id: ratings.presID,
+    grammar_rating: ratings.gramVal,
+    title_rating: ratings.titleVal,
+    credibility_rating: ratings.credVal,
+    interest_rating: ratings.intrVal,
+    content_rating: ratings.contVal,
+    novelty_rating: ratings.novVal,
+    overall_rating: ratings.overVal
+  }).catch(Sequelize.ValidationError, function (err) {
+    Review.update({
+      grammar_rating: ratings.gramVal,
+      title_rating: ratings.titleVal,
+      credibility_rating: ratings.credVal,
+      interest_rating: ratings.intrVal,
+      content_rating: ratings.contVal,
+      novelty_rating: ratings.novVal,
+      overall_rating: ratings.overVal
+    },{
+      where: {
+        reviewer_id: 1,
+        presentation_id: ratings.presID
+      }
+    })
   });
 }
 
@@ -295,13 +367,16 @@ ipc.on('get-categories', function(event, arg) {
   event.returnValue = getCategories(event);
 })
 
-ipc.on('rate-presentation', function(event, arg) {
-  createRatingWindow();
-  event.returnValue = false;
-});
-
 ipc.on('set-category', function(event, arg) {
   setCategory(arg.presentation, arg.category);
+
+ipc.on('update-rating', function(event, arg) {
+  console.log(arg.presID);
+  event.returnValue = updateRating(event, arg);
+});
+
+ipc.on('validate-rater', function(event, arg) {
+  event.returnValue = validateRater(event,arg);
 });
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');

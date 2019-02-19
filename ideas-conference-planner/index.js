@@ -1,22 +1,16 @@
 const ipc = require('electron').ipcRenderer;
 
-
-
 var clickedCategory = false;
 
 var clickedEdit = false;
 
 var changedValue = false;
 
-
-
 var categoryList;
 
 var selectedCategory;
 
-
-
-
+var tb = null;
 
 function getAttendeeName(attendee) {
 
@@ -213,6 +207,44 @@ function addCategorization(rowID) {
 }
 
 
+function getReviewer(review) {
+  if (review[0] != null) {
+    reviewer = review[0].ReviewReviewer;
+    return reviewer.first + ' ' + reviewer.last;
+  } else {
+    return '';
+  }
+}
+
+function getReview(review) {
+  if (review[0] != null) {
+    review = review[0]
+    totalscore = review.content_rating+review.credibility_rating+review.grammar_rating+review.interest_rating+review.novelty_rating+review.overall_rating+review.title_rating;
+    return totalscore + '/21';
+  } else {
+    return '';
+  }
+}
+
+
+function ratePresentation(rowID, presID) {
+  var button = document.createElement('button');
+  button.textContent = 'Rate';
+  var actionSpace = document.getElementById('actions' + rowID);
+
+  button.addEventListener('click', () => {
+    // stores the raw html data for the row in session storage.
+    sessionStorage.presTitle = document.getElementById(rowID).cells[2].innerHTML;
+    sessionStorage.presDesc = document.getElementById(rowID).cells[3].innerHTML;
+    sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
+    sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
+    sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
+    sessionStorage.presID = presID;
+    window.location = "index-rating.html";
+  }, false)
+
+  actionSpace.appendChild(button);
+}
 
 function generateTable(data) {
 
@@ -221,12 +253,12 @@ function generateTable(data) {
   var table = document.createElement('table');
 
   table.id = 'PresentationTable';
-
-
-
+  
   table.setAttribute('border','1');
 
   table.setAttribute('width','100%');
+
+  table.setAttribute('id', 'table');
 
   var numRows = data.length;
 
@@ -241,22 +273,21 @@ function generateTable(data) {
   var th = document.createElement('th');
 
   th.appendChild(document.createTextNode('Actions'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Date'));
 
   row.appendChild(th);
+  th.onclick= function(){sortTable(0);} ; 
 
 
 
   th = document.createElement('th');
 
   th.appendChild(document.createTextNode('Title'));
+
+  th.onclick= function(){sortTable(1);} ; 
 
   row.appendChild(th);
 
@@ -348,7 +379,13 @@ function generateTable(data) {
 
   row.appendChild(th);
 
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Reviewer'));
+  row.appendChild(th);
 
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Review'));
+  row.appendChild(th);
 
   for (i = 0; i < numRows; ++i) {
 
@@ -356,18 +393,10 @@ function generateTable(data) {
 
     row.id =  i;
 
-
-
     var td = document.createElement('td');
-
     td.id = 'actions' + i;
-
     td.appendChild(document.createTextNode(''));
-
     row.appendChild(td);
-
-
-
 
 
     td = document.createElement('td');
@@ -478,163 +507,42 @@ function generateTable(data) {
 
     row.appendChild(td);
 
+    td = document.createElement('td');
+    td.appendChild(document.createTextNode(getReviewer(data[i].PresentationReview)));
+    row.appendChild(td);
 
-
+    td = document.createElement('td');
+    td.appendChild(document.createTextNode(getReview(data[i].PresentationReview)));
+    row.appendChild(td);
     row.onclick= function () {
-
-      //if the row is not highlighted
-
-      if(!this.hilite){
-
-        var row = this;
-
-        row.style.backgroundColor = this.origColor;
-
-        selectedCategory = '';
-        
-        row.hilite = false;
-
-
-
-        //when a row that was not highlighted
-
-        //is clicked, the whole process is restarted
-
-        clickedCategory = false;
-
-        clickedEdit = false;
-
-        changedValue = false;
-
-
-
-
-
-        
-
+      console.log(data[this.id]);
+      if (tb == null){
+        tb = this;
+        this.style.backgroundColor = this.origColor;
+        //this.hilite = false;
         this.origColor=this.style.backgroundColor;
-
         this.style.backgroundColor='#BCD4EC';
-
         this.hilite = true;
+        ratePresentation(this.id, data[this.id].id);
+      } else {
+        tb.style.backgroundColor=tb.origColor;
+        tb.hilite = false;
+        this.style.backgroundColor = this.origColor;
+        //this.hilite = false;
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+        var actionSpace = document.getElementById('actions' + tb.id);
+        tb = this;
 
+        actionSpace.innerHTML = '';
         ratePresentation(this.id);
 
-        addCategorization(this.id);
-
-      
-
-      //if the row is highlighted
-
-      } else {
-
-        // if the select has not been chosen or
-
-        // the edit button has not been chosen or
-
-        // the input box has not been changed
-
-        //reset everything
-
-        if (!clickedCategory && !clickedEdit && !changedValue) {
-
-          this.style.backgroundColor=this.origColor;
-
-          this.hilite = false;
-
-          var actionSpace = document.getElementById('actions' + this.id);
-
-          actionSpace.innerHTML = '';
-
-          var categorySpace = document.getElementById('categorySpace' + this.id);
-
-          categorySpace.innerHTML = selectedCategory;
-
-          
-
-        }
-
       }
-
     }
-
-
-
-    row.ondblclick = function() {
-
-      var actionSpace = document.getElementById('actions' + this.id);
-
-      actionSpace.innerHTML = '';
-
-      var pEntry = document.getElementById('pEntry');
-
-
-
-      pEntry.innerHTML = '';
-
-      var length = this.cells.length - 1;
-
-      var nextCell = document.createElement('p');
-
-            
-
-      for (i = 0; i < length; i++) {
-
-        nextCell.innerHTML = this.cells[i].innerHTML;
-
-        pEntry.appendChild(nextCell);
-
-        nextCell = document.createElement('p');
-
-      }
-
-
-
-      var modal = document.getElementById('myModal');
-
-      var span = document.getElementsByClassName("close")[0];
-
-
-
-
-
-      modal.style.display = "block";
-
-      
-
-
-
-
-
-      span.onclick = function() {
-
-        modal.style.display = "none";
-
-      }
-
-
-
-      window.onclick = function(event) {
-
-        if (event.target == modal) {
-
-          modal.style.display = "none";
-
-        }
-
-      }
-
-
-
-    }
-
 
 
   }
-
-
-
-
 
   presentationDiv.innerHTML = '';
 
@@ -654,10 +562,7 @@ function refreshPresentations() {
 
 }
 
-
-
-document.addEventListener('DOMContentLoaded', pageLoad);
-
+document.addEventListener('DOMContentLoaded', refreshPresentations);
 
 
 document.getElementById("getjotfile").addEventListener("change", ingestCSV);
@@ -694,5 +599,62 @@ ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
 
   generateTable(query);
-
 });
+
+function sortTable(n) {
+        console.log("sorting")
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("table");
+        switching = true;
+        dir = "asc"; 
+        while (switching) {
+            switching = false;
+            rows = table.getElementsByTagName("tr");
+            for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("td")[n];
+            y = rows[i + 1].getElementsByTagName("td")[n];
+            if (dir == "asc") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                shouldSwitch= true;
+                break;
+            }
+        } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch= true;
+            break;
+            }
+        }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount ++; 
+        } else {
+        if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+        }
+        }
+        }
+    }
+function searchFunc() {
+  // Declare variables 
+  console.log("searching");
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    } 
+  }
+}
