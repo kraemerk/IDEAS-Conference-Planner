@@ -1,5 +1,5 @@
 const ipc = require('electron').ipcRenderer;
-
+var tb = null;
 function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
 }
@@ -145,21 +145,32 @@ function generateTable(data) {
     row.appendChild(td);
 
     row.onclick= function () {
-     if(!this.hilite){
+      if (tb == null){
+        tb = this;
         this.style.backgroundColor = this.origColor;
-        this.hilite = false;
+        //this.hilite = false;
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
         ratePresentation(this.id);
-      }
-      else {
-        this.style.backgroundColor=this.origColor;
-        this.hilite = false;
-        var actionSpace = document.getElementById('actions' + this.id);
+      } else {
+        tb.style.backgroundColor=tb.origColor;
+        tb.hilite = false;
+        this.style.backgroundColor = this.origColor;
+        //this.hilite = false;
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+        var actionSpace = document.getElementById('actions' + tb.id);
+        tb = this;
+
         actionSpace.innerHTML = '';
+        ratePresentation(this.id);
+
       }
     }
+
+
   }
 
   presentationDiv.innerHTML = '';

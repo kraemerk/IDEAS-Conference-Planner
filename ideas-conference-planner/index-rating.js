@@ -4,6 +4,7 @@ var titleDiv = document.getElementById('titleDiv');
 var descDiv = document.getElementById('descDiv');
 var objDiv = document.getElementById('objDiv');
 var subButton = document.getElementById('submitreview');
+var backButton = document.getElementById('backHome');
 
 var td = document.createElement('td');
 td.appendChild(document.createTextNode(sessionStorage.presTitle));
@@ -28,6 +29,10 @@ objDiv.appendChild(td);
 subButton.addEventListener('click', () => {
   var ratingVals = getRatingVals;
   ipc.send('update-rating', ratingVals);
+  window.location = "index.html";
+}, false)
+
+backButton.addEventListener('click', () => {
   window.location = "index.html";
 }, false)
 
