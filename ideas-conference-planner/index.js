@@ -348,6 +348,10 @@ ipc.on('ingest-csv', function(event, arg) {
 
 ipc.on('get-categories-reply', function(event, arg) {
   categoryList = JSON.parse(arg);
+<<<<<<< HEAD
+=======
+  alert(arg);
+>>>>>>> parent of 331da86... commented out alert debugger in index js 341
 });
 
 ipc.on('query-presentations-reply', function(event, arg) {
