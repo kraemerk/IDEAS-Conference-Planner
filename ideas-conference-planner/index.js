@@ -24,6 +24,14 @@ function getAttendeeName(attendee) {
 
 }
 
+function getCategoryFromId(categoryID) {
+  for (category in categoryList) {
+    if (category.id == categoryID)
+      return category.title;
+  }
+  return "";
+}
+
 
 
 function ratePresentation(rowID) {
@@ -65,8 +73,6 @@ function addCategorization(rowID) {
 
 
   // selectedCategory = categorySpace.innerHTML;
-
-  ipc.send('get-categories', '');
 
   
 
@@ -465,6 +471,8 @@ function generateTable(data) {
 
     td.id = 'categorySpace' + i;
 
+    td.appendChild(document.createTextNode(getCategoryFromId(data[i].cateogory_id)));
+
     row.appendChild(td);
 
 
@@ -632,7 +640,9 @@ function generateTable(data) {
 }
 
 
-
+function pageLoad() {
+  ipc.send('get-categories', '');
+}
 
 
 function refreshPresentations() {
@@ -643,7 +653,7 @@ function refreshPresentations() {
 
 
 
-document.addEventListener('DOMContentLoaded', refreshPresentations);
+document.addEventListener('DOMContentLoaded', pageLoad);
 
 
 
@@ -670,9 +680,8 @@ ipc.on('ingest-csv', function(event, arg) {
 
 
 ipc.on('get-categories-reply', function(event, arg) {
-
   categoryList = JSON.parse(arg);
-
+  refreshPresentations();
 });
 
 

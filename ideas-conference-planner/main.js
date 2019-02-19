@@ -256,21 +256,12 @@ function setCategory(presentationTitle, categoryID) {
   console.log(categoryID);
   Presentation.update({ category_id: categoryID },
     { where: { title: presentationTitle }});
-
-
-  // Presentation.find({ where: { title: presentationTitle}}).then(presentation => {
-  //   if (presentation) {
-  //       presentation.update({
-  //         category: categoryID
-  //       })
-  //     }
-  //   })
 }
 
 
 function queryPresentations (event) {
   Presentation.findAll({
-    attributes: ['title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],
+    attributes: ['title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', 'category_id', ],
     include: [
       {
         model: Attendee,
