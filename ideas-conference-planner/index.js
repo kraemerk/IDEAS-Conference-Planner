@@ -21,7 +21,7 @@ function getAttendeeName(attendee) {
 function getCategoryFromId(categoryID) {
   if (categoryID == null)
     return "";
-  
+
   for (var i = 0; i < categoryList.length; ++i) {
     if (categoryList[i].id == categoryID)
       return categoryList[i].title;
@@ -71,7 +71,7 @@ function addCategorization(rowID) {
 
   // selectedCategory = categorySpace.innerHTML;
 
-  
+
 
 
 
@@ -83,7 +83,7 @@ function addCategorization(rowID) {
 
   dropDownMenu.options[dropDownMenu.selectedIndex] = categorySpace.innerHTML;
 
-  
+
 
   //-------------------------------------------------------------------------------------> MICAH: add all entries in category table
 
@@ -105,7 +105,7 @@ function addCategorization(rowID) {
 
 
 
-  
+
 
   //create edit button with edit picture
 
@@ -113,7 +113,7 @@ function addCategorization(rowID) {
 
   editButton.innerHTML = "<img src='images/editCategories.png'/>";
 
-  
+
 
   //when dropdown is clicked set the category value to the selected item
 
@@ -137,7 +137,7 @@ function addCategorization(rowID) {
 
     dropDownMenu.value = selectedCategory;
 
-  
+
 
 
 
@@ -253,7 +253,7 @@ function generateTable(data) {
   var table = document.createElement('table');
 
   table.id = 'PresentationTable';
-  
+
   table.setAttribute('border','1');
 
   table.setAttribute('width','100%');
@@ -279,7 +279,7 @@ function generateTable(data) {
   th.appendChild(document.createTextNode('Date'));
 
   row.appendChild(th);
-  th.onclick= function(){sortTable(0);} ; 
+  th.onclick= function(){sortTable(1);} ;
 
 
 
@@ -287,7 +287,7 @@ function generateTable(data) {
 
   th.appendChild(document.createTextNode('Title'));
 
-  th.onclick= function(){sortTable(1);} ; 
+  th.onclick= function(){sortTable(2);} ;
 
   row.appendChild(th);
 
@@ -524,9 +524,16 @@ function generateTable(data) {
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
         ratePresentation(this.id, data[this.id].id);
+        var categorySpace = document.getElementById('categorySpace' + this.id);
+        categorySpace.innerHTML = selectedCategory;
       } else {
         tb.style.backgroundColor=tb.origColor;
         tb.hilite = false;
+        clickedCategory = false;
+
+        clickedEdit = false;
+
+        changedValue = false;
         this.style.backgroundColor = this.origColor;
         //this.hilite = false;
         this.origColor=this.style.backgroundColor;
@@ -537,7 +544,7 @@ function generateTable(data) {
 
         actionSpace.innerHTML = '';
         ratePresentation(this.id);
-
+        addCategorization(this.id);
       }
     }
 
@@ -606,7 +613,7 @@ function sortTable(n) {
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = document.getElementById("table");
         switching = true;
-        dir = "asc"; 
+        dir = "asc";
         while (switching) {
             switching = false;
             rows = table.getElementsByTagName("tr");
@@ -629,7 +636,7 @@ function sortTable(n) {
         if (shouldSwitch) {
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
             switching = true;
-            switchcount ++; 
+            switchcount ++;
         } else {
         if (switchcount == 0 && dir == "asc") {
             dir = "desc";
@@ -639,7 +646,7 @@ function sortTable(n) {
         }
     }
 function searchFunc() {
-  // Declare variables 
+  // Declare variables
   console.log("searching");
   var input, filter, table, tr, td, i;
   input = document.getElementById("myInput");
@@ -648,13 +655,13 @@ function searchFunc() {
   tr = table.getElementsByTagName("tr");
   // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
+    td = tr[i].getElementsByTagName("td")[2];
     if (td) {
       if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
         tr[i].style.display = "";
       } else {
         tr[i].style.display = "none";
       }
-    } 
+    }
   }
 }

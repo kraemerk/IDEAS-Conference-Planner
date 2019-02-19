@@ -156,7 +156,7 @@ function getCategories(event) {
 function ingestCSV (file) {
   var csv = require('csv');
 
-  
+
 
   var options = {
     columns: true,
@@ -365,10 +365,11 @@ ipc.on('query-presentations', function(event, arg) {
 
 ipc.on('get-categories', function(event, arg) {
   event.returnValue = getCategories(event);
-})
+});
 
 ipc.on('set-category', function(event, arg) {
   setCategory(arg.presentation, arg.category);
+});
 
 ipc.on('update-rating', function(event, arg) {
   console.log(arg.presID);
