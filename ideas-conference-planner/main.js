@@ -87,13 +87,14 @@ const Presentation = sequelize.define('presentation', {
   timestamps: false
 });
 
+Review.belongsTo(Presentation, {as: 'PresentationReview', foreignKey: 'presentation_id'});
+Review.belongsTo(Reviewer, {as: 'ReviewReviewer', foreignKey: 'reviewer_id'});
+
 Presentation.belongsTo(Attendee, {as: 'Presenter', foreignKey: 'presenter_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter1', foreignKey: 'copresenter_1_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter2', foreignKey: 'copresenter_2_id'});
 Presentation.belongsTo(Attendee, {as: 'Copresenter3', foreignKey: 'copresenter_3_id'});
-
-Review.belongsTo(Presentation, {as: 'presentation', foreignKey: 'presentation_id'});
-Review.belongsTo(Reviewer, {as: 'reviewer', foreignKey: 'reviewer_id'});
+Presentation.hasMany(Review, {as: 'PresentationReview', foreignKey: 'presentation_id'});
 
 function myFunction(x) {// don't delete this
   x.classList.toggle("change");
@@ -252,6 +253,15 @@ function queryPresentations (event) {
       }, {
         model: Attendee,
         as: 'Copresenter3'
+      }, {
+        model: Review,
+        as: 'PresentationReview',
+        include: [
+          {
+            model: Reviewer,
+            as: 'ReviewReviewer'
+          }
+        ]
       }
     ]
   }).then(presentations => {

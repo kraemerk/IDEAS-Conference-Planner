@@ -4,6 +4,25 @@ function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
 }
 
+function getReviewer(review) {
+  if (review[0] != null) {
+    reviewer = review[0].ReviewReviewer;
+    return reviewer.first + ' ' + reviewer.last;
+  } else {
+    return '';
+  }
+}
+
+function getReview(review) {
+  if (review[0] != null) {
+    review = review[0]
+    totalscore = review.content_rating+review.credibility_rating+review.grammar_rating+review.interest_rating+review.novelty_rating+review.overall_rating+review.title_rating;
+    return totalscore + '/21';
+  } else {
+    return '';
+  }
+}
+
 
 function ratePresentation(rowID, presID) {
   var button = document.createElement('button');
@@ -79,11 +98,11 @@ function generateTable(data) {
   row.appendChild(th);
 
   th = document.createElement('th');
-  th.appendChild(document.createTextNode('Rating 1'));
+  th.appendChild(document.createTextNode('Reviewer'));
   row.appendChild(th);
 
   th = document.createElement('th');
-  th.appendChild(document.createTextNode('Rating 2'));
+  th.appendChild(document.createTextNode('Review'));
   row.appendChild(th);
 
   for (i = 0; i < numRows; ++i) {
@@ -137,13 +156,14 @@ function generateTable(data) {
     row.appendChild(td);
 
     td = document.createElement('td');
-    td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating1)));
+    td.appendChild(document.createTextNode(getReviewer(data[i].PresentationReview)));
     row.appendChild(td);
 
     td = document.createElement('td');
-    td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating2)));
+    td.appendChild(document.createTextNode(getReview(data[i].PresentationReview)));
     row.appendChild(td);
     row.onclick= function () {
+      console.log(data[this.id]);
       if (tb == null){
         tb = this;
         this.style.backgroundColor = this.origColor;
