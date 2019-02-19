@@ -17,6 +17,18 @@ const sequelize = new Sequelize(config.database.database, config.database.user, 
   logging: false
 });
 
+const Category = sequelize.define('category', {
+  id: {
+    type: Sequelize.TEXT,
+    primaryKey: true,
+  },
+  title: Sequelize.TEXT
+}, {
+  schema: config.database.schema,
+  freezeTableName: true,
+  timestamps: false
+});
+
 const Attendee = sequelize.define('attendee', {
   prefix: Sequelize.TEXT,
   first: Sequelize.TEXT,
@@ -80,12 +92,16 @@ const Presentation = sequelize.define('presentation', {
   copresenter_1_id: Sequelize.INTEGER,
   copresenter_2_id: Sequelize.INTEGER,
   copresenter_3_id: Sequelize.INTEGER,
+  category_id: Sequelize.INTEGER,
   overall_rating: Sequelize.INTEGER
 }, {
   schema: config.database.schema,
   freezeTableName: true,
   timestamps: false
 });
+
+
+Presentation.belongsTo(Category, {as: 'Category', foreignKey: 'id'});
 
 Review.belongsTo(Presentation, {as: 'PresentationReview', foreignKey: 'presentation_id'});
 Review.belongsTo(Reviewer, {as: 'ReviewReviewer', foreignKey: 'reviewer_id'});
@@ -96,6 +112,8 @@ Presentation.belongsTo(Attendee, {as: 'Copresenter2', foreignKey: 'copresenter_2
 Presentation.belongsTo(Attendee, {as: 'Copresenter3', foreignKey: 'copresenter_3_id'});
 Presentation.hasMany(Review, {as: 'PresentationReview', foreignKey: 'presentation_id'});
 
+getCategories('');
+
 function myFunction(x) {// don't delete this
   x.classList.toggle("change");
 }
@@ -105,14 +123,40 @@ function createWindow () {
   win.loadFile('index.html');
 }
 
+exports.openWindow = (filename) => {
+  let win = new BrowserWindow({width: 800, height: 600});
+  win.loadURL('file://' + __dirname +'/'+ filename + '.html')﻿
+}
+
 function insertObj(sequelize, obj, insertfunc, errfunc) {
   var p = sequelize.transaction(function(t) {
     return obj.save({transaction: t}).then(insertfunc).catch(errfunc)
   });
 }
 
+// function populateCategories() {
+//   var categories = ["Communication", "Wellness", "Understanding", "Classroom Dynamics"];
+
+//   for (i = 0; i < categories.length; i++) {
+//     Category.build({
+//       id: i,
+//       title: categories[i]
+//     })
+//   }
+// }
+
+function getCategories(event) {
+  Category.findAll({
+    attributes: ['id', 'title'],
+  }).then(categories => {
+    event.sender.send('get-categories-reply', JSON.stringify(categories));
+  });
+}
+
 function ingestCSV (file) {
   var csv = require('csv');
+
+
 
   var options = {
     columns: true,
@@ -237,9 +281,18 @@ function ingestCSV (file) {
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
 
+function setCategory(presentationTitle, categoryID) {
+  console.log(presentationTitle);
+  console.log(categoryID);
+  Presentation.update({ category_id: categoryID },
+    { where: { title: presentationTitle }});
+}
+
+
 function queryPresentations (event) {
   Presentation.findAll({
     attributes: ['id', 'title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],
+
     include: [
       {
         model: Attendee,
@@ -308,6 +361,14 @@ ipc.on('ingest-csv', function(event, arg) {
 
 ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
+});
+
+ipc.on('get-categories', function(event, arg) {
+  event.returnValue = getCategories(event);
+});
+
+ipc.on('set-category', function(event, arg) {
+  setCategory(arg.presentation, arg.category);
 });
 
 ipc.on('update-rating', function(event, arg) {
