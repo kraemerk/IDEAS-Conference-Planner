@@ -479,6 +479,8 @@ function generateTable(data) {
 
         row.style.backgroundColor = this.origColor;
 
+        selectedCategory = '';
+        
         row.hilite = false;
 
 
