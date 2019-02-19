@@ -90,14 +90,6 @@ function addCategorization(rowID) {
 
 
 
-  var option = document.createElement('option');
-
-  option.text = " ";
-
-  dropDownMenu.add(option);
-
-
-
   for (i = 0; i < categoryList.length; i++) {
 
     var option = document.createElement('option');
@@ -150,6 +142,9 @@ function addCategorization(rowID) {
 
     //do sql query to change the value of the selected presentation's category
 
+    ipc.send('set-category',
+      {"presentation":document.getElementById(rowID).cells[2].innerHTML,
+      "category":categoryList[dropDownMenu.selectedIndex].id});
   }
 
 

@@ -251,8 +251,9 @@ function ingestCSV (file) {
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
 
-function updateCategory(selectedCategory) {
-  
+function setCategory(presentationTitle, categoryID) {
+  console.log(presentationTitle);
+  console.log(categoryID);
 }
 
 
@@ -288,10 +289,6 @@ ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
 });
 
-ipc.on('update-category', function(event, arg) {
-  updateCategory(arg);
-});
-
 ipc.on('get-categories', function(event, arg) {
   event.returnValue = getCategories(event);
 })
@@ -299,6 +296,10 @@ ipc.on('get-categories', function(event, arg) {
 ipc.on('rate-presentation', function(event, arg) {
   createRatingWindow();
   event.returnValue = false;
+});
+
+ipc.on('set-category', function(event, arg) {
+  setCategory(arg.presentation, arg.category);
 });
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
