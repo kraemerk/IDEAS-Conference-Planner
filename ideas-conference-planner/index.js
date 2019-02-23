@@ -19,11 +19,12 @@ function getAttendeeName(attendee) {
 }
 
 function getCategoryFromId(categoryID) {
+  console.log(categoryID);
   if (categoryID == null)
     return "";
 
   for (var i = 0; i < categoryList.length; ++i) {
-    if (categoryList[i].id == categoryID)
+    if (categoryList[i].id == categoryID) 
       return categoryList[i].title;
   }
   return "";
@@ -143,57 +144,9 @@ function addCategorization(rowID) {
   }
 
 
-
-  dropDownMenu.onblur = function() {
-
-    catSpace.innerHTML = selectedCategory.innerHTML;
-    changedValue = false;
-
-    clickedEdit = false;
-
-    clickedCategory = false;
-
-  }
-
-
-
-  editButton.onblur = function() {
-
-    changedValue = false;
-
-    clickedEdit = false;
-
-    clickedCategory = false;
-
-  }
-
-
-
-
-
-
-
-  editButton.onclick = function() {
-
-    clickedEdit = true;
-
-    editCategories();
-
-  }
-
-
-
   //add dropdown to the category space
 
   categorySpace.appendChild(dropDownMenu);
-
-
-
-  //add the edit button to the category space
-
-  categorySpace.appendChild(editButton);
-
-
 
 
 
@@ -256,12 +209,6 @@ function generateTable(data) {
   var numRows = data.length;
 
   var row = table.insertRow(0);
-
-
-
-
-
-
 
   var th = document.createElement('th');
 
@@ -497,7 +444,7 @@ function generateTable(data) {
     td.id = 'categorySpace' + i;
 
     td.appendChild(document.createTextNode(getCategoryFromId(data[i].category_id)));
-
+    // alert(data[i].categoryID);
     row.appendChild(td);
 
     td = document.createElement('td');
@@ -540,7 +487,6 @@ function generateTable(data) {
           catSpace.innerHTML = selectedCategory;
           selectedCategory = null;
           addCategorization(this.id);
-
         }
         tb = this;
 
@@ -560,7 +506,6 @@ function generateTable(data) {
 
 
 function pageLoad() {
-  ipc.send('query-presentations', '');
   ipc.send('get-categories', '');
 }
 
