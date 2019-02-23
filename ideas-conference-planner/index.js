@@ -58,19 +58,9 @@ function ratePresentation(rowID) {
 
 function addCategorization(rowID) {
 
-  //gets the place where the items are to be added
-  changedValue = false;
-
-  var categorySpace = document.getElementById('categorySpace' + rowID);
-
-  // changedValue = false;
-
-
-
-  // selectedCategory = categorySpace.innerHTML;
-
-
-
+  
+  var dropDownSpace = document.getElementById('dropDownSpace' + rowID);
+  var currentCategorySpace = document.getElementById('currentCategorySpace' + rowID);
 
 
   //creates the dropdown menu and id's it by the row
@@ -78,17 +68,6 @@ function addCategorization(rowID) {
   var dropDownMenu = document.createElement("SELECT");
 
   dropDownMenu.id = "categoryDropDown" + rowID;
-
-  dropDownMenu.options[dropDownMenu.selectedIndex] = categorySpace.innerHTML;
-
-
-
-  //-------------------------------------------------------------------------------------> MICAH: add all entries in category table
-
-  //loop for every category and add an option
-
-  //for each one
-
 
 
   for (i = 0; i < categoryList.length; i++) {
@@ -101,50 +80,20 @@ function addCategorization(rowID) {
 
   }
 
-
-
-
-
-  //create edit button with edit picture
-
-  var editButton = document.createElement('button');
-
-  editButton.innerHTML = "<img src='images/editCategories.png'/>";
-
-
-
-  //when dropdown is clicked set the category value to the selected item
-
-  dropDownMenu.onclick = function() {
-
-    clickedCategory = true;
-
-  }
-
-
-
-  //when the value of the dropdown is changed
-
-  //the whole window should not reload
-
   dropDownMenu.onchange = function() {
-
-    changedValue = true;
 
     selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
 
     dropDownMenu.value = selectedCategory;
-    alert(selectedCategory);
+    
+    currentCategorySpace.innerHTML = selectedCategory;
 
     ipc.send('set-category',
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
       "category":categoryList[dropDownMenu.selectedIndex].id});
   }
 
-
-  //add dropdown to the category space
-
-  categorySpace.appendChild(dropDownMenu);
+  dropDownSpace.appendChild(dropDownMenu);
 
 
 
@@ -435,14 +384,20 @@ function generateTable(data) {
 
 
 
-    //-------------------------------------------------------------------------------------------->MICAH: show the category of the current presentation
+    //this creates the td for the category space
     td = document.createElement('td');
-
     td.id = 'categorySpace' + i;
 
+    var currentCategorySpace = document.createElement('div');
+    currentCategorySpace.id = 'currentCategorySpace' + i;
+    var actualCategory = document.createTextNode(getCategoryFromId(data[i].category_id));
+    currentCategorySpace.appendChild(actualCategory);
 
-    // alert(data[i].title + " " + data[i].category_id);
-    td.appendChild(document.createTextNode(getCategoryFromId(data[i].category_id)));
+    var dropDownSpace = document.createElement('div');
+    dropDownSpace.id = 'dropDownSpace' + i;
+
+    td.appendChild(currentCategorySpace);
+    td.appendChild(dropDownSpace);
 
     row.appendChild(td);
 
@@ -458,14 +413,10 @@ function generateTable(data) {
       if (tb == null){
         tb = this;
         this.style.backgroundColor = this.origColor;
-        //this.hilite = false;
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
         ratePresentation(this.id, data[this.id].id);
-        var categorySpace = document.getElementById('categorySpace' + this.id);
-        // categorySpace.innerHTML = selectedCategory;
-
         addCategorization(this.id);
       } else {
         tb.style.backgroundColor=tb.origColor;
@@ -479,15 +430,8 @@ function generateTable(data) {
         var actionSpace = document.getElementById('actions' + tb.id);
         
         if (tb != this) {
-          var catSpace = document.getElementById('categorySpace' + tb.id);
-          var actualCategory = getCategoryFromId(data[tb.id].category_id);
-
-          if (changedValue) {
-            catSpace.innerHTML = selectedCategory;
-          } else {
-            catSpace.innerHTML = actualCategory;
-          }
-          changedValue = false;
+          var dropDownSp = document.getElementById('dropDownSpace' + tb.id);
+          dropDownSp.innerHTML = '';
           selectedCategory = null;
           addCategorization(this.id);
         } 
