@@ -438,13 +438,16 @@ function generateTable(data) {
 
 
     //-------------------------------------------------------------------------------------------->MICAH: show the category of the current presentation
-
     td = document.createElement('td');
 
     td.id = 'categorySpace' + i;
 
+    if (data[i].category_id != null) {
+      alert(data[i].category_id);
+    }
+
     td.appendChild(document.createTextNode(getCategoryFromId(data[i].category_id)));
-    // alert(data[i].categoryID);
+
     row.appendChild(td);
 
     td = document.createElement('td');
