@@ -137,14 +137,6 @@ function addCategorization(rowID) {
 
     dropDownMenu.value = selectedCategory;
 
-
-
-
-
-    //----------------------------------------------------------------------------------------> MICAH: change the value of the presentation's category
-
-    //do sql query to change the value of the selected presentation's category
-
     ipc.send('set-category',
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
       "category":categoryList[dropDownMenu.selectedIndex].id});
@@ -154,6 +146,7 @@ function addCategorization(rowID) {
 
   dropDownMenu.onblur = function() {
 
+    catSpace.innerHTML = selectedCategory.innerHTML;
     changedValue = false;
 
     clickedEdit = false;
@@ -526,6 +519,7 @@ function generateTable(data) {
         ratePresentation(this.id, data[this.id].id);
         var categorySpace = document.getElementById('categorySpace' + this.id);
         categorySpace.innerHTML = selectedCategory;
+        addCategorization(this.id);
       } else {
         tb.style.backgroundColor=tb.origColor;
         tb.hilite = false;
@@ -540,11 +534,18 @@ function generateTable(data) {
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
         var actionSpace = document.getElementById('actions' + tb.id);
+        
+        if (tb != this) {
+          var catSpace = document.getElementById('categorySpace' + tb.id);
+          catSpace.innerHTML = selectedCategory;
+          selectedCategory = null;
+          addCategorization(this.id);
+
+        }
         tb = this;
 
         actionSpace.innerHTML = '';
         ratePresentation(this.id);
-        addCategorization(this.id);
       }
     }
 
@@ -559,6 +560,7 @@ function generateTable(data) {
 
 
 function pageLoad() {
+  ipc.send('query-presentations', '');
   ipc.send('get-categories', '');
 }
 
@@ -569,7 +571,7 @@ function refreshPresentations() {
 
 }
 
-document.addEventListener('DOMContentLoaded', refreshPresentations);
+document.addEventListener('DOMContentLoaded', pageLoad);
 
 
 document.getElementById("getjotfile").addEventListener("change", ingestCSV);
