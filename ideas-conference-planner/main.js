@@ -291,7 +291,7 @@ function setCategory(presentationTitle, categoryID) {
 
 function queryPresentations (event) {
   Presentation.findAll({
-    attributes: ['id', 'title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],
+    attributes: ['id', 'title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', 'category_id', ],
 
     include: [
       {
@@ -362,6 +362,10 @@ ipc.on('ingest-csv', function(event, arg) {
 ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
 });
+
+ipc.on('get-category', function(event, arg) {
+  
+})
 
 ipc.on('get-categories', function(event, arg) {
   event.returnValue = getCategories(event);

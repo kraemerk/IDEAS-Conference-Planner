@@ -59,14 +59,11 @@ function ratePresentation(rowID) {
 function addCategorization(rowID) {
 
   //gets the place where the items are to be added
+  changedValue = false;
 
   var categorySpace = document.getElementById('categorySpace' + rowID);
 
-  clickedCategory = false;
-
-  clickedEdit = false;
-
-  changedValue = false;
+  // changedValue = false;
 
 
 
@@ -137,6 +134,7 @@ function addCategorization(rowID) {
     selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
 
     dropDownMenu.value = selectedCategory;
+    alert(selectedCategory);
 
     ipc.send('set-category',
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
@@ -442,10 +440,8 @@ function generateTable(data) {
 
     td.id = 'categorySpace' + i;
 
-    if (data[i].category_id != null) {
-      alert(data[i].category_id);
-    }
 
+    // alert(data[i].title + " " + data[i].category_id);
     td.appendChild(document.createTextNode(getCategoryFromId(data[i].category_id)));
 
     row.appendChild(td);
@@ -458,7 +454,7 @@ function generateTable(data) {
     td.appendChild(document.createTextNode(getReview(data[i].PresentationReview)));
     row.appendChild(td);
     row.onclick= function () {
-      console.log(data[this.id]);
+         
       if (tb == null){
         tb = this;
         this.style.backgroundColor = this.origColor;
@@ -468,16 +464,13 @@ function generateTable(data) {
         this.hilite = true;
         ratePresentation(this.id, data[this.id].id);
         var categorySpace = document.getElementById('categorySpace' + this.id);
-        categorySpace.innerHTML = selectedCategory;
+        // categorySpace.innerHTML = selectedCategory;
+
         addCategorization(this.id);
       } else {
         tb.style.backgroundColor=tb.origColor;
         tb.hilite = false;
-        clickedCategory = false;
-
-        clickedEdit = false;
-
-        changedValue = false;
+        
         this.style.backgroundColor = this.origColor;
         //this.hilite = false;
         this.origColor=this.style.backgroundColor;
@@ -487,10 +480,17 @@ function generateTable(data) {
         
         if (tb != this) {
           var catSpace = document.getElementById('categorySpace' + tb.id);
-          catSpace.innerHTML = selectedCategory;
+          var actualCategory = getCategoryFromId(data[tb.id].category_id);
+
+          if (changedValue) {
+            catSpace.innerHTML = selectedCategory;
+          } else {
+            catSpace.innerHTML = actualCategory;
+          }
+          changedValue = false;
           selectedCategory = null;
           addCategorization(this.id);
-        }
+        } 
         tb = this;
 
         actionSpace.innerHTML = '';
