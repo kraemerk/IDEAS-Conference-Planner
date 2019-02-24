@@ -363,9 +363,6 @@ ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
 });
 
-ipc.on('get-category', function(event, arg) {
-  
-})
 
 ipc.on('get-categories', function(event, arg) {
   event.returnValue = getCategories(event);
