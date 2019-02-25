@@ -35,6 +35,8 @@ backButton.addEventListener('click', () => {
   window.location = "index.html";
 }, false)
 
+document.addEventListener('DOMContentLoaded', queryRadioButtons, console.log('SENDING'));
+
 function getRatingVals() {
   return {
     titleVal: document.querySelector('input[name="group1"]:checked').value,
@@ -49,3 +51,12 @@ function getRatingVals() {
     presID: sessionStorage.presID
   };
 }
+
+function queryRadioButtons() {
+  ipc.send('query-radios', sessionStorage.presID);
+}
+
+ipc.on('query-radios-reply', function(event, arg) {
+  radiosList = JSON.parse(arg);
+  console.log(radiosList);
+});
