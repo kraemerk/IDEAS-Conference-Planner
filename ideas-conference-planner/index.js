@@ -139,131 +139,217 @@ function ratePresentation(rowID, presID) {
   actionSpace.appendChild(button);
 }
 
+function getPresentationsCount(category) {
+  return 0;
+}
+
+function addCategorizationActions(rowID) {
+
+}
+
+function createCategoryEditing() {
+  var editButton = document.createElement('button');
+  editButton.textContent = 'Edit Categories';
+  editButton.id = 'editCategoriesButton';
+  var editDiv = document.getElementById('editCategoriesDiv');
+  editCategoriesDiv.appendChild(editButton);
+
+  editButton.onclick= function () {
+
+    
+
+    var categoryTable = document.getElementById('categoriesTable');    
+    
+
+    var length = categoryList.length;
+    
+
+    // categoryTable.id = 'CategoryTable';
+    categoryTable.setAttribute('border','1');
+    categoryTable.setAttribute('width','100%');
+    // categoryTable.setAttribute('id', 'table');
+    var numRows = length;
+
+    var topRow = categoryTable.insertRow(0);
+
+    var th = document.createElement('th');
+
+    th.appendChild(document.createTextNode('Category Name'));
+    topRow.appendChild(th);
+
+    th = document.createElement('th');
+    th.appendChild(document.createTextNode('# of Presentations'));
+    topRow.appendChild(th);
+
+    
+    th = document.createElement('th');
+    th.appendChild(document.createTextNode('Actions'));
+    topRow.appendChild(th);
+
+
+      for (i = 0; i < length; i++) {
+        if (i != 0) {
+
+
+          var newRow = categoryTable.insertRow(i);
+          
+                    
+
+          newRow.id =  i;
+
+          //this cell will hold the category value at categorylist[i]
+          var td = document.createElement('td');
+          td.id = 'categoryValue' + i;
+          td.appendChild(document.createTextNode(categoryList[i].title));
+          newRow.appendChild(td);
+
+
+          //this cell will hold the number of presentations with category categorylist[i]
+          var td = document.createElement('td');
+          td.id = 'presentationCount' + i;
+          td.appendChild(document.createTextNode(getPresentationsCount(categoryList[i])));
+          newRow.appendChild(td);
+
+
+
+          //this cell will hold the space to do the actions on the selected category
+          var td = document.createElement('td');
+          
+          var editDiv = document.createElement('div');
+          editDiv.id = 'editDiv' + i;
+
+          var deleteDiv = document.createElement('div');
+          deleteDiv.id = 'deleteDiv' + i;
+
+          td.id = 'categoryActions' + i;
+          td.appendChild(editDiv);
+          td.appendChild(deleteDiv);
+          newRow.appendChild(td);
+
+          tb = null;
+
+          newRow.onclick= function () {
+            if (tb == null){
+              tb = this;
+              this.style.backgroundColor = this.origColor;
+              this.origColor=this.style.backgroundColor;
+              this.style.backgroundColor='#BCD4EC';
+              this.hilite = true;
+              addCategorizationActions(this.id);
+            } else {
+              tb.style.backgroundColor=tb.origColor;
+              tb.hilite = false;
+              
+              this.style.backgroundColor = this.origColor;
+              //this.hilite = false;
+              this.origColor=this.style.backgroundColor;
+              this.style.backgroundColor='#BCD4EC';
+              this.hilite = true;
+              var actionSpace = document.getElementById('categoryActions' + tb.id);
+              
+              if (tb != this) {
+                actionSpace.innerHTML = '';
+                addCategorizationActions(this.id);
+              } 
+              tb = this;            
+            }
+          }
+          // alert(categoryList[i].title);
+        }
+      }
+
+      var modal = document.getElementById('myModal');
+      // modal.appendChild(categoriesTable);
+
+      var span = document.getElementsByClassName("close")[0];
+      modal.style.display = "block";
+
+
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+    
+    }
+   
+  }
+
+
 function generateTable(data) {
 
+  
+
   var presentationDiv = document.getElementById('presentationDiv');
-
   var table = document.createElement('table');
-
   table.id = 'PresentationTable';
-
   table.setAttribute('border','1');
-
   table.setAttribute('width','100%');
-
   table.setAttribute('id', 'table');
-
+  
   var numRows = data.length;
-
   var row = table.insertRow(0);
-
+  
   var th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Actions'));
   row.appendChild(th);
-
+  
   th = document.createElement('th');
   th.appendChild(document.createTextNode('Date'));
-
   row.appendChild(th);
   th.onclick= function(){sortTable(1);} ;
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Title'));
-
   th.onclick= function(){sortTable(2);} ;
-
   row.appendChild(th);
-
-
-
+  
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Description'));
-
   row.appendChild(th);
-
-
-
+  
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Objective 1'));
-
   row.appendChild(th);
-
-
-
+  
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Objective 2'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Objective 3'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Presenter'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Co-Presenter 1'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Co-Presenter 2'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Co-Presenter 3'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Rating 1'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Rating 2'));
-
   row.appendChild(th);
 
-
-
   th = document.createElement('th');
-
   th.appendChild(document.createTextNode('Category'));
-
   row.appendChild(th);
 
   th = document.createElement('th');
@@ -277,7 +363,6 @@ function generateTable(data) {
   for (i = 0; i < numRows; ++i) {
 
     var row = table.insertRow(i + 1);
-
     row.id =  i;
 
     var td = document.createElement('td');
@@ -285,104 +370,53 @@ function generateTable(data) {
     td.appendChild(document.createTextNode(''));
     row.appendChild(td);
 
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(data[i].submission_date.slice(0, 10)));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(data[i].title));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(data[i].description));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(data[i].objective_1));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(data[i].objective_2));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(data[i].objective_3));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Presenter)));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Copresenter1)));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Copresenter2)));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Copresenter3)));
-
     row.appendChild(td);
 
-
-
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating1)));
-
     row.appendChild(td);
-
-
 
     td = document.createElement('td');
-
     td.appendChild(document.createTextNode(getAttendeeName(data[i].Rating2)));
-
     row.appendChild(td);
-
-
-
-
 
     //this creates the td for the category space
     td = document.createElement('td');
@@ -479,6 +513,7 @@ function generateTable(data) {
   presentationDiv.innerHTML = '';
 
   presentationDiv.appendChild(table);
+  createCategoryEditing();
 
 }
 
