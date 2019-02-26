@@ -133,12 +133,6 @@ function ratePresentation(rowID, presID) {
   actionSpace.appendChild(button);
 }
 
-function getPresentationsCount(catID) {
-  // alert(categoryID);
-  ipc.send('get-category-count', catID);
-  return categorizedCount;
-  
-}
 
 function addCategorizationActions(rowID) {
   var catActions = document.getElementById('categoryActions' + rowID);
@@ -535,6 +529,15 @@ function generateTable(data) {
 
 }
 
+function getPresentationsCount(categoryID) {
+  alert(categoryID + 1);
+  ipc.send('get-category-count', categoryID);
+
+  return categorizedCount;
+  
+}
+
+
 
 function pageLoad() {
   ipc.send('get-categories', '');
@@ -570,10 +573,9 @@ ipc.on('ingest-csv', function(event, arg) {
 
 });
 
-ipc.on('get-category-count-reply', function(event,arg) {
+ipc.on('get-category-count-reply', function(event, arg) {
   categorizedCount = arg;
-  // alert(arg.result);
-})
+});
 
 
 

@@ -291,12 +291,15 @@ function setCategory(presentationTitle, categoryID) {
     { where: { title: presentationTitle }});
 }
 
-function countCategorized(categoryID) {
-  console.log('---------------');
-  console.log(categoryID);
-  console.log('!!!!!!!!!!!!!!!!!!!!!');
-  Presentation.count({ where: {category_id: categoryID} }).then(c => {
+function countCategorized(event, arg) {
+
+  var actualValue = arg+1;
+  
+  Presentation.count({ where: {category_id: actualValue} }).then(c => {
+    console.log('--------started sending-----------')
+    console.log(actualValue + ' c:' +c);
     event.sender.send('get-category-count-reply', c);
+    console.log('--------finished sending----------');
   });
 
 }
@@ -378,7 +381,7 @@ ipc.on('query-presentations', function(event, arg) {
 });
 
 ipc.on('get-category-count', function(event, arg) {
-  event.returnValue = countCategorized(event);
+  event.returnValue = countCategorized(event, arg);
 })
 
 ipc.on('get-categories', function(event, arg) {
