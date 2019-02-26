@@ -58,9 +58,21 @@ function getRatingVals() {
 }
 
 function generateRadioValues(radiosList) {
+  var radios1 = document.getElementsByName('group1');
+  var radios2 = document.getElementsByName('group2');
+  var radios3 = document.getElementsByName('group3');
+  var radios4 = document.getElementsByName('group4');
+  var radios5 = document.getElementsByName('group5');
+  var radios6 = document.getElementsByName('group6');
+  var radios7 = document.getElementsByName('group7');
 
-
-
+  radios1[radiosList.title_rating - 1].checked = true;
+  radios2[radiosList.grammar_rating - 1].checked = true;
+  radios3[radiosList.credibility_rating - 1].checked = true;
+  radios4[radiosList.interest_rating - 1].checked = true;
+  radios5[radiosList.content_rating - 1].checked = true;
+  radios6[radiosList.novelty_rating - 1].checked = true;
+  radios7[radiosList.overall_rating - 1].checked = true;
 }
 
 function checkRadioStatus() {
@@ -158,6 +170,5 @@ function queryRadioButtons() {
 
 ipc.on('query-radios-reply', function(event, arg) {
   var radiosList = JSON.parse(arg);
-  console.log('Process Returned to Renderer.');
-  //generateRadioValues(radiosList);
+  generateRadioValues(radiosList);
 });
