@@ -159,7 +159,9 @@ function createCategoryEditing() {
     
 
     var categoryTable = document.getElementById('categoriesTable');    
-    
+    var pEntry = document.getElementById('pEntry');
+    pEntry.innerHTML = '';
+    categoryTable.innerHTML = '';
 
     var length = categoryList.length;
     
@@ -479,7 +481,8 @@ function generateTable(data) {
     row.ondblclick = function() {
 
       var pEntry = document.getElementById('pEntry');
-
+      var catTable = document.getElementById('categoriesTable');
+      catTable.innerHTML ='';
       pEntry.innerHTML = '';
       var length = this.cells.length - 1;
       var nextCell = document.createElement('p');
