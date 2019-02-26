@@ -135,7 +135,8 @@ function ratePresentation(rowID, presID) {
 
 function getPresentationsCount(catID) {
   // alert(categoryID);
-  ipc.send('get-presentation-category-count', catID);
+  ipc.send('get-category-count', catID);
+  return categorizedCount;
   
 }
 
@@ -569,8 +570,8 @@ ipc.on('ingest-csv', function(event, arg) {
 
 });
 
-ipc.on('get-presentation-category-count-reply', function(event,arg) {
-  categorizedCount = arg.result;
+ipc.on('get-category-count-reply', function(event,arg) {
+  categorizedCount = arg;
   // alert(arg.result);
 })
 
