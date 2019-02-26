@@ -153,6 +153,9 @@ function getCategories(event) {
   });
 }
 
+
+
+
 function ingestCSV (file) {
   var csv = require('csv');
 
@@ -288,6 +291,17 @@ function setCategory(presentationTitle, categoryID) {
     { where: { title: presentationTitle }});
 }
 
+function countCategorized(catID) {
+  console.log('---------------');
+  console.log(catID);
+  Presentation.count({ where: {category_id : catID} }).then(c => {
+    console.log('------------------------');
+    console.log(c);
+    event.sender.send('get-presentation-category-count-reply', c);
+  });
+
+}
+
 
 function queryPresentations (event) {
   Presentation.findAll({
@@ -321,6 +335,7 @@ function queryPresentations (event) {
     event.sender.send('query-presentations-reply', JSON.stringify(presentations));
   });
 }
+
 
 
 
@@ -363,6 +378,9 @@ ipc.on('query-presentations', function(event, arg) {
   event.returnValue = queryPresentations(event);
 });
 
+ipc.on('get-presentation-category-count', function(event, arg) {
+  event.returnValue = countCategorized(event);
+})
 
 ipc.on('get-categories', function(event, arg) {
   event.returnValue = getCategories(event);

@@ -1,15 +1,9 @@
 const ipc = require('electron').ipcRenderer;
 
-var clickedCategory = false;
 
-var clickedEdit = false;
-
-var changedValue = false;
-
+var categorizedCount;
 var categoryList;
-
 var selectedCategory;
-
 var tb = null;
 
 function getAttendeeName(attendee) {
@@ -139,8 +133,10 @@ function ratePresentation(rowID, presID) {
   actionSpace.appendChild(button);
 }
 
-function getPresentationsCount(category) {
-  return 0;
+function getPresentationsCount(catID) {
+  // alert(categoryID);
+  ipc.send('get-presentation-category-count', catID);
+  
 }
 
 function addCategorizationActions(rowID) {
@@ -236,7 +232,7 @@ function createCategoryEditing() {
           //this cell will hold the number of presentations with category categorylist[i]
           var td = document.createElement('td');
           td.id = 'presentationCount' + i;
-          td.appendChild(document.createTextNode(getPresentationsCount(categoryList[i])));
+          td.appendChild(document.createTextNode(getPresentationsCount(i)));
           newRow.appendChild(td);
 
 
@@ -572,6 +568,11 @@ ipc.on('ingest-csv', function(event, arg) {
   alert(arg);
 
 });
+
+ipc.on('get-presentation-category-count-reply', function(event,arg) {
+  categorizedCount = arg.result;
+  // alert(arg.result);
+})
 
 
 
