@@ -145,6 +145,7 @@ function getPresentationsCount(category) {
 
 function addCategorizationActions(rowID) {
 
+
 }
 
 function createCategoryEditing() {
@@ -159,7 +160,7 @@ function createCategoryEditing() {
     
 
     var categoryTable = document.getElementById('categoriesTable');    
-    
+    categoryTable.innerHTML = '';
 
     var length = categoryList.length;
     
@@ -192,10 +193,7 @@ function createCategoryEditing() {
 
 
           var newRow = categoryTable.insertRow(i);
-          
-                    
-
-          newRow.id =  i;
+          newRow.id = 'categoryTable' i;
 
           //this cell will hold the category value at categorylist[i]
           var td = document.createElement('td');
@@ -214,13 +212,6 @@ function createCategoryEditing() {
 
           //this cell will hold the space to do the actions on the selected category
           var td = document.createElement('td');
-          
-          var editDiv = document.createElement('div');
-          editDiv.id = 'editDiv' + i;
-
-          var deleteDiv = document.createElement('div');
-          deleteDiv.id = 'deleteDiv' + i;
-
           td.id = 'categoryActions' + i;
           td.appendChild(editDiv);
           td.appendChild(deleteDiv);
