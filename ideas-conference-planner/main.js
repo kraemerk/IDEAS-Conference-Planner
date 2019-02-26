@@ -322,7 +322,7 @@ function queryPresentations (event) {
   });
 }
 
-function queryRadios (event, arg) {
+function queryRadio (event, arg) {
   var presentationID = arg;
   Review.findOne({
     where: {presentation_id: presentationID},
@@ -335,8 +335,6 @@ function queryRadios (event, arg) {
                'overall_rating']
   }).then(review => {
     event.sender.send('query-radios-reply', JSON.stringify(review));
-    console.log('IT GOT HERE.');
-    console.log(review);
   });
 }
 
@@ -394,7 +392,7 @@ ipc.on('update-rating', function(event, arg) {
 });
 
 ipc.on('query-radios', function(event, arg) {
-  event.returnValue = queryRadios(event, arg);
+  event.returnValue = queryRadio(event, arg);
 });
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
