@@ -124,7 +124,9 @@ function addCategorization(rowID) {
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
       "category":categoryList[dropDownMenu.selectedIndex].id});
 
+    //when the category is changed, the categorycount list must be reinitialized
     location.reload();
+    pageLoad();
   }
 
   dropDownSpace.appendChild(dropDownMenu);
@@ -133,6 +135,7 @@ function addCategorization(rowID) {
 
 }
 
+//
 function populateCategoryCountList() {
   
   //so that javascript knows this is an array
@@ -316,6 +319,7 @@ function createCategoryEditing() {
         }
       }
     
+      // populateCategoryCountList();
     }
    
   }
@@ -564,6 +568,8 @@ function generateTable(data) {
 
 function pageLoad() {
   ipc.send('get-categories', '');
+  populateCategoryCountList();
+  // addCategorizationActions();
 }
 
 
