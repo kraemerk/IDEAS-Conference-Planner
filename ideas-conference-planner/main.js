@@ -293,13 +293,10 @@ function setCategory(presentationTitle, categoryID) {
 
 function countCategorized(event, arg) {
 
-  var actualValue = arg+1;
+  var actualValue = arg + 1;
   
   Presentation.count({ where: {category_id: actualValue} }).then(c => {
-    console.log('--------started sending-----------')
-    console.log(actualValue + ' c:' +c);
     event.sender.send('get-category-count-reply', c);
-    console.log('--------finished sending----------');
   });
 
 }

@@ -138,9 +138,7 @@ function addCategorization(rowID) {
 function populateCategoryCountList() {
   
   //so that javascript knows this is an array
-  categoryCountList = null;
-  categoryCountList = [0];
-  categoryCountList.pop();
+  categoryCountList = [];
 
   for (i = 0; i < categoryList.length; i++ ) {
     ipc.send('get-category-count', i);
