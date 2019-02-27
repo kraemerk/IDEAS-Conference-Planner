@@ -123,6 +123,10 @@ function addCategorization(rowID) {
     ipc.send('set-category',
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
       "category":categoryList[dropDownMenu.selectedIndex].id});
+
+
+    location.reload();
+    pageLoad();
   }
 
   dropDownSpace.appendChild(dropDownMenu);
@@ -207,12 +211,13 @@ function createCategoryEditing() {
   var editDiv = document.getElementById('editCategoriesDiv');
   editCategoriesDiv.appendChild(editButton);
 
+  populateCategoryCountList();
 
   //when this button is clicked, we create the table for the categories
   editButton.onclick= function () {
     
     //get the array with the number of presentations for each category
-    populateCategoryCountList();
+    // populateCategoryCountList();
 
     //get the table inside the modal window and resets it to nothing
     //as well as the paragraph 
@@ -260,7 +265,9 @@ function createCategoryEditing() {
 
           //this cell will hold the number of presentations with category categorylist[i]
           var td = document.createElement('td');
+
           td.id = 'presentationCount' + i;
+          td.appendChild(document.createTextNode(categoryCountList[i]));
           newRow.appendChild(td);
 
 
@@ -292,7 +299,6 @@ function createCategoryEditing() {
               
               if (tb != this) {
                 categoryActionSpace.innerHTML = '';
-                presentationCountSpace.innerHTML = '';
                 addCategorizationActions(this.id);
               } 
               tb = this;            
@@ -557,6 +563,7 @@ function generateTable(data) {
 
   presentationDiv.appendChild(table);
   createCategoryEditing();
+  populateCategoryCountList();
 
 }
 
@@ -565,6 +572,7 @@ function generateTable(data) {
 
 function pageLoad() {
   ipc.send('get-categories', '');
+  populateCategoryCountList();
 }
 
 
