@@ -199,130 +199,114 @@ function addCategorizationActions(rowID) {
   
 }
 
-function createCategoryEditing() {
-
-  //create the edit categories button
-  var editButton = document.createElement('button');
-  editButton.textContent = 'Edit Categories';
-  editButton.id = 'editCategoriesButton';
-
-  //add the edit button to the div set for it
-  var editDiv = document.getElementById('editCategoriesDiv');
-  editCategoriesDiv.appendChild(editButton);
-
-
-  //when this button is clicked, we create the table for the categories
-  editButton.onclick= function () {
+function editCategory() {
     
+  //get the table inside the modal window and resets it to nothing
+  //as well as the paragraph 
+  var categoryTable = document.getElementById('categoriesTable');    
+  var pEntry = document.getElementById('pEntry');
+  pEntry.innerHTML = '';
+  categoryTable.innerHTML = '';
 
-    //get the table inside the modal window and resets it to nothing
-    //as well as the paragraph 
-    var categoryTable = document.getElementById('categoriesTable');    
-    var pEntry = document.getElementById('pEntry');
-    pEntry.innerHTML = '';
-    categoryTable.innerHTML = '';
+  //get ready to loop to add each category
+  var length = categoryList.length;
+  var numRows = length;
 
-    //get ready to loop to add each category
-    var length = categoryList.length;
-    var numRows = length;
+  //create the top row of the table with the column headings
+  var topRow = categoryTable.insertRow(0);
 
-    //create the top row of the table with the column headings
-    var topRow = categoryTable.insertRow(0);
+  //header for the category name
+  var th = document.createElement('th');
+  th.appendChild(document.createTextNode('Category Name'));
+  topRow.appendChild(th);
 
-    //header for the category name
-    var th = document.createElement('th');
-    th.appendChild(document.createTextNode('Category Name'));
-    topRow.appendChild(th);
+  //header for the number of presentations
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('# of Presentations'));
+  topRow.appendChild(th);
 
-    //header for the number of presentations
-    th = document.createElement('th');
-    th.appendChild(document.createTextNode('# of Presentations'));
-    topRow.appendChild(th);
-
-    //header for the possible actions
-    th = document.createElement('th');
-    th.appendChild(document.createTextNode('Actions'));
-    topRow.appendChild(th);
-
-
-      for (i = 0; i < length; i++) {
-        if (i != 0) {
-
-          //create a new row and give it id i
-          var newRow = categoryTable.insertRow(i);
-          newRow.id = i;
-
-          //this cell will hold the category value at categorylist[i]
-          var td = document.createElement('td');
-          td.id = 'categoryValue' + i;
-          td.appendChild(document.createTextNode(categoryList[i].title));
-          newRow.appendChild(td);
+  //header for the possible actions
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Actions'));
+  topRow.appendChild(th);
 
 
-          //this cell will hold the number of presentations with category categorylist[i]
-          var td = document.createElement('td');
+  for (i = 0; i < length; i++) {
+    if (i != 0) {
 
-          td.id = 'presentationCount' + i;
-          td.appendChild(document.createTextNode(categoryCountList[i]));
-          newRow.appendChild(td);
+      //create a new row and give it id i
+      var newRow = categoryTable.insertRow(i);
+      newRow.id = i;
+
+      //this cell will hold the category value at categorylist[i]
+      var td = document.createElement('td');
+      td.id = 'categoryValue' + i;
+      td.appendChild(document.createTextNode(categoryList[i].title));
+      newRow.appendChild(td);
 
 
-          //this cell will hold the space to do the actions on the selected category
-          var td = document.createElement('td');
-          td.id = 'categoryActions' + i;
-          newRow.appendChild(td);
+      //this cell will hold the number of presentations with category categorylist[i]
+      var td = document.createElement('td');
 
-          tb = null;
+      td.id = 'presentationCount' + i;
+      td.appendChild(document.createTextNode(categoryCountList[i]));
+      newRow.appendChild(td);
 
-          //when the row is clicked highlight it and add the possible actions to
-          newRow.onclick= function () {
-            if (tb == null){
-              tb = this;
-              this.style.backgroundColor = this.origColor;
-              this.origColor=this.style.backgroundColor;
-              this.style.backgroundColor='#BCD4EC';
-              this.hilite = true;
-              addCategorizationActions(this.id);
-            } else {
-              tb.style.backgroundColor=tb.origColor;
-              tb.hilite = false;
-              this.style.backgroundColor = this.origColor;
-              this.origColor=this.style.backgroundColor;
-              this.style.backgroundColor='#BCD4EC';
-              this.hilite = true;
-              var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
-              var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
-              
-              if (tb != this) {
-                categoryActionSpace.innerHTML = '';
-                addCategorizationActions(this.id);
-              } 
-              tb = this;            
-            }
-          }
+
+      //this cell will hold the space to do the actions on the selected category
+      var td = document.createElement('td');
+      td.id = 'categoryActions' + i;
+      newRow.appendChild(td);
+
+      tb = null;
+
+      //when the row is clicked highlight it and add the possible actions to
+      newRow.onclick= function () {
+        if (tb == null){
+          tb = this;
+          this.style.backgroundColor = this.origColor;
+          this.origColor=this.style.backgroundColor;
+          this.style.backgroundColor='#BCD4EC';
+          this.hilite = true;
+          addCategorizationActions(this.id);
+        } else {
+          tb.style.backgroundColor=tb.origColor;
+          tb.hilite = false;
+          this.style.backgroundColor = this.origColor;
+          this.origColor=this.style.backgroundColor;
+          this.style.backgroundColor='#BCD4EC';
+          this.hilite = true;
+          var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
+          var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
+          
+          if (tb != this) {
+            categoryActionSpace.innerHTML = '';
+            addCategorizationActions(this.id);
+          } 
+          tb = this;            
         }
       }
-
-      //display the modal window and define the span as anything outside it
-      var modal = document.getElementById('myModal');
-      var span = document.getElementsByClassName("close")[0];
-      modal.style.display = "block";
-
-      //if something outside the window is clicked close the modal window
-      span.onclick = function() {
-        modal.style.display = "none";
-      }
-
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      }
-    
-      // populateCategoryCountList();
     }
-   
   }
+
+  //display the modal window and define the span as anything outside it
+  var modal = document.getElementById('myModal');
+  var span = document.getElementsByClassName("close")[0];
+  modal.style.display = "block";
+
+  //if something outside the window is clicked close the modal window
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  // populateCategoryCountList();
+}
 
 
 function generateTable(data) {
@@ -559,8 +543,6 @@ function generateTable(data) {
   presentationDiv.innerHTML = '';
 
   presentationDiv.appendChild(table);
-  createCategoryEditing();
-
 }
 
 
