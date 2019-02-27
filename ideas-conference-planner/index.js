@@ -1,8 +1,13 @@
 const ipc = require('electron').ipcRenderer;
 
-
-var categorizedCount;
 var categoryList;
+
+//category countlist is used
+//to keep track of the number of presentations
+//that have category specified by categoryCounter
+var categoryCountList;
+var categoryCounter;
+
 var selectedCategory;
 var tb = null;
 
@@ -11,88 +16,6 @@ function getAttendeeName(attendee) {
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
 
 }
-
-function getCategoryFromId(categoryID) {
-  console.log(categoryID);
-  if (categoryID == null)
-    return "";
-
-  for (var i = 0; i < categoryList.length; ++i) {
-    if (categoryList[i].id == categoryID) 
-      return categoryList[i].title;
-  }
-  return "";
-}
-
-
-
-function ratePresentation(rowID) {
-
-  var button = document.createElement('button');
-
-  button.textContent = 'Rate';
-
-  var actionSpace = document.getElementById('actions' + rowID);
-
-
-
-  button.addEventListener('click', () => {
-
-    window.location = 'index-rating.html'
-
-  }, false);
-
-
-
-  actionSpace.appendChild(button);
-
-}
-
-
-
-function addCategorization(rowID) {
-
-  
-  var dropDownSpace = document.getElementById('dropDownSpace' + rowID);
-  var currentCategorySpace = document.getElementById('currentCategorySpace' + rowID);
-
-
-  //creates the dropdown menu and id's it by the row
-
-  var dropDownMenu = document.createElement("SELECT");
-
-  dropDownMenu.id = "categoryDropDown" + rowID;
-
-
-  for (i = 0; i < categoryList.length; i++) {
-
-    var option = document.createElement('option');
-
-    option.text = categoryList[i].title;
-
-    dropDownMenu.add(option);
-
-  }
-
-  dropDownMenu.onchange = function() {
-
-    selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
-
-    dropDownMenu.value = selectedCategory;
-    
-    currentCategorySpace.innerHTML = selectedCategory;
-
-    ipc.send('set-category',
-      {"presentation":document.getElementById(rowID).cells[2].innerHTML,
-      "category":categoryList[dropDownMenu.selectedIndex].id});
-  }
-
-  dropDownSpace.appendChild(dropDownMenu);
-
-
-
-}
-
 
 function getReviewer(review) {
   if (review[0] != null) {
@@ -134,30 +57,138 @@ function ratePresentation(rowID, presID) {
 }
 
 
+
+
+function ratePresentation(rowID) {
+
+  var button = document.createElement('button');
+
+  button.textContent = 'Rate';
+
+  var actionSpace = document.getElementById('actions' + rowID);
+
+
+
+  button.addEventListener('click', () => {
+
+    window.location = 'index-rating.html'
+
+  }, false);
+
+
+
+  actionSpace.appendChild(button);
+
+}
+
+
+function getCategoryFromId(categoryID) {
+  console.log(categoryID);
+  if (categoryID == null)
+    return "";
+
+  for (var i = 0; i < categoryList.length; ++i) {
+    if (categoryList[i].id == categoryID) 
+      return categoryList[i].title;
+  }
+  return "";
+}
+
+function addCategorization(rowID) {
+
+  
+  var dropDownSpace = document.getElementById('dropDownSpace' + rowID);
+  var currentCategorySpace = document.getElementById('currentCategorySpace' + rowID);
+
+
+  //creates the dropdown menu and id's it by the row
+  var dropDownMenu = document.createElement("SELECT");
+  dropDownMenu.id = "categoryDropDown" + rowID;
+
+  //loops for every category in category list and
+  //ads a dropdown option for each one
+  for (i = 0; i < categoryList.length; i++) {
+    var option = document.createElement('option');
+    option.text = categoryList[i].title;
+    dropDownMenu.add(option);
+  }
+
+  //when the option is changed, send the query that sets the 
+  //selected locations category
+  dropDownMenu.onchange = function() {
+    selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
+    dropDownMenu.value = selectedCategory;
+    currentCategorySpace.innerHTML = selectedCategory;
+
+    ipc.send('set-category',
+      {"presentation":document.getElementById(rowID).cells[2].innerHTML,
+      "category":categoryList[dropDownMenu.selectedIndex].id});
+  }
+
+  dropDownSpace.appendChild(dropDownMenu);
+
+
+
+}
+
+function populateCategoryCountList() {
+  
+  //so that javascript knows this is an array
+  categoryCountList = null;
+  categoryCountList = [0];
+  categoryCountList.pop();
+
+  for (i = 0; i < categoryList.length; i++ ) {
+    ipc.send('get-category-count', i);
+    // alert('ipc send: ' + i);
+  }  
+}
+
+
+
+
+
+//this function handles adding the buttons
+//to the selected category in the edit categories modal window
 function addCategorizationActions(rowID) {
   var catActions = document.getElementById('categoryActions' + rowID);
 
+  //create the edit button
   var editButton = document.createElement('button');
   editButton.textContent = 'Edit';
   editButton.id = 'editCategory' + rowID;
+ 
+  //create the delete button
   var deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
   deleteButton.id = 'deleteCategory' + rowID;
 
-  var presentationCount = document.getElementById('presentationCount' + rowID).innerHTML;
+  //gets the number of presentations in order to check if delete button should be added
+  var presentationCount = document.getElementById('presentationCount' + rowID);
+  presentationCount.innerHTML = categoryCountList[rowID];
 
+  var pCount = presentationCount.innerHTML;
 
+  //when the edit button is clicked the user should be allowed to modify the text
+  //in the selected category and they will be shown a button to save and a button to cancel
   editButton.onclick = function () {
     alert('editButton');
   }
 
+  //the edit button is added to the selected row
   catActions.appendChild(editButton);
 
-  if (presentationCount == 0) {
+
+  //if there are zero presentations with this category
+  //delete it
+  if (pCount == 0) {
+
+    //remove the category from the category table
     deleteButton.onclick = function() {
       alert('deleteButton');
     }
     
+    //add the delete button
     catActions.appendChild(deleteButton);
   }
 
@@ -166,42 +197,48 @@ function addCategorizationActions(rowID) {
 }
 
 function createCategoryEditing() {
+
+  //create the edit categories button
   var editButton = document.createElement('button');
   editButton.textContent = 'Edit Categories';
   editButton.id = 'editCategoriesButton';
+
+  //add the edit button to the div set for it
   var editDiv = document.getElementById('editCategoriesDiv');
   editCategoriesDiv.appendChild(editButton);
 
+
+  //when this button is clicked, we create the table for the categories
   editButton.onclick= function () {
-
     
+    //get the array with the number of presentations for each category
+    populateCategoryCountList();
 
+    //get the table inside the modal window and resets it to nothing
+    //as well as the paragraph 
     var categoryTable = document.getElementById('categoriesTable');    
     var pEntry = document.getElementById('pEntry');
     pEntry.innerHTML = '';
     categoryTable.innerHTML = '';
 
+    //get ready to loop to add each category
     var length = categoryList.length;
-    
-
-    // categoryTable.id = 'CategoryTable';
-    categoryTable.setAttribute('border','1');
-    categoryTable.setAttribute('width','100%');
-    // categoryTable.setAttribute('id', 'table');
     var numRows = length;
 
+    //create the top row of the table with the column headings
     var topRow = categoryTable.insertRow(0);
 
+    //header for the category name
     var th = document.createElement('th');
-
     th.appendChild(document.createTextNode('Category Name'));
     topRow.appendChild(th);
 
+    //header for the number of presentations
     th = document.createElement('th');
     th.appendChild(document.createTextNode('# of Presentations'));
     topRow.appendChild(th);
 
-    
+    //header for the possible actions
     th = document.createElement('th');
     th.appendChild(document.createTextNode('Actions'));
     topRow.appendChild(th);
@@ -210,11 +247,8 @@ function createCategoryEditing() {
       for (i = 0; i < length; i++) {
         if (i != 0) {
 
-
+          //create a new row and give it id i
           var newRow = categoryTable.insertRow(i);
-          
-                    
-
           newRow.id = i;
 
           //this cell will hold the category value at categorylist[i]
@@ -227,9 +261,7 @@ function createCategoryEditing() {
           //this cell will hold the number of presentations with category categorylist[i]
           var td = document.createElement('td');
           td.id = 'presentationCount' + i;
-          td.appendChild(document.createTextNode(getPresentationsCount(i)));
           newRow.appendChild(td);
-
 
 
           //this cell will hold the space to do the actions on the selected category
@@ -239,6 +271,7 @@ function createCategoryEditing() {
 
           tb = null;
 
+          //when the row is clicked highlight it and add the possible actions to
           newRow.onclick= function () {
             if (tb == null){
               tb = this;
@@ -250,32 +283,30 @@ function createCategoryEditing() {
             } else {
               tb.style.backgroundColor=tb.origColor;
               tb.hilite = false;
-              
               this.style.backgroundColor = this.origColor;
-              //this.hilite = false;
               this.origColor=this.style.backgroundColor;
               this.style.backgroundColor='#BCD4EC';
               this.hilite = true;
-              var actionSpace = document.getElementById('categoryActions' + tb.id);
+              var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
+              var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
               
               if (tb != this) {
-                actionSpace.innerHTML = '';
+                categoryActionSpace.innerHTML = '';
+                presentationCountSpace.innerHTML = '';
                 addCategorizationActions(this.id);
               } 
               tb = this;            
             }
           }
-          // alert(categoryList[i].title);
         }
       }
 
+      //display the modal window and define the span as anything outside it
       var modal = document.getElementById('myModal');
-      // modal.appendChild(categoriesTable);
-
       var span = document.getElementsByClassName("close")[0];
       modal.style.display = "block";
 
-
+      //if something outside the window is clicked close the modal window
       span.onclick = function() {
         modal.style.display = "none";
       }
@@ -529,13 +560,6 @@ function generateTable(data) {
 
 }
 
-function getPresentationsCount(categoryID) {
-  alert(categoryID + 1);
-  ipc.send('get-category-count', categoryID);
-
-  return categorizedCount;
-  
-}
 
 
 
@@ -573,8 +597,14 @@ ipc.on('ingest-csv', function(event, arg) {
 
 });
 
+//the reply sets the category count for the next category
 ipc.on('get-category-count-reply', function(event, arg) {
-  categorizedCount = arg;
+  // alert(categoryCounter);
+  // categoryCounter++
+  // alert(arg);
+  categoryCountList.push(arg);
+  // alert(categoryCountList[0]);
+  
 });
 
 
