@@ -124,9 +124,7 @@ function addCategorization(rowID) {
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
       "category":categoryList[dropDownMenu.selectedIndex].id});
 
-
     location.reload();
-    pageLoad();
   }
 
   dropDownSpace.appendChild(dropDownMenu);
@@ -209,13 +207,10 @@ function createCategoryEditing() {
   var editDiv = document.getElementById('editCategoriesDiv');
   editCategoriesDiv.appendChild(editButton);
 
-  populateCategoryCountList();
 
   //when this button is clicked, we create the table for the categories
   editButton.onclick= function () {
     
-    //get the array with the number of presentations for each category
-    // populateCategoryCountList();
 
     //get the table inside the modal window and resets it to nothing
     //as well as the paragraph 
@@ -561,7 +556,6 @@ function generateTable(data) {
 
   presentationDiv.appendChild(table);
   createCategoryEditing();
-  // populateCategoryCountList();
 
 }
 
@@ -570,7 +564,6 @@ function generateTable(data) {
 
 function pageLoad() {
   ipc.send('get-categories', '');
-  // populateCategoryCountList();
 }
 
 
@@ -605,20 +598,15 @@ ipc.on('ingest-csv', function(event, arg) {
 
 //the reply sets the category count for the next category
 ipc.on('get-category-count-reply', function(event, arg) {
-  // alert(categoryCounter);
-  // categoryCounter++
-  // alert(arg);
-  categoryCountList.push(arg);
-  // alert(categoryCountList[0]);
-  
+  categoryCountList.push(arg);  
 });
 
 
 
 ipc.on('get-categories-reply', function(event, arg) {
   categoryList = JSON.parse(arg);
-  populateCategoryCountList();
   refreshPresentations();
+  populateCategoryCountList();
 });
 
 
