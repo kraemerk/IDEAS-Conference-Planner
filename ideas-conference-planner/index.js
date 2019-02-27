@@ -561,7 +561,7 @@ function generateTable(data) {
 
   presentationDiv.appendChild(table);
   createCategoryEditing();
-  populateCategoryCountList();
+  // populateCategoryCountList();
 
 }
 
@@ -570,7 +570,7 @@ function generateTable(data) {
 
 function pageLoad() {
   ipc.send('get-categories', '');
-  populateCategoryCountList();
+  // populateCategoryCountList();
 }
 
 
@@ -617,6 +617,7 @@ ipc.on('get-category-count-reply', function(event, arg) {
 
 ipc.on('get-categories-reply', function(event, arg) {
   categoryList = JSON.parse(arg);
+  populateCategoryCountList();
   refreshPresentations();
 });
 
