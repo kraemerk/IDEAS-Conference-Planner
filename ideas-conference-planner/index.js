@@ -142,7 +142,6 @@ function populateCategoryCountList() {
 
   for (i = 0; i < categoryList.length; i++ ) {
     ipc.send('get-category-count', i);
-    // alert('ipc send: ' + i);
   }  
 }
 
@@ -181,17 +180,15 @@ function addCategorizationActions(rowID) {
   catActions.appendChild(editButton);
 
 
-  //if there are zero presentations with this category
-  //delete it
+  //if there are zero presentations
+  //delete the category with a query
+  //and redraw the table without the old category
   if (pCount == 0) {
-
-    //remove the category from the category table
     deleteButton.onclick = function() {
-      alert('deleteButton');
+      ipc.send('delete-category', rowID);  
     }
-    
-    //add the delete button
     catActions.appendChild(deleteButton);
+
   }
 
   
@@ -586,7 +583,10 @@ ipc.on('get-category-count-reply', function(event, arg) {
   categoryCountList.push(arg);  
 });
 
-
+ipc.on('delete-category-reply', function(event, arg) {
+  //do nothing essentially
+  //in the future this would redraw the table
+})
 
 ipc.on('get-categories-reply', function(event, arg) {
   categoryList = JSON.parse(arg);

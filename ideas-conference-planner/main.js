@@ -335,7 +335,15 @@ function queryPresentations (event) {
   });
 }
 
+function deleteCategory(categoryID) {
+  var actualID = +categoryID + 1;
 
+  console.log('destroy category: ' + actualID);
+  Category.destroy({
+    where: {id: actualID}
+  });
+
+}
 
 
 function updateRating (event, arg) {
@@ -384,6 +392,10 @@ ipc.on('get-category-count', function(event, arg) {
 ipc.on('get-categories', function(event, arg) {
   getCategories(event);
 });
+
+ipc.on('delete-category', function(event, arg) {
+  deleteCategory(arg);
+})
 
 ipc.on('set-category', function(event, arg) {
   setCategory(arg.presentation, arg.category);
