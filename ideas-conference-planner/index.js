@@ -132,6 +132,7 @@ function addCategorization(rowID) {
     //when the category is changed, the categorycount list must be reinitialized
     //location.reload();
     pageLoad();
+    location.reload();
   }
 
   dropDownSpace.appendChild(dropDownMenu);
@@ -140,7 +141,6 @@ function addCategorization(rowID) {
 
 }
 
-//
 function populateCategoryCountList() {
   
   //so that javascript knows this is an array
@@ -555,8 +555,6 @@ function generateTable(data) {
 
 function pageLoad() {
   ipc.send('get-categories', '');
-  populateCategoryCountList();
-  // addCategorizationActions();
 }
 
 
