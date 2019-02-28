@@ -124,13 +124,9 @@ function addCategorization(rowID) {
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
       "category":categoryList[dropDownMenu.selectedIndex].id});
 
-<<<<<<< HEAD
     //when the category is changed, the categorycount list must be reinitialized
     location.reload();
     pageLoad();
-=======
->>>>>>> parent of 834273d... synchronization bug stays for now, onto editing
-    location.reload();
   }
 
   dropDownSpace.appendChild(dropDownMenu);
@@ -289,10 +285,6 @@ function editCategory() {
           tb = this;            
         }
       }
-<<<<<<< HEAD
-=======
-    
->>>>>>> parent of 834273d... synchronization bug stays for now, onto editing
     }
   }
 
