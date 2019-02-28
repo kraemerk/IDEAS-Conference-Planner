@@ -29,32 +29,6 @@ function getCategoryFromId(categoryID) {
   return "";
 }
 
-
-
-function ratePresentation(rowID) {
-
-  var button = document.createElement('button');
-
-  button.textContent = 'Rate';
-
-  var actionSpace = document.getElementById('actions' + rowID);
-
-
-
-  button.addEventListener('click', () => {
-
-    window.location = 'index-rating.html'
-
-  }, false);
-
-
-
-  actionSpace.appendChild(button);
-
-}
-
-
-
 function addCategorization(rowID) {
 
   //gets the place where the items are to be added
