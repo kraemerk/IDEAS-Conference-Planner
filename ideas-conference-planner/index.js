@@ -105,15 +105,10 @@ function addCategorization(rowID) {
   var dropDownMenu = document.createElement("SELECT");
   dropDownMenu.id = "categoryDropDown" + rowID;
 
-  // Creates a root option
-  var option = document.createElement('option');
-  option.text = 'Select Category';
-  dropDownMenu.add(option);
-
   //loops for every category in category list and
   //ads a dropdown option for each one
   for (i = 0; i < categoryList.length; i++) {
-    option = document.createElement('option');
+    var option = document.createElement('option');
     option.text = categoryList[i].title;
     dropDownMenu.add(option);
   }
@@ -127,11 +122,11 @@ function addCategorization(rowID) {
 
     ipc.send('set-category',
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
-      "category":categoryList[dropDownMenu.selectedIndex].id - 1});
+      "category":categoryList[dropDownMenu.selectedIndex].id});
 
 <<<<<<< HEAD
     //when the category is changed, the categorycount list must be reinitialized
-    //location.reload();
+    location.reload();
     pageLoad();
 =======
 >>>>>>> parent of 834273d... synchronization bug stays for now, onto editing
@@ -585,6 +580,14 @@ function ingestCSV() {
   ipc.send('ingest-csv', jotfile.files[0].path);
 
 }
+
+
+
+ipc.on('ingest-csv', function(event, arg) {
+
+  alert(arg);
+
+});
 
 //the reply sets the category count for the next category
 ipc.on('get-category-count-reply', function(event, arg) {
