@@ -111,7 +111,6 @@ function populateCategoryCountList() {
   categoryCountList = [];
 
 
-
   for (i = 0; i < categoryList.length; i++ ) {
     // alert("i: " + i + " Title: " + categoryList[i].title + " ID:" + getCategoryIdFromName(categoryList[i].title));
     ipc.send('get-category-count', getCategoryIdFromName(categoryList[i].title));
@@ -129,10 +128,14 @@ function addCategorization(rowID) {
   var dropDownMenu = document.createElement("SELECT");
   dropDownMenu.id = "categoryDropDown" + rowID;
 
+  var option = document.createElement('option');
+  option.text = 'Select Category';
+  dropDownMenu.add(option);
+
   //loops for every category in category list and
   //ads a dropdown option for each one
   for (i = 0; i < categoryList.length; i++) {
-    var option = document.createElement('option');
+    option = document.createElement('option');
     option.text = categoryList[i].title;
     dropDownMenu.add(option);
   }
@@ -143,10 +146,11 @@ function addCategorization(rowID) {
     selectedCategory = dropDownMenu.options[dropDownMenu.selectedIndex].text;
     dropDownMenu.value = selectedCategory;
     currentCategorySpace.innerHTML = selectedCategory;
+    var sIndex = dropDownMenu.selectedIndex - 1;
 
     ipc.send('set-category',
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
-      "category":categoryList[dropDownMenu.selectedIndex].id});
+      "category":categoryList[sIndex].id});
 
     //when the category is changed, the categorycount list must be reinitialized
     location.reload();
@@ -181,8 +185,8 @@ function addCategorizationActions(rowID) {
   deleteButton.id = 'deleteCategory' + rowID;
 
   //gets the number of presentations in order to check if delete button should be added
-  var presentationCount = document.getElementById('presentationCount' + rowID);
-  presentationCount.innerHTML = categoryCountList[rowID];
+  var presentationCount = document.getElementById('presentationCount' + rowID).innerHTML;
+  // presentationCount.innerHTML = categoryCountList[rowID];
 
   var pCount = presentationCount.innerHTML;
 
@@ -247,10 +251,10 @@ function editCategory() {
 
 
   for (i = 0; i < length; i++) {
-    if (i != 0) {
+    // if (i != 0) {
 
       //create a new row and give it id i
-      var newRow = categoryTable.insertRow(i);
+      var newRow = categoryTable.insertRow(i+1);
       newRow.id = i;
 
       //this cell will hold the category value at categorylist[i]
@@ -300,7 +304,7 @@ function editCategory() {
           } 
           tb = this;            
         }
-      }
+      // }
     }
   }
 
@@ -320,7 +324,7 @@ function editCategory() {
     }
   }
 
-  // populateCategoryCountList();
+  populateCategoryCountList();
 }
 
 
