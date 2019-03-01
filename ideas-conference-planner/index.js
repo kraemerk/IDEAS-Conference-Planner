@@ -1,4 +1,4 @@
-const ipc = require('electron').ipcRenderer;
+  const ipc = require('electron').ipcRenderer;
 
 var categoryList;
 
@@ -81,9 +81,20 @@ function ratePresentation(rowID) {
 
 }
 
+function getCategoryIdFromName(categoryName) {
+  if (categoryName == null) {
+    return "";
+  }
+
+  for (var i = 0; i < categoryList.length; ++i) {
+    if (categoryList[i].title == categoryName) {
+      return categoryList[i].id;
+    }
+  }
+}
 
 function getCategoryFromId(categoryID) {
-  console.log(categoryID);
+  // alert('hello');
   if (categoryID == null)
     return "";
 
@@ -92,6 +103,19 @@ function getCategoryFromId(categoryID) {
       return categoryList[i].title;
   }
   return "";
+}
+
+function populateCategoryCountList() {
+  
+  //so that javascript knows this is an array
+  categoryCountList = [];
+
+
+
+  for (i = 0; i < categoryList.length; i++ ) {
+    // alert("i: " + i + " Title: " + categoryList[i].title + " ID:" + getCategoryIdFromName(categoryList[i].title));
+    ipc.send('get-category-count', getCategoryIdFromName(categoryList[i].title));
+  }  
 }
 
 function addCategorization(rowID) {
@@ -135,15 +159,7 @@ function addCategorization(rowID) {
 
 }
 
-function populateCategoryCountList() {
-  
-  //so that javascript knows this is an array
-  categoryCountList = [];
 
-  for (i = 0; i < categoryList.length; i++ ) {
-    ipc.send('get-category-count', i);
-  }  
-}
 
 
 
@@ -185,7 +201,10 @@ function addCategorizationActions(rowID) {
   //and redraw the table without the old category
   if (pCount == 0) {
     deleteButton.onclick = function() {
-      ipc.send('delete-category', rowID);  
+      var cTtitle = document.getElementById('categoryValue' + rowID).innerHTML;
+      var cID = getCategoryIdFromName(cTtitle);
+
+      ipc.send('delete-category', cID);  
     }
     catActions.appendChild(deleteButton);
 
