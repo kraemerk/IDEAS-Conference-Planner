@@ -188,8 +188,6 @@ function addCategorizationActions(rowID) {
   var presentationCount = document.getElementById('presentationCount' + rowID).innerHTML;
   // presentationCount.innerHTML = categoryCountList[rowID];
 
-  var pCount = presentationCount.innerHTML;
-
   //when the edit button is clicked the user should be allowed to modify the text
   //in the selected category and they will be shown a button to save and a button to cancel
   editButton.onclick = function () {
@@ -203,7 +201,7 @@ function addCategorizationActions(rowID) {
   //if there are zero presentations
   //delete the category with a query
   //and redraw the table without the old category
-  if (pCount == 0) {
+  if (presentationCount == 0) {
     deleteButton.onclick = function() {
       var cTtitle = document.getElementById('categoryValue' + rowID).innerHTML;
       var cID = getCategoryIdFromName(cTtitle);
