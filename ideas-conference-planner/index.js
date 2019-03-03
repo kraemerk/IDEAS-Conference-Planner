@@ -110,9 +110,11 @@ function populateCategoryCountList() {
   //so that javascript knows this is an array
   categoryCountList = [];
 
+  // alert('Populate the List');
 
   for (i = 0; i < categoryList.length; i++ ) {
     // alert("i: " + i + " Title: " + categoryList[i].title + " ID:" + getCategoryIdFromName(categoryList[i].title));
+    // alert('Getting: ' + categoryList[i].title);
     ipc.send('get-category-count', getCategoryIdFromName(categoryList[i].title));
   }  
 }
@@ -154,7 +156,6 @@ function addCategorization(rowID) {
 
     //when the category is changed, the categorycount list must be reinitialized
     location.reload();
-    pageLoad();
   }
 
   dropDownSpace.appendChild(dropDownMenu);
@@ -188,7 +189,6 @@ function addCategorizationActions(rowID) {
   var presentationCount = document.getElementById('presentationCount' + rowID).innerHTML;
   // presentationCount.innerHTML = categoryCountList[rowID];
 
-  var pCount = presentationCount.innerHTML;
 
   //when the edit button is clicked the user should be allowed to modify the text
   //in the selected category and they will be shown a button to save and a button to cancel
@@ -203,7 +203,7 @@ function addCategorizationActions(rowID) {
   //if there are zero presentations
   //delete the category with a query
   //and redraw the table without the old category
-  if (pCount == 0) {
+  if (presentationCount == 0) {
     deleteButton.onclick = function() {
       var cTtitle = document.getElementById('categoryValue' + rowID).innerHTML;
       var cID = getCategoryIdFromName(cTtitle);
@@ -268,7 +268,7 @@ function editCategory() {
       var td = document.createElement('td');
 
       td.id = 'presentationCount' + i;
-      td.appendChild(document.createTextNode(categoryList[i].title + " count: " + categoryCountList[i]));
+      td.appendChild(document.createTextNode(categoryCountList[i]));
       newRow.appendChild(td);
 
 
@@ -567,7 +567,14 @@ function generateTable(data) {
 
 function pageLoad() {
   ipc.send('get-categories', '');
+  refreshPresentations();
+
 }
+
+ipc.on('get-categories-reply', function(event, arg) {
+  categoryList = JSON.parse(arg);
+  populateCategoryCountList();
+});
 
 
 function refreshPresentations() {
@@ -601,6 +608,7 @@ ipc.on('ingest-csv', function(event, arg) {
 
 //the reply sets the category count for the next category
 ipc.on('get-category-count-reply', function(event, arg) {
+  // alert('got value: ' + arg);
   categoryCountList.push(arg);  
 });
 
@@ -609,11 +617,7 @@ ipc.on('delete-category-reply', function(event, arg) {
   //in the future this would redraw the table
 })
 
-ipc.on('get-categories-reply', function(event, arg) {
-  categoryList = JSON.parse(arg);
-  refreshPresentations();
-  populateCategoryCountList();
-});
+
 
 
 
