@@ -110,14 +110,10 @@ function populateCategoryCountList() {
   //so that javascript knows this is an array
   categoryCountList = [];
 
-  // alert('Populate the List');
 
   for (i = 0; i < categoryList.length; i++ ) {
     var newCatCount = ipc.sendSync('get-category-count', categoryList[i].id);
-    // alert("i: " + i + " Title: " + categoryList[i].title + " ID:" + getCategoryIdFromName(categoryList[i].title));
     categoryCountList.push(newCatCount);
-    // alert('Getting: ' + categoryList[i].title + " count: ");
-    // ipc.send('get-category-count', categoryList[i].id);
   }  
 }
 

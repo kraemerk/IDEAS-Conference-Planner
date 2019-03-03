@@ -134,16 +134,6 @@ function insertObj(sequelize, obj, insertfunc, errfunc) {
   });
 }
 
-// function populateCategories() {
-//   var categories = ["Communication", "Wellness", "Understanding", "Classroom Dynamics"];
-
-//   for (i = 0; i < categories.length; i++) {
-//     Category.build({
-//       id: i,
-//       title: categories[i]
-//     })
-//   }
-// }
 
 function getCategories(event) {
   Category.findAll({
@@ -152,7 +142,6 @@ function getCategories(event) {
     event.sender.send('get-categories-reply', JSON.stringify(categories));
   });
 }
-
 
 
 
@@ -298,8 +287,6 @@ function countCategorized(event, arg) {
   Presentation.count({ where: {category_id: actualValue} }).then(c => {
     console.log("actual id: " + actualValue + " count: " + c);
     event.returnValue = c;
-    // event.sender.send('get-category-count-reply', c);
-    // return c;
   });
 
 }
