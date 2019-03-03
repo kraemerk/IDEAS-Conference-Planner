@@ -297,7 +297,9 @@ function countCategorized(event, arg) {
   
   Presentation.count({ where: {category_id: actualValue} }).then(c => {
     console.log("actual id: " + actualValue + " count: " + c);
-    event.sender.send('get-category-count-reply', c);
+    event.returnValue = c;
+    // event.sender.send('get-category-count-reply', c);
+    // return c;
   });
 
 }

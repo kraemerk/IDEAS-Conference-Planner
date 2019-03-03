@@ -110,12 +110,14 @@ function populateCategoryCountList() {
   //so that javascript knows this is an array
   categoryCountList = [];
 
-  alert('Populate the List');
+  // alert('Populate the List');
 
   for (i = 0; i < categoryList.length; i++ ) {
+    var newCatCount = ipc.sendSync('get-category-count', categoryList[i].id);
     // alert("i: " + i + " Title: " + categoryList[i].title + " ID:" + getCategoryIdFromName(categoryList[i].title));
-    alert('Getting: ' + categoryList[i].title);
-    ipc.send('get-category-count', categoryList[i].id);
+    categoryCountList.push(newCatCount);
+    // alert('Getting: ' + categoryList[i].title + " count: ");
+    // ipc.send('get-category-count', categoryList[i].id);
   }  
 }
 
@@ -576,11 +578,12 @@ ipc.on('get-categories-reply', function(event, arg) {
   populateCategoryCountList();
 });
 
-//the reply sets the category count for the next category
-ipc.on('get-category-count-reply', function(event, arg) {
-  // alert('got value: ' + arg);
-  categoryCountList.push(arg);  
-});
+//removed due to synchronous call
+// //the reply sets the category count for the next category
+// ipc.on('get-category-count-reply', function(event, arg) {
+//   // alert('got value: ' + arg);
+//   categoryCountList.push(arg);  
+// });
 
 
 function refreshPresentations() {
