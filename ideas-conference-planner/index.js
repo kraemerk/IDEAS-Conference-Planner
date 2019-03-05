@@ -206,7 +206,10 @@ function addCategorizationActions(rowID) {
   if (presentationCount == 0) {
     deleteButton.onclick = function() {
       var cID = getCategoryIdFromName(catTitle);
-      catTable.deleteRow(rowID+1);
+      alert('cid: ' +cID);
+      alert('rowID: ' + rowID);
+      catTable.deleteRow(rowID);
+      alert('deletedrow');
 
       //delete it and recalculate the category list and
       //category count list
@@ -231,6 +234,7 @@ function editCategory() {
   var pEntry = document.getElementById('pEntry');
   
   var newCatBtnDiv = document.getElementById('newCatBtnDiv');
+  newCatBtnDiv.innerHTML = '';
   var newCategoryButton = document.createElement('button');
   newCategoryButton.textContent = '+ New Category';
 
@@ -240,7 +244,7 @@ function editCategory() {
     //third- put a zero in the presentation count
     //fourth- add a save and cancel button in the cat actions space 
     //fifth- when they press save, the text box changes to text
-    //sixth- when they press cancel, the row is deleted again
+    //sixth- when they press cancel, the row is deleted
   }
 
   newCatBtnDiv.appendChild(newCategoryButton);
@@ -588,7 +592,8 @@ function generateTable(data) {
 
 function pageLoad() {
   refreshPresentations();
-  
+  categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+  populateCategoryCountList();
 
 }
 
@@ -636,9 +641,6 @@ ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
 
   generateTable(query);
-
-  categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
-  populateCategoryCountList();
 });
 
 function sortTable(n) {
