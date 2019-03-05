@@ -139,7 +139,7 @@ function getCategories(event) {
   Category.findAll({
     attributes: ['id', 'title'],
   }).then(categories => {
-    event.sender.send('get-categories-reply', JSON.stringify(categories));
+    event.returnValue =  JSON.stringify(categories);
   });
 }
 
@@ -281,11 +281,9 @@ function setCategory(presentationTitle, categoryID) {
 }
 
 function countCategorized(event, arg) {
-
-  var actualValue = arg;
   
-  Presentation.count({ where: {category_id: actualValue} }).then(c => {
-    console.log("actual id: " + actualValue + " count: " + c);
+  Presentation.count({ where: {category_id: arg} }).then(c => {
+    console.log("actual id: " + arg + " count: " + c);
     event.returnValue = c;
   });
 
@@ -326,11 +324,10 @@ function queryPresentations (event) {
 }
 
 function deleteCategory(categoryID) {
-  var actualID = +categoryID + 1;
-
-  console.log('destroy category: ' + actualID);
+  
+  console.log('destroy category: ' + categoryID);
   Category.destroy({
-    where: {id: actualID}
+    where: {id: categoryID}
   });
 
 }

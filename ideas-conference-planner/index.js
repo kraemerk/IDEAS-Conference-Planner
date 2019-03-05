@@ -172,6 +172,8 @@ function addCategorization(rowID) {
 //to the selected category in the edit categories modal window
 function addCategorizationActions(rowID) {
   var catActions = document.getElementById('categoryActions' + rowID);
+  var catTitle = categoryList[rowID].title;
+  var catTable = document.getElementById('categoriesTable');
 
   //create the edit button
   var editButton = document.createElement('button');
@@ -203,10 +205,15 @@ function addCategorizationActions(rowID) {
   //and redraw the table without the old category
   if (presentationCount == 0) {
     deleteButton.onclick = function() {
-      var cTtitle = document.getElementById('categoryValue' + rowID).innerHTML;
-      var cID = getCategoryIdFromName(cTtitle);
+      var cID = getCategoryIdFromName(catTitle);
+      catTable.deleteRow(rowID+1);
 
-      ipc.send('delete-category', cID);  
+      //delete it and recalculate the category list and
+      //category count list
+      ipc.sendSync('delete-category', cID);
+      categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+      populateCategoryCountList();
+      
     }
     catActions.appendChild(deleteButton);
 
@@ -222,8 +229,26 @@ function editCategory() {
   //as well as the paragraph 
   var categoryTable = document.getElementById('categoriesTable');    
   var pEntry = document.getElementById('pEntry');
+  
+  var newCatBtnDiv = document.getElementById('newCatBtnDiv');
+  var newCategoryButton = document.createElement('button');
+  newCategoryButton.textContent = '+ New Category';
+
+  newCategoryButton.onclick = function() {
+    //first- insert a row into the table below the last category
+    //second- make the space for the category name a text box
+    //third- put a zero in the presentation count
+    //fourth- add a save and cancel button in the cat actions space 
+    //fifth- when they press save, the text box changes to text
+    //sixth- when they press cancel, the row is deleted again
+  }
+
+  newCatBtnDiv.appendChild(newCategoryButton);
+
+
   pEntry.innerHTML = '';
   categoryTable.innerHTML = '';
+
 
   //get ready to loop to add each category
   var length = categoryList.length;
@@ -249,60 +274,58 @@ function editCategory() {
 
 
   for (i = 0; i < length; i++) {
-    // if (i != 0) {
 
-      //create a new row and give it id i
-      var newRow = categoryTable.insertRow(i+1);
-      newRow.id = i;
+    //create a new row and give it id i
+    var newRow = categoryTable.insertRow(i+1);
+    newRow.id = i;
 
-      //this cell will hold the category value at categorylist[i]
-      var td = document.createElement('td');
-      td.id = 'categoryValue' + i;
-      td.appendChild(document.createTextNode(categoryList[i].title));
-      newRow.appendChild(td);
-
-
-      //this cell will hold the number of presentations with category categorylist[i]
-      var td = document.createElement('td');
-
-      td.id = 'presentationCount' + i;
-      td.appendChild(document.createTextNode(categoryCountList[i]));
-      newRow.appendChild(td);
+    //this cell will hold the category value at categorylist[i]
+    var td = document.createElement('td');
+    td.id = 'categoryValue' + i;
+    td.appendChild(document.createTextNode(categoryList[i].title));
+    newRow.appendChild(td);
 
 
-      //this cell will hold the space to do the actions on the selected category
-      var td = document.createElement('td');
-      td.id = 'categoryActions' + i;
-      newRow.appendChild(td);
+    //this cell will hold the number of presentations with category categorylist[i]
+    var td = document.createElement('td');
 
-      tb = null;
+    td.id = 'presentationCount' + i;
+    td.appendChild(document.createTextNode(categoryCountList[i]));
+    newRow.appendChild(td);
 
-      //when the row is clicked highlight it and add the possible actions to
-      newRow.onclick= function () {
-        if (tb == null){
-          tb = this;
-          this.style.backgroundColor = this.origColor;
-          this.origColor=this.style.backgroundColor;
-          this.style.backgroundColor='#BCD4EC';
-          this.hilite = true;
+
+    //this cell will hold the space to do the actions on the selected category
+    var td = document.createElement('td');
+    td.id = 'categoryActions' + i;
+    newRow.appendChild(td);
+
+    tb = null;
+
+    //when the row is clicked highlight it and add the possible actions to
+    newRow.onclick= function () {
+      if (tb == null){
+        tb = this;
+        this.style.backgroundColor = this.origColor;
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+        addCategorizationActions(this.id);
+      } else {
+        tb.style.backgroundColor=tb.origColor;
+        tb.hilite = false;
+        this.style.backgroundColor = this.origColor;
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+        var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
+        var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
+        
+        if (tb != this) {
+          categoryActionSpace.innerHTML = '';
           addCategorizationActions(this.id);
-        } else {
-          tb.style.backgroundColor=tb.origColor;
-          tb.hilite = false;
-          this.style.backgroundColor = this.origColor;
-          this.origColor=this.style.backgroundColor;
-          this.style.backgroundColor='#BCD4EC';
-          this.hilite = true;
-          var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
-          var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
-          
-          if (tb != this) {
-            categoryActionSpace.innerHTML = '';
-            addCategorizationActions(this.id);
-          } 
-          tb = this;            
-        }
-      // }
+        } 
+        tb = this;            
+      }
     }
   }
 
@@ -564,23 +587,10 @@ function generateTable(data) {
 
 
 function pageLoad() {
-  ipc.send('get-categories', '');
   refreshPresentations();
+  
 
 }
-
-ipc.on('get-categories-reply', function(event, arg) {
-  categoryList = JSON.parse(arg);
-  populateCategoryCountList();
-});
-
-//removed due to synchronous call
-// //the reply sets the category count for the next category
-// ipc.on('get-category-count-reply', function(event, arg) {
-//   // alert('got value: ' + arg);
-//   categoryCountList.push(arg);  
-// });
-
 
 function refreshPresentations() {
 
@@ -614,8 +624,7 @@ ipc.on('ingest-csv', function(event, arg) {
 
 
 ipc.on('delete-category-reply', function(event, arg) {
-  //do nothing essentially
-  //in the future this would redraw the table
+  ipc.send('get-categories', '');
 })
 
 
@@ -627,6 +636,9 @@ ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
 
   generateTable(query);
+
+  categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+  populateCategoryCountList();
 });
 
 function sortTable(n) {
