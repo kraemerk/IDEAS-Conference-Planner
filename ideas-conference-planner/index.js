@@ -244,6 +244,10 @@ function addCategorizationActions(rowID) {
           {"categoryId": getCategoryIdFromName(oldText),
           "newValue": newText});
             
+        categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+        populateCategoryCountList();
+        refreshPresentations();
+        
         alert('herenow');
         //change the value in the table
         catTitleSpace.innerHTML = newText;

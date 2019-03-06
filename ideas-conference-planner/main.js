@@ -334,6 +334,11 @@ function deleteCategory(categoryID) {
 function updateCategoryName(event, categoryId, newValue) {
   console.log("cID: " + categoryId);
   console.log("new value: " + newValue);
+  
+  Category.update(
+   {title: newValue},
+   {where: { id: categoryId }});
+ 
   event.returnValue = newValue;
 }
 
