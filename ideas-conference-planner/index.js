@@ -8,6 +8,8 @@ var categoryList;
 var categoryCountList;
 var categoryCounter;
 
+var editCategoryFlag;
+
 var selectedCategory;
 var tb = null;
 
@@ -171,9 +173,12 @@ function addCategorization(rowID) {
 //this function handles adding the buttons
 //to the selected category in the edit categories modal window
 function addCategorizationActions(rowID) {
+
+  // alert('Adding categorization actions');
   var catActions = document.getElementById('categoryActions' + rowID);
   var catTitle = categoryList[rowID].title;
   var catTable = document.getElementById('categoriesTable');
+
 
   //create the edit button
   var editButton = document.createElement('button');
@@ -193,7 +198,81 @@ function addCategorizationActions(rowID) {
   //when the edit button is clicked the user should be allowed to modify the text
   //in the selected category and they will be shown a button to save and a button to cancel
   editButton.onclick = function () {
-    alert('editButton');
+    editCategoryFlag = true;
+
+    //first - turn the category title space into a textbox
+    var catTitleSpace = document.getElementById('categoryValue' + rowID);
+    var oldText = catTitleSpace.innerHTML;
+    catTitleSpace.innerHTML = '';
+
+    var editTextBox = document.createElement('INPUT');
+    editTextBox.id = 'editTextBox' + rowID;
+    editTextBox.defaultValue = oldText;
+    catTitleSpace.appendChild(editTextBox);
+
+    //second - change the buttons in the catActions space
+    catActions.innerHTML = '';
+    //the first one is save
+    var saveButton = document.createElement('button');
+    saveButton.textContent = 'Save';
+    catActions.appendChild(saveButton);
+
+    //the second one is cancel
+    var cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Cancel';
+    catActions.appendChild(cancelButton);
+
+    //third - if they press save, change textbox to new text and update the actual value
+    saveButton.onclick = function() {
+      var newText = editTextBox.value;
+
+      //if the value hasn't changed do the same as cancel button
+      if (newText == oldText) {
+        editCategoryFlag = false;
+        catTitleSpace.innerHTML = '';
+        catTitleSpace.innerHTML = oldText;
+        catActions.innerHTML = '';
+        catActions.appendChild(editButton);
+
+        if (presentationCount == 0) {
+          catActions.appendChild(deleteButton);
+        }
+      //the value is new so update it in the database and the table
+      } else {
+        //change the category value in the database
+        var newSavedName = ipc.sendSync('update-category-name',
+          {"categoryId": getCategoryIdFromName(oldText),
+          "newValue": newText});
+            
+        alert('herenow');
+        //change the value in the table
+        catTitleSpace.innerHTML = newText;
+        
+        //set edit category flag to false
+        editCategoryFlag = false;
+        
+        //reset the buttons
+        catActions.innerHTML = '';
+        catActions.appendChild(editButton);
+
+        if (presentationCount == 0) {
+          catActions.appendChild(deleteButton);
+        }
+      }
+    }
+
+    //fourth - if they press cancel, change textbox to old text
+    cancelButton.onclick = function() {
+      editCategoryFlag = false;
+      catTitleSpace.innerHTML = '';
+      catTitleSpace.innerHTML = oldText;
+      catActions.innerHTML = '';
+      catActions.appendChild(editButton);
+
+      if (presentationCount == 0) {
+        catActions.appendChild(deleteButton);
+      }
+    }
   }
 
   //the edit button is added to the selected row
@@ -206,16 +285,16 @@ function addCategorizationActions(rowID) {
   if (presentationCount == 0) {
     deleteButton.onclick = function() {
       var cID = getCategoryIdFromName(catTitle);
-      alert('cid: ' +cID);
-      alert('rowID: ' + rowID);
-      catTable.deleteRow(rowID);
-      alert('deletedrow');
+      // alert('cid: ' +cID);
+      // alert('rowID: ' + rowID);
+      // catTable.deleteRow(rowID+1);
+      // alert('deletedrow');
 
       //delete it and recalculate the category list and
       //category count list
-      ipc.sendSync('delete-category', cID);
-      categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
-      populateCategoryCountList();
+      // ipc.sendSync('delete-category', cID);
+      // categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+      // populateCategoryCountList();
       
     }
     catActions.appendChild(deleteButton);
@@ -385,8 +464,22 @@ function editCategory() {
         var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
         
         if (tb != this) {
+          // alert('tb != this');
+          if (editCategoryFlag) {
+            // alert('editCategoryFlag = true');
+
+            var editTextBox = document.getElementById('editTextBox' + tb.id);
+            var oldText = editTextBox.value;
+
+
+            var categoryValueSpace = document.getElementById('categoryValue' + tb.id);
+            categoryValueSpace.innerHTML = oldText;
+            editCategoryFlag = false;
+          }
+
           categoryActionSpace.innerHTML = '';
           addCategorizationActions(this.id);
+          
         } 
         tb = this;            
       }

@@ -349,7 +349,12 @@ function deleteCategory(categoryID) {
   Category.destroy({
     where: {id: categoryID}
   });
+}
 
+function updateCategoryName(event, categoryId, newValue) {
+  console.log("cID: " + categoryId);
+  console.log("new value: " + newValue);
+  event.returnValue = newValue;
 }
 
 
@@ -394,6 +399,10 @@ ipc.on('query-presentations', function(event, arg) {
 
 ipc.on('get-category-count', function(event, arg) {
   countCategorized(event, arg);
+})
+
+ipc.on('update-category-name', function(event, arg) {
+  updateCategoryName(event, arg.categoryId, arg.newValue);
 })
 
 ipc.on('get-categories', function(event, arg) {
