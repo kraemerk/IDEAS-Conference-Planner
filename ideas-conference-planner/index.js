@@ -239,12 +239,72 @@ function editCategory() {
   newCategoryButton.textContent = '+ New Category';
 
   newCategoryButton.onclick = function() {
-    //first- insert a row into the table below the last category
-    //second- make the space for the category name a text box
-    //third- put a zero in the presentation count
-    //fourth- add a save and cancel button in the cat actions space 
-    //fifth- when they press save, the text box changes to text
-    //sixth- when they press cancel, the row is deleted
+    var newCatInput = document.getElementById('newCatInput');
+
+    if (newCatInput.value == "")
+      return;
+
+    //first- insert a row into the database
+    var id = ipc.sendSync('add-category', newCatInput.value);
+    if (id == -1)
+      return;
+
+    //second- update table.
+
+    //create a new row and give it id i
+    var i = categoryTable.rows.length - 1;
+    var newRow = categoryTable.insertRow(i+1);
+    newRow.id = i;
+
+    //this cell will hold the category value at categorylist[i]
+    var td = document.createElement('td');
+    td.id = 'categoryValue' + i;
+    td.appendChild(document.createTextNode(newCatInput.value));
+    newCatInput.value = "";
+    newRow.appendChild(td);
+
+
+    //this cell will hold the number of presentations with category categorylist[i]
+    var td = document.createElement('td');
+
+    td.id = 'presentationCount' + i;
+    td.appendChild(document.createTextNode('0'));
+    newRow.appendChild(td);
+
+
+    //this cell will hold the space to do the actions on the selected category
+    var td = document.createElement('td');
+    td.id = 'categoryActions' + i;
+    newRow.appendChild(td);
+
+    tb = null;
+
+    //when the row is clicked highlight it and add the possible actions to
+    newRow.onclick= function () {
+      if (tb == null){
+        tb = this;
+        this.style.backgroundColor = this.origColor;
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+        addCategorizationActions(this.id);
+      } else {
+        tb.style.backgroundColor=tb.origColor;
+        tb.hilite = false;
+        this.style.backgroundColor = this.origColor;
+        this.origColor=this.style.backgroundColor;
+        this.style.backgroundColor='#BCD4EC';
+        this.hilite = true;
+        var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
+        var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
+        
+        if (tb != this) {
+          categoryActionSpace.innerHTML = '';
+          addCategorizationActions(this.id);
+        } 
+        tb = this;            
+      }
+    }
   }
 
   newCatBtnDiv.appendChild(newCategoryButton);

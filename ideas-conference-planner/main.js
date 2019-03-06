@@ -21,6 +21,7 @@ const Category = sequelize.define('category', {
   id: {
     type: Sequelize.TEXT,
     primaryKey: true,
+    autoIncrement: true,
   },
   title: Sequelize.TEXT
 }, {
@@ -323,6 +324,25 @@ function queryPresentations (event) {
   });
 }
 
+function addCategory(event, categoryName) {
+  console.log('Add category: ' + categoryName);
+  Category.findAll({
+    where: {
+      title: categoryName
+    }
+  }).then(categories => {
+    if (categories.length != 0) {
+      event.returnValue = -1;
+      return;
+    }
+
+    Category.create({
+      title: categoryName
+    });
+    event.returnValue = 1;
+  });
+}
+
 function deleteCategory(categoryID) {
   
   console.log('destroy category: ' + categoryID);
@@ -378,6 +398,10 @@ ipc.on('get-category-count', function(event, arg) {
 
 ipc.on('get-categories', function(event, arg) {
   getCategories(event);
+});
+
+ipc.on('add-category', function(event, arg) {
+  addCategory(event, arg);
 });
 
 ipc.on('delete-category', function(event, arg) {
