@@ -248,7 +248,6 @@ function addCategorizationActions(rowID) {
         populateCategoryCountList();
         refreshPresentations();
         
-        alert('herenow');
         //change the value in the table
         catTitleSpace.innerHTML = newText;
         
