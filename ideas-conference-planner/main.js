@@ -4,6 +4,7 @@ var config;
 const electron = require('electron');
 const { app, BrowserWindow } = require('electron');
 const ipc = require('electron').ipcMain;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 ini = require('ini');
 
@@ -146,11 +147,11 @@ function insertObj(sequelize, obj, insertfunc, errfunc) {
 // }
 
 function getCategories(event) {
-  Category.findAll({
-    attributes: ['id', 'title'],
-  }).then(categories => {
-    event.sender.send('get-categories-reply', JSON.stringify(categories));
-  });
+  //Category.findAll({
+  //  attributes: ['id', 'title'],
+  //}).then(categories => {
+  //  event.sender.send('get-categories-reply', JSON.stringify(categories));
+  //});
 }
 
 function ingestCSV (file) {
@@ -354,9 +355,43 @@ function updateRating (event, arg) {
   });
 }
 
+function evalPaginated(xmlHttp, out) {
+  return function() {
+    console.log(this.status);
+    if (this.readyState == 4 && this.status == 200) {
+      var ret = JSON.parse(xmlHttp.responseText);
+      out = out.concat(ret.data);
+      if (ret.meta.pagination.next_page) {
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = evalPaginated(xmlHttp, out);
+        xmlHttp.open("GET", ret.meta.pagination.next_page);
+        xmlHttp.setRequestHeader("Content-Type", "application/json");
+        xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+        xmlHttp.send();
+      } else {
+        console.log("Done");
+        console.log(out.length);
+      }
+    }
+  }
+}
+
+function syncPresentersToEventmobi() {
+  var xmlHttp = new XMLHttpRequest();
+  var people = [];
+  console.log(config.eventmobi.event_id);
+  console.log(config.eventmobi.api_key);
+  xmlHttp.onreadystatechange = evalPaginated(xmlHttp, people);
+  xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/people/resources?limit=1000");
+  xmlHttp.setRequestHeader("Content-Type", "application/json");
+  xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+  xmlHttp.send();
+}
+
 ipc.on('ingest-csv', function(event, arg) {
-  ingestCSV(arg);
-  event.returnValue = queryPresentations(event);
+  //ingestCSV(arg);
+  //event.returnValue = queryPresentations(event);
+  syncPresentersToEventmobi();
 });
 
 ipc.on('query-presentations', function(event, arg) {
