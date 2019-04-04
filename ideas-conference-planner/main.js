@@ -355,22 +355,39 @@ function updateRating (event, arg) {
   });
 }
 
-function evalPaginated(xmlHttp, out) {
+function syncPresentersWithDatabase(people, sessions) {
+  console.log(people);
+  console.log(sessions);
+}
+
+function getPresentations(people) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var ret = JSON.parse(xmlHttp.responseText);
+      syncPresentersWithDatabase(people, ret.data);
+    }
+  };
+  xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/sessions/resources?limit=1000");
+  xmlHttp.setRequestHeader("Content-Type", "application/json");
+  xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+  xmlHttp.send();
+}
+
+function evalPaginatedPeople(xmlHttp, out) {
   return function() {
-    console.log(this.status);
     if (this.readyState == 4 && this.status == 200) {
       var ret = JSON.parse(xmlHttp.responseText);
       out = out.concat(ret.data);
       if (ret.meta.pagination.next_page) {
         xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = evalPaginated(xmlHttp, out);
+        xmlHttp.onreadystatechange = evalPaginatedPeople(xmlHttp, out);
         xmlHttp.open("GET", ret.meta.pagination.next_page);
         xmlHttp.setRequestHeader("Content-Type", "application/json");
         xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
         xmlHttp.send();
       } else {
-        console.log("Done");
-        console.log(out.length);
+        getPresentations(out);
       }
     }
   }
@@ -379,9 +396,7 @@ function evalPaginated(xmlHttp, out) {
 function syncPresentersToEventmobi() {
   var xmlHttp = new XMLHttpRequest();
   var people = [];
-  console.log(config.eventmobi.event_id);
-  console.log(config.eventmobi.api_key);
-  xmlHttp.onreadystatechange = evalPaginated(xmlHttp, people);
+  xmlHttp.onreadystatechange = evalPaginatedPeople(xmlHttp, people);
   xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/people/resources?limit=1000");
   xmlHttp.setRequestHeader("Content-Type", "application/json");
   xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
@@ -389,6 +404,7 @@ function syncPresentersToEventmobi() {
 }
 
 ipc.on('ingest-csv', function(event, arg) {
+  // PLACEHOLDER TO TRIGGER NEW FUNCTIONALITY == NEEDS TO BE CHANGED BACK
   //ingestCSV(arg);
   //event.returnValue = queryPresentations(event);
   syncPresentersToEventmobi();
