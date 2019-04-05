@@ -94,7 +94,8 @@ const Presentation = sequelize.define('presentation', {
   copresenter_2_id: Sequelize.INTEGER,
   copresenter_3_id: Sequelize.INTEGER,
   category_id: Sequelize.INTEGER,
-  overall_rating: Sequelize.INTEGER
+  overall_rating: Sequelize.INTEGER,
+  accepted: Sequelize.BOOLEAN
 }, {
   schema: config.database.schema,
   freezeTableName: true,
@@ -355,17 +356,50 @@ function updateRating (event, arg) {
   });
 }
 
-function syncPresentersWithDatabase(people, sessions) {
-  console.log(people);
-  console.log(sessions);
+function syncPresentersWithDatabase(event, people, sessions) {
+  Presentation.findAll({
+    attributes: ['title', 'description', ],
+
+    include: [
+      {
+        model: Attendee,
+        as: 'Presenter'
+      }, {
+        model: Attendee,
+        as: 'Copresenter1'
+      }, {
+        model: Attendee,
+        as: 'Copresenter2'
+      }, {
+        model: Attendee,
+        as: 'Copresenter3'
+      }
+    ],
+
+    where: {
+      accepted: true
+    }
+  }).then(dbPresentations => {
+    for (var i = 0; i < dbPresentations.length; i++) {
+      dbPresentation = dbPresentations[i];
+      console.log(dbPresentation);
+      // IF THE SESSION IS NOT IN sessions
+        // CREATE A NEW SESSION
+
+      // GET THE SPEAKER IDS FROM people
+      // SET THE SPEAKER ROLE FOR THE ATTENDEE IN people
+      // SET THE SPEAKERS IN THE SESSION IN sessions
+    }
+    // event.returnValue = SUCCESS OR FAILURE, THEN ALERT THE USER
+  });
 }
 
-function getPresentations(people) {
+function getPresentations(event, people) {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var ret = JSON.parse(xmlHttp.responseText);
-      syncPresentersWithDatabase(people, ret.data);
+      syncPresentersWithDatabase(event, people, ret.data);
     }
   };
   xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/sessions/resources?limit=1000");
@@ -374,29 +408,29 @@ function getPresentations(people) {
   xmlHttp.send();
 }
 
-function evalPaginatedPeople(xmlHttp, out) {
+function evalPaginatedPeople(event, xmlHttp, out) {
   return function() {
     if (this.readyState == 4 && this.status == 200) {
       var ret = JSON.parse(xmlHttp.responseText);
       out = out.concat(ret.data);
       if (ret.meta.pagination.next_page) {
         xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = evalPaginatedPeople(xmlHttp, out);
+        xmlHttp.onreadystatechange = evalPaginatedPeople(event, xmlHttp, out);
         xmlHttp.open("GET", ret.meta.pagination.next_page);
         xmlHttp.setRequestHeader("Content-Type", "application/json");
         xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
         xmlHttp.send();
       } else {
-        getPresentations(out);
+        getPresentations(event, out);
       }
     }
   }
 }
 
-function syncPresentersToEventmobi() {
+function syncPresentersToEventmobi(event) {
   var xmlHttp = new XMLHttpRequest();
   var people = [];
-  xmlHttp.onreadystatechange = evalPaginatedPeople(xmlHttp, people);
+  xmlHttp.onreadystatechange = evalPaginatedPeople(event, xmlHttp, people);
   xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/people/resources?limit=1000");
   xmlHttp.setRequestHeader("Content-Type", "application/json");
   xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
