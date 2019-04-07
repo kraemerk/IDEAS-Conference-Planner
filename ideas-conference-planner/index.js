@@ -245,22 +245,25 @@ function addCategorizationActions(rowID) {
           "newValue": newText});
             
         categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
-        populateCategoryCountList();
+
+        // for (int k = 0; k < categoryList.length; k++){
+        //   console.log("CategoryList[" + k + "]: " + categoryList[i]);
+        // }
         refreshPresentations();
+        populateCategoryCountList();
+        
         
         //change the value in the table
         catTitleSpace.innerHTML = newText;
         
-        //set edit category flag to false
-        editCategoryFlag = false;
         
         //reset the buttons
         catActions.innerHTML = '';
         catActions.appendChild(editButton);
-
         if (presentationCount == 0) {
           catActions.appendChild(deleteButton);
         }
+
       }
     }
 
