@@ -343,12 +343,13 @@ function addCategory(event, categoryName) {
   });
 }
 
-function deleteCategory(categoryID) {
+function deleteCategory(event, categoryID) {
   
   console.log('destroy category: ' + categoryID);
   Category.destroy({
     where: {id: categoryID}
   });
+  event.returnValue = "1";
 }
 
 function updateCategoryName(event, categoryId, newValue) {
@@ -419,7 +420,7 @@ ipc.on('add-category', function(event, arg) {
 });
 
 ipc.on('delete-category', function(event, arg) {
-  deleteCategory(arg);
+  deleteCategory(event, arg);
 })
 
 ipc.on('set-category', function(event, arg) {

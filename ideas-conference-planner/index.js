@@ -289,16 +289,19 @@ function addCategorizationActions(rowID) {
   if (presentationCount == 0) {
     deleteButton.onclick = function() {
       var cID = getCategoryIdFromName(catTitle);
-      // alert('cid: ' +cID);
-      // alert('rowID: ' + rowID);
-      // catTable.deleteRow(rowID+1);
+      alert('cid: ' +cID);
+      alert('rowID: ' + rowID);
+      var actualRow = +rowID + 1;
+      catTable.deleteRow(actualRow);
       // alert('deletedrow');
 
       //delete it and recalculate the category list and
       //category count list
-      // ipc.sendSync('delete-category', cID);
-      // categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
-      // populateCategoryCountList();
+      var testDelete = ipc.sendSync('delete-category', cID);
+      categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+      refreshPresentations();
+      populateCategoryCountList();
+      alert("got over here");
       
     }
     catActions.appendChild(deleteButton);
