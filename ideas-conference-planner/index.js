@@ -199,7 +199,9 @@ function addCategorizationActions(rowID) {
   //in the selected category and they will be shown a button to save and a button to cancel
   editButton.onclick = function () {
     editCategoryFlag = true;
-
+    categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+    populateCategoryCountList();
+    refreshPresentations();
     //first - turn the category title space into a textbox
     var catTitleSpace = document.getElementById('categoryValue' + rowID);
     var oldText = catTitleSpace.innerHTML;
@@ -245,11 +247,6 @@ function addCategorizationActions(rowID) {
           "newValue": newText});
             
         categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
-
-        // for (int k = 0; k < categoryList.length; k++){
-        //   console.log("CategoryList[" + k + "]: " + categoryList[i]);
-        // }
-        
         populateCategoryCountList();
         refreshPresentations();
         
@@ -373,6 +370,9 @@ function editCategory() {
         this.origColor=this.style.backgroundColor;
         this.style.backgroundColor='#BCD4EC';
         this.hilite = true;
+        if (editCategoryFlag) {
+          editCategoryFlag = false;
+        }
         addCategorizationActions(this.id);
       } else {
         tb.style.backgroundColor=tb.origColor;
@@ -383,7 +383,9 @@ function editCategory() {
         this.hilite = true;
         var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
         var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
-        
+        if (editCategory) {
+          editCategoryFlag = false;
+        }
         if (tb != this) {
           categoryActionSpace.innerHTML = '';
           addCategorizationActions(this.id);
