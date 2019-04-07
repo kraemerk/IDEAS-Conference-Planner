@@ -249,10 +249,11 @@ function addCategorizationActions(rowID) {
         // for (int k = 0; k < categoryList.length; k++){
         //   console.log("CategoryList[" + k + "]: " + categoryList[i]);
         // }
-        refreshPresentations();
+        
         populateCategoryCountList();
+        refreshPresentations();
         
-        
+        editCategoryFlag = false;
         //change the value in the table
         catTitleSpace.innerHTML = newText;
         
