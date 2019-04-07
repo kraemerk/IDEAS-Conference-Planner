@@ -7,7 +7,7 @@ var categoryList;
 //that have category specified by categoryCounter
 var categoryCountList;
 var categoryCounter;
-
+var rowWasDeleted;
 var editCategoryFlag;
 
 var selectedCategory;
@@ -263,6 +263,9 @@ function addCategorizationActions(rowID) {
         }
 
       }
+      categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+      populateCategoryCountList();
+      refreshPresentations();
     }
 
     //fourth - if they press cancel, change textbox to old text
@@ -293,6 +296,7 @@ function addCategorizationActions(rowID) {
       alert('rowID: ' + rowID);
       var actualRow = +rowID + 1;
       catTable.deleteRow(actualRow);
+      rowWasDeleted = true;
       // alert('deletedrow');
 
       //delete it and recalculate the category list and
@@ -474,7 +478,6 @@ function editCategory() {
         this.hilite = true;
         var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
         var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
-        
         if (tb != this) {
           // alert('tb != this');
           if (editCategoryFlag) {
@@ -488,8 +491,11 @@ function editCategory() {
             categoryValueSpace.innerHTML = oldText;
             editCategoryFlag = false;
           }
-
-          categoryActionSpace.innerHTML = '';
+          if (!rowWasDeleted) {
+            categoryActionSpace.innerHTML = '';
+          } else {
+            rowWasDeleted = false;
+          }
           addCategorizationActions(this.id);
           
         } 
