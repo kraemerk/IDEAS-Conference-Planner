@@ -40,7 +40,7 @@ backButton.addEventListener('click', () => {
   window.location = "index.html";
 }, false)
 
-document.addEventListener('DOMContentLoaded', queryRadioButtons, console.log('SENDING'));
+document.addEventListener('DOMContentLoaded', queryRadioButtons);
 
 function getRatingVals() {
   return {
@@ -158,6 +158,14 @@ function checkRadioStatus() {
     }
   }
   if(!r7f) {
+    return false;
+  }
+
+  if(document.getElementById('fname').value.length == 0) {
+    return false;
+  }
+
+  if(document.getElementById('lname').value.length == 0) {
     return false;
   }
 

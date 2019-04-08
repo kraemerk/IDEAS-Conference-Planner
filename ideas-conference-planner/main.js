@@ -342,6 +342,26 @@ function queryRadio (event, arg) {
 
 function updateRating (event, arg) {
   var ratings = arg;
+  var reviewerID = null;
+
+  Reviewer.create({
+    first: ratings.rateFName,
+    last: ratings.rateLName
+  }).catch(Sequelize.ValidationError, function (err) {
+
+  })
+
+  /*
+  Reviewer.findOne({
+    where: {first: ratings.rateFName, last: ratings.rateLName},
+    attributes: ['id']
+  }).then(reviewer => {
+    reviewerID = reviewer.id;
+  })
+  */
+
+  console.log(reviewerID);
+
   Review.create({
     reviewer_id: 1,
     presentation_id: ratings.presID,
