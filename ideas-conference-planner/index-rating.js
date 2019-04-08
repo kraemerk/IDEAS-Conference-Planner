@@ -58,6 +58,7 @@ function getRatingVals() {
 }
 
 function generateRadioValues(radiosList) {
+  console.log(radiosList);
   var radios1 = document.getElementsByName('group1');
   var radios2 = document.getElementsByName('group2');
   var radios3 = document.getElementsByName('group3');
