@@ -13,6 +13,7 @@ var selectedCategory;
 var tb = null;
 
 document.addEventListener('DOMContentLoaded', queryReviewer);
+//document.addEventListener('DOMContentLoaded', createReviewerButton);
 
 
 function getAttendeeName(attendee) {
@@ -205,22 +206,27 @@ function getReview(review) {
 
 
 function ratePresentation(rowID, presID) {
-  var button = document.createElement('button');
-  button.textContent = 'Rate';
-  var actionSpace = document.getElementById('actions' + rowID);
+  if(sessionStorage.raterName == null) {
+    alert("Please select a user first.");
+  } else {
 
-  button.addEventListener('click', () => {
-    // stores the raw html data for the row in session storage.
-    sessionStorage.presTitle = document.getElementById(rowID).cells[2].innerHTML;
-    sessionStorage.presDesc = document.getElementById(rowID).cells[3].innerHTML;
-    sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
-    sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
-    sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
-    sessionStorage.presID = presID;
-    window.location = "index-rating.html";
-  }, false)
+    var button = document.createElement('button');
+    button.textContent = 'Rate';
+    var actionSpace = document.getElementById('actions' + rowID);
 
-  actionSpace.appendChild(button);
+    button.addEventListener('click', () => {
+      // stores the raw html data for the row in session storage.
+      sessionStorage.presTitle = document.getElementById(rowID).cells[2].innerHTML;
+      sessionStorage.presDesc = document.getElementById(rowID).cells[3].innerHTML;
+      sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
+      sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
+      sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
+      sessionStorage.presID = presID;
+      window.location = "index-rating.html";
+    }, false)
+
+    actionSpace.appendChild(button);
+  }
 }
 
 
@@ -568,9 +574,29 @@ function populateReviewer(data){
   var dropdown = document.getElementById("userDropDown")
   for(var i = 0; i < data.length; i++){
     var li = document.createElement("li");
-    li.innerHTML = data[i].first + " " + data[i].last
+    var button = document.createElement("button");
+    button.innerHTML = data[i].first + " " + data[i].last;
+    button.id = data[i].id;
+    button.addEventListener('click', () => {
+      sessionStorage.raterName = button.innerHTML;
+      sessionStorage.raterID = button.id;
+      console.log(sessionStorage.raterName);
+      console.log(sessionStorage.raterID);
+    }, false)
+    li.appendChild(button);
     dropdown.appendChild(li);
   }
+}
+
+function createReviewerButton() {
+  var button = document.getElementById("createUser");
+  button.addEventListener('click', () => {
+
+  }, false)
+}
+
+function createReviewer(reviewerfName, reviewerlName) {
+  ipc.send('create-reviewer', reviewerfName, reviewerlName);
 }
 
 function queryReviewer() {
@@ -589,8 +615,6 @@ ipc.on('get-categories-reply', function(event, arg) {
   categoryList = JSON.parse(arg);
   refreshPresentations();
 });
-
-
 
 ipc.on('query-presentations-reply', function(event, arg) {
 
