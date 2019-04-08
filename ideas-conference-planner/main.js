@@ -382,9 +382,6 @@ function syncPresentersWithDatabase(event, people, sessions) {
   }).then(dbPresentations => {
     for (var i = 0; i < dbPresentations.length; i++) {
       dbPresentation = dbPresentations[i];
-      // REACH GOAL:
-      // IF THE SESSION IS NOT IN sessions
-        // CREATE A NEW SESSION
 
       eventmobiPresentation = null;
       for (var j = 0; j < sessions.length; j++) {
@@ -400,7 +397,7 @@ function syncPresentersWithDatabase(event, people, sessions) {
           break;
         }
         dbPerson = dbPresentation[TYPES_OF_SPEAKERS[type]];
-        for (j = 0; j < people.length; j++) {
+        for (var j = 0; j < people.length; j++) {
           eventmobiPerson = people[j];
           if ((eventmobiPerson.first_name == dbPerson.prefix + " "+ dbPerson.first || eventmobiPerson.first_name == dbPerson.first) &&
               eventmobiPerson.last_name == dbPerson.last &&
@@ -421,12 +418,21 @@ function syncPresentersWithDatabase(event, people, sessions) {
           }
         }
       }
-      console.log(eventmobiSpeakers);
-      // GET THE SPEAKER IDS FROM people
-      // SET THE SPEAKER ROLE FOR THE ATTENDEE IN people
-      // SET THE SPEAKERS IN THE SESSION IN sessions
+      for (var j = 0; j < eventmobiSpeakers.length; j++) {
+        eventmobiSpeakers[j] = "\""+eventmobiSpeakers[j]+"\"";
+      }
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log("Event Updated");
+        }
+      };
+      xmlHttp.open("PATCH", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/sessions/resources/"+eventmobiPresentation.id);
+      xmlHttp.setRequestHeader("Content-Type", "application/json");
+      xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+      xmlHttp.send("{ \"roles\" : [{\"id\":\""+config.eventmobi.speaker_role_id+"\",\"name\":\"Speaker\",\"people_ids\":["+eventmobiSpeakers+"]}]}");
     }
-    // event.returnValue = SUCCESS OR FAILURE, THEN ALERT THE USER
+    event.returnValue = "SUCCESS";
   });
 }
 
@@ -473,11 +479,13 @@ function syncPresentersToEventmobi(event) {
   xmlHttp.send();
 }
 
+// MAKE IPC CALL TO RUN EVENTMOBI SYNC AND TIE IT TO A BUTTON
+// CALL EVENTMOBI SYNC APPROVED PRESENTATIONS WITH: `syncPresentersToEventmobi(event);`
+// WHEN COMPLETED, THIS WILL SET event.returnValue to "SUCCESS"
+
 ipc.on('ingest-csv', function(event, arg) {
-  // PLACEHOLDER TO TRIGGER NEW FUNCTIONALITY == NEEDS TO BE CHANGED BACK
-  //ingestCSV(arg);
-  //event.returnValue = queryPresentations(event);
-  syncPresentersToEventmobi();
+  ingestCSV(arg);
+  event.returnValue = queryPresentations(event);
 });
 
 ipc.on('query-presentations', function(event, arg) {
