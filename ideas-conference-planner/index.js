@@ -392,6 +392,9 @@ function editCategory() {
 
     tb = null;
 
+    categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+    populateCategoryCountList();
+
     //when the row is clicked highlight it and add the possible actions to
     newRow.onclick= function () {
       if (tb == null){
