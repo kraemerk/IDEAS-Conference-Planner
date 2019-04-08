@@ -382,10 +382,46 @@ function syncPresentersWithDatabase(event, people, sessions) {
   }).then(dbPresentations => {
     for (var i = 0; i < dbPresentations.length; i++) {
       dbPresentation = dbPresentations[i];
-      console.log(dbPresentation);
+      // REACH GOAL:
       // IF THE SESSION IS NOT IN sessions
         // CREATE A NEW SESSION
 
+      eventmobiPresentation = null;
+      for (var j = 0; j < sessions.length; j++) {
+        if (sessions[j].name == dbPresentation.title) {
+          eventmobiPresentation = sessions[j];
+          break;
+        }
+      }
+      eventmobiSpeakers = [];
+      TYPES_OF_SPEAKERS = ["Presenter", "Copresenter1", "Copresenter2", "Copresenter3"];
+      for (var type = 0; type < TYPES_OF_SPEAKERS.length; type++) {
+        if (dbPresentation[TYPES_OF_SPEAKERS[type]] == null) {
+          break;
+        }
+        dbPerson = dbPresentation[TYPES_OF_SPEAKERS[type]];
+        for (j = 0; j < people.length; j++) {
+          eventmobiPerson = people[j];
+          if ((eventmobiPerson.first_name == dbPerson.prefix + " "+ dbPerson.first || eventmobiPerson.first_name == dbPerson.first) &&
+              eventmobiPerson.last_name == dbPerson.last &&
+              eventmobiPerson.email == dbPerson.email) {
+
+            eventmobiSpeakers.push(eventmobiPerson.id);
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                console.log("Person Updated");
+              }
+            };
+            xmlHttp.open("PATCH", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/people/resources/"+eventmobiPerson.id);
+            xmlHttp.setRequestHeader("Content-Type", "application/json");
+            xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+            xmlHttp.send('{ "group_ids": ["'+config.eventmobi.speaker_id+'"] }');
+          }
+        }
+      }
+      console.log(eventmobiSpeakers);
       // GET THE SPEAKER IDS FROM people
       // SET THE SPEAKER ROLE FOR THE ATTENDEE IN people
       // SET THE SPEAKERS IN THE SESSION IN sessions
