@@ -1,19 +1,21 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-  <!--bootstrap import -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script>
-    window.jQuery = window.$ = require('jquery');
-  </script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <!--end of bootstrap import -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!--bootstrap import -->
 
-  <meta charset="UTF-8">
-  <title>IDEAS Conference Planner</title>
-  <link rel = "stylesheet" type = "text/css"href = "styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        window.jQuery = window.$ = require('jquery');
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!--end of bootstrap import -->
+
+    <meta charset="UTF-8">
+    <title>IDEAS Conference Planner</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 
 <body>
@@ -21,62 +23,84 @@
 <!-- Navigation bar at the top-->
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
+    <div class="container-fluid">
+        <div class="navbar-header">
 
-      <a class="navbar-brand" href="#">IDEAS Conference Planner</a>
+            <a class="navbar-brand" href="#">IDEAS Conference Planner</a>
+        </div>
+        <div class="float-right">
+            lol
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 40px">
+                <li class="active">
+                    <a class=href="#">Home</a></li>
+                <li>
+                    <a class="nav-link"
+                       href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
+                       target="_blank">Calendar</a></li>
+                <li>
+                    <a class="nav-link"
+                       href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015"
+                       target="_blank">Email <span class="sr-only">(current)</span></a></li>
+                <li>
+                    <a href="#">Resource</a></li>
+            </ul>
+        </div>
     </div>
-    <div class = "float-right">
-      lol
-      <ul class="nav navbar-nav navbar-right"style = "margin-right: 40px">
-        <li class="active">
-          <a class = href="#">Home</a></li>
-        <li>
-          <a class="nav-link" href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin" target = "_blank">Calendar</a></li>
-        <li>
-          <a class="nav-link" href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015" target = "_blank">Email <span class="sr-only">(current)</span></a></li>
-        <li>
-          <a href="#">Resource</a></li>
-      </ul>
-    </div>
-  </div>
 </nav>
 
 <!-- End of navigation bar at top -->
 
-<div style = "padding: 5px 30px 25px">
-  <h2 style = "margin-bottom: 1cm; margin-top :2cm">Submitted Presentations:</h2>
+<div style="padding: 5px 30px 25px">
 
-  <div class="form-group">
-    <label for="usr"><span style="font-size:20px" class="fa">&#xf002;
+    <h2 style="margin-bottom: 1cm; margin-top :2cm">Submitted Presentations:</h2>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <label for="usr"><span style="font-size:20px" class="fa">&#xf002;
           </span>:&nbsp Import JotForms:</label>
-    <input style = "margin-bottom: 1cm;" type="file" id="getjotfile" value="Import JotForm">
-  </div>
+            <input style="margin-bottom: 1cm;" type="file" id="getjotfile" value="Import JotForm">
+        </div>
+        <div class="col-sm-3">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select User
+                    <span class="caret"></span></button>
+                <ul id = "userDropDown" class="dropdown-menu">
+                    <li><a href="#">User 1</a></li>
 
-  <div>
-    <div class="form-group">
-      <label for="usr">Search:</label>
-      <input type="text" style = "font-size:18px" id="myInput" onkeyup="searchFunc()" placeholder="Search for Titles.." class="form-control" id="myInput">
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-primary">Add user</button>
+        </div>
     </div>
 
-  </div>
-  <br>
 
-  <div id="presentationDiv">
-    <!-- reserved space for table -->
-  </div>
+    <div>
+        <div class="form-group">
+            <label for="usr">Search:</label>
+            <input type="text" style="font-size:18px" id="myInput" onkeyup="searchFunc()"
+                   placeholder="Search for Titles.." class="form-control" id="myInput">
+        </div>
+
+    </div>
+    <br>
+
+    <div id="presentationDiv">
+        <!-- reserved space for table -->
+    </div>
 
 </div>
 
 <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p id="pEntry">Full Entry</p>
-  </div>
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="pEntry">Full Entry</p>
+    </div>
 
 
-  <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="index.js"></script>
 </body>
 </html>

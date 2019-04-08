@@ -12,6 +12,9 @@ var selectedCategory;
 
 var tb = null;
 
+document.addEventListener('DOMContentLoaded', queryReviewer);
+
+
 function getAttendeeName(attendee) {
 
   return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
@@ -558,7 +561,19 @@ function ingestCSV() {
 
 }
 
+function populateReviewer(data){
+  console.log(data);
+  var dropdown = document.getElementById("userDropDown")
+  for(var i = 0; i < data.length; i++){
+    var li = document.createElement("li");
+    li.innerHTML = data.first + " " + data.last
+  }
 
+}
+
+function queryReviewer() {
+  ipc.send('query-reviewer', sessionStorage.presID);
+}
 
 ipc.on('ingest-csv', function(event, arg) {
 
@@ -578,10 +593,14 @@ ipc.on('get-categories-reply', function(event, arg) {
 ipc.on('query-presentations-reply', function(event, arg) {
 
   var query = JSON.parse(arg);
-
   generateTable(query);
 });
+ipc.on('query-reviewer-reply', function(event, arg) {
 
+  var query = JSON.parse(arg);
+
+  populateReviewer(query);
+});
 function sortTable(n) {
         console.log("sorting")
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;

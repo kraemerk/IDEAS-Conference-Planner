@@ -288,7 +288,13 @@ function setCategory(presentationTitle, categoryID) {
     { where: { title: presentationTitle }});
 }
 
-
+function queryReviewer(event) {
+  Reviewer.findAll({
+    attributes:['id', 'first', 'last']
+  }).then(review => {
+    event.sender.send('query-reviewer-reply', JSON.stringify(review));
+  });
+}
 function queryPresentations (event) {
   Presentation.findAll({
     attributes: ['id', 'title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],
@@ -413,6 +419,9 @@ ipc.on('update-rating', function(event, arg) {
 
 ipc.on('query-radios', function(event, arg) {
   event.returnValue = queryRadio(event, arg);
+});
+ipc.on('query-reviewer', function(event, arg) {
+  event.returnValue = queryReviewer(event, arg);
 });
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
