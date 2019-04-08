@@ -295,6 +295,7 @@ function queryReviewer(event) {
     event.sender.send('query-reviewer-reply', JSON.stringify(review));
   });
 }
+
 function queryPresentations (event) {
   Presentation.findAll({
     attributes: ['id', 'title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', ],

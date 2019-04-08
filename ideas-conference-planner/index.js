@@ -223,6 +223,8 @@ function ratePresentation(rowID, presID) {
   actionSpace.appendChild(button);
 }
 
+
+
 function generateTable(data) {
 
   var presentationDiv = document.getElementById('presentationDiv');
@@ -566,9 +568,9 @@ function populateReviewer(data){
   var dropdown = document.getElementById("userDropDown")
   for(var i = 0; i < data.length; i++){
     var li = document.createElement("li");
-    li.innerHTML = data.first + " " + data.last
+    li.innerHTML = data[i].first + " " + data[i].last
+    dropdown.appendChild(li);
   }
-
 }
 
 function queryReviewer() {
@@ -595,12 +597,12 @@ ipc.on('query-presentations-reply', function(event, arg) {
   var query = JSON.parse(arg);
   generateTable(query);
 });
+
 ipc.on('query-reviewer-reply', function(event, arg) {
-
   var query = JSON.parse(arg);
-
   populateReviewer(query);
 });
+
 function sortTable(n) {
         console.log("sorting")
         var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
