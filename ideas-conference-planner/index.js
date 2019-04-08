@@ -1,6 +1,7 @@
 const ipc = require('electron').ipcRenderer;
 
 var categoryList;
+var cCount;
 
 //category countlist is used
 //to keep track of the number of presentations
@@ -176,10 +177,12 @@ function addCategorization(rowID) {
 function addCategorizationActions(rowID) {
   categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
   populateCategoryCountList();
-  alert('RowId: ' + rowID + " category: " + categoryList[rowID].title);
+  
   var catActions = document.getElementById('categoryActions' + rowID);
   var catTitle = categoryList[rowID].title;
   var catTable = document.getElementById('categoriesTable');
+
+  alert('entry name: ' + catTable.rows[rowID].cells[0].innerHTML);
 
   //create the edit button
   var editButton = document.createElement('button');
@@ -255,13 +258,7 @@ function addCategorizationActions(rowID) {
         //change the value in the table
         catTitleSpace.innerHTML = newText;
         
-        //reindex the table
-        // alert("start");
-        // for (int i = 0; i < catTable.rows.length; i++) {
-        //   // alert("in");
-        //   // catTable.rows[i].id = 'categoriesTable' + i;
-        // }
-        // alert("end");
+
         
         //reset the buttons
         catActions.innerHTML = '';
@@ -305,13 +302,24 @@ function addCategorizationActions(rowID) {
       rowWasDeleted = true;
       // alert('deletedrow');
 
+
       //delete it and recalculate the category list and
       //category count list
       var testDelete = ipc.sendSync('delete-category', cID);
       categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
       populateCategoryCountList();
       refreshPresentations();
+
+      cCount--;
       
+      // alert("cCount: " + cCount);
+      alert("start");
+      for (i = 1; i <= cCount; i++) {
+        // alert("catTable.rows[i]: " + catTable.rows[i].cells[0].innerHTML);
+        catTable.rows[i].id = i -1 ;
+      }
+      alert("here");
+      tb = null;
       
     }
     catActions.appendChild(deleteButton);
@@ -323,7 +331,8 @@ function addCategorizationActions(rowID) {
 }
 
 function editCategory() {
-
+  cCount = categoryList.length;
+  // alert("cCount: " + cCount);
   if (tb != null) {
     // alert("tb: " + tb.cells[2].innerHTML);
     tb.hilite = false;
@@ -476,7 +485,9 @@ function editCategory() {
 
     //when the row is clicked highlight it and add the possible actions to
     newRow.onclick= function () {
+      alert("id: " + this.id);
       if (tb == null){
+        alert("tb is null");
         tb = this;
         this.style.backgroundColor = this.origColor;
         this.origColor=this.style.backgroundColor;
@@ -484,6 +495,8 @@ function editCategory() {
         this.hilite = true;
         addCategorizationActions(this.id);
       } else {
+        // alert("tb is not null: " + tb.cells[0].innerHTML);
+        // alert("this is: " + this.cells[0].innerHTML);
         tb.style.backgroundColor=tb.origColor;
         tb.hilite = false;
         this.style.backgroundColor = this.origColor;
@@ -493,7 +506,7 @@ function editCategory() {
         var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
         var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
         if (tb != this) {
-          // alert('tb != this');
+          alert('tb != this');
           if (editCategoryFlag) {
             // alert('editCategoryFlag = true');
 
@@ -504,12 +517,17 @@ function editCategory() {
             var categoryValueSpace = document.getElementById('categoryValue' + tb.id);
             categoryValueSpace.innerHTML = oldText;
             editCategoryFlag = false;
+            // alert("end of editcategoryflag")
           }
           if (!rowWasDeleted) {
+            // alert("row was not deleted");
             categoryActionSpace.innerHTML = '';
           } else {
+            // alert('row was deleted')
             rowWasDeleted = false;
           }
+          tb.id = -1;
+          alert("this.id: " + this.id + " tb.id: " + tb.id);
           addCategorizationActions(this.id);
           
         } 
@@ -533,6 +551,8 @@ function editCategory() {
       modal.style.display = "none";
     }
   }
+
+  // cCount = categoryTable.rows.length;
 }
 
 
