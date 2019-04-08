@@ -274,11 +274,13 @@ function ingestCSV (file) {
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
 
-function setCategory(presentationTitle, categoryID) {
+function setCategory(event, presentationTitle, categoryID) {
   console.log(presentationTitle);
   console.log(categoryID);
   Presentation.update({ category_id: categoryID },
     { where: { title: presentationTitle }});
+
+  event.returnValue = 1;
 }
 
 function countCategorized(event, arg) {
@@ -424,7 +426,7 @@ ipc.on('delete-category', function(event, arg) {
 })
 
 ipc.on('set-category', function(event, arg) {
-  setCategory(arg.presentation, arg.category);
+  setCategory(event, arg.presentation, arg.category);
 });
 
 ipc.on('update-rating', function(event, arg) {

@@ -150,15 +150,16 @@ function addCategorization(rowID) {
     currentCategorySpace.innerHTML = selectedCategory;
     var sIndex = dropDownMenu.selectedIndex - 1;
 
-    ipc.send('set-category',
+    var setCat = ipc.sendSync('set-category',
       {"presentation":document.getElementById(rowID).cells[2].innerHTML,
       "category":categoryList[sIndex].id});
 
-    //when the category is changed, the categorycount list must be reinitialized
-    location.reload();
+    // categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+    populateCategoryCountList();
   }
-
-  dropDownSpace.appendChild(dropDownMenu);
+  
+  if (dropDownSpace.innerHTML == '')
+    dropDownSpace.appendChild(dropDownMenu);
 
 
 
@@ -173,12 +174,12 @@ function addCategorization(rowID) {
 //this function handles adding the buttons
 //to the selected category in the edit categories modal window
 function addCategorizationActions(rowID) {
-
-  // alert('Adding categorization actions');
+  categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+  populateCategoryCountList();
+  alert('RowId: ' + rowID + " category: " + categoryList[rowID].title);
   var catActions = document.getElementById('categoryActions' + rowID);
   var catTitle = categoryList[rowID].title;
   var catTable = document.getElementById('categoriesTable');
-
 
   //create the edit button
   var editButton = document.createElement('button');
@@ -254,6 +255,13 @@ function addCategorizationActions(rowID) {
         //change the value in the table
         catTitleSpace.innerHTML = newText;
         
+        //reindex the table
+        // alert("start");
+        // for (int i = 0; i < catTable.rows.length; i++) {
+        //   // alert("in");
+        //   // catTable.rows[i].id = 'categoriesTable' + i;
+        // }
+        // alert("end");
         
         //reset the buttons
         catActions.innerHTML = '';
@@ -292,8 +300,6 @@ function addCategorizationActions(rowID) {
   if (presentationCount == 0) {
     deleteButton.onclick = function() {
       var cID = getCategoryIdFromName(catTitle);
-      alert('cid: ' +cID);
-      alert('rowID: ' + rowID);
       var actualRow = +rowID + 1;
       catTable.deleteRow(actualRow);
       rowWasDeleted = true;
@@ -303,9 +309,9 @@ function addCategorizationActions(rowID) {
       //category count list
       var testDelete = ipc.sendSync('delete-category', cID);
       categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
-      refreshPresentations();
       populateCategoryCountList();
-      alert("got over here");
+      refreshPresentations();
+      
       
     }
     catActions.appendChild(deleteButton);
@@ -317,12 +323,20 @@ function addCategorizationActions(rowID) {
 }
 
 function editCategory() {
+
+  if (tb != null) {
+    // alert("tb: " + tb.cells[2].innerHTML);
+    tb.hilite = false;
+    tb = null;    
+  }
+  // alert("here");
     
   //get the table inside the modal window and resets it to nothing
-  //as well as the paragraph 
   var categoryTable = document.getElementById('categoriesTable');    
   var pEntry = document.getElementById('pEntry');
-  
+  // alert("tb name: " + tb.cells[1].innerHTML);
+
+
   var newCatBtnDiv = document.getElementById('newCatBtnDiv');
   newCatBtnDiv.innerHTML = '';
   var newCategoryButton = document.createElement('button');
