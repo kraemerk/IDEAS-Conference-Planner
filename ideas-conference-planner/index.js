@@ -122,7 +122,10 @@ function populateCategoryCountList() {
 
 function addCategorization(rowID) {
 
-  
+  // alert("entered add categorization");
+
+  categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+  populateCategoryCountList();
   var dropDownSpace = document.getElementById('dropDownSpace' + rowID);
   var currentCategorySpace = document.getElementById('currentCategorySpace' + rowID);
 
@@ -159,8 +162,25 @@ function addCategorization(rowID) {
     populateCategoryCountList();
   }
   
-  if (dropDownSpace.innerHTML == '')
+  if (dropDownSpace.innerHTML == '') {
     dropDownSpace.appendChild(dropDownMenu);
+  } else {
+    dropDownSpace.innerHTML = '';
+    var newDropDownMenu = document.createElement("SELECT");
+    newDropDownMenu.id = "categoryDropDown" + rowID;
+    var option = document.createElement('option');
+    option.text = 'Select Category';
+    newDropDownMenu.add(option);
+
+    //loops for every category in category list and
+    //ads a dropdown option for each one
+    for (i = 0; i < categoryList.length; i++) {
+      option = document.createElement('option');
+      option.text = categoryList[i].title;
+      newDropDownMenu.add(option);
+    }
+    dropDownSpace.appendChild(newDropDownMenu);
+  }
 
 
 
@@ -182,7 +202,7 @@ function addCategorizationActions(rowID) {
   var catTitle = categoryList[rowID].title;
   var catTable = document.getElementById('categoriesTable');
 
-  alert('entry name: ' + catTable.rows[rowID].cells[0].innerHTML);
+  // alert('entry name: ' + catTable.rows[rowID].cells[0].innerHTML);
 
   //create the edit button
   var editButton = document.createElement('button');
@@ -313,13 +333,11 @@ function addCategorizationActions(rowID) {
       cCount--;
       
       // alert("cCount: " + cCount);
-      alert("start");
+      // alert("start");
       for (i = 1; i <= cCount; i++) {
         // alert("catTable.rows[i]: " + catTable.rows[i].cells[0].innerHTML);
-        catTable.rows[i].id = i -1 ;
+        catTable.rows[i].id = i - 1 ;
       }
-      alert("here");
-      tb = null;
       
     }
     catActions.appendChild(deleteButton);
@@ -332,9 +350,10 @@ function addCategorizationActions(rowID) {
 
 function editCategory() {
   cCount = categoryList.length;
-  // alert("cCount: " + cCount);
+  // alert("Edit Category");
   if (tb != null) {
-    // alert("tb: " + tb.cells[2].innerHTML);
+    // alert("tb: " + tb.cells[2].i/nnerHTML);
+    tb.style.backgroundColor=tb.origColor;
     tb.hilite = false;
     tb = null;    
   }
@@ -488,9 +507,7 @@ function editCategory() {
 
     //when the row is clicked highlight it and add the possible actions to
     newRow.onclick= function () {
-      alert("id: " + this.id);
       if (tb == null){
-        alert("tb is null");
         tb = this;
         this.style.backgroundColor = this.origColor;
         this.origColor=this.style.backgroundColor;
@@ -509,9 +526,7 @@ function editCategory() {
         var categoryActionSpace = document.getElementById('categoryActions' + tb.id);
         var presentationCountSpace = document.getElementById('presentationCount' + tb.id);
         if (tb != this) {
-          alert('tb != this');
           if (editCategoryFlag) {
-            // alert('editCategoryFlag = true');
 
             var editTextBox = document.getElementById('editTextBox' + tb.id);
             var oldText = editTextBox.value;
@@ -520,17 +535,13 @@ function editCategory() {
             var categoryValueSpace = document.getElementById('categoryValue' + tb.id);
             categoryValueSpace.innerHTML = oldText;
             editCategoryFlag = false;
-            // alert("end of editcategoryflag")
           }
           if (!rowWasDeleted) {
-            // alert("row was not deleted");
             categoryActionSpace.innerHTML = '';
           } else {
-            // alert('row was deleted')
             rowWasDeleted = false;
           }
-          tb.id = -1;
-          alert("this.id: " + this.id + " tb.id: " + tb.id);
+          // alert("this.id: " + this.id + " tb.id: " + tb.id);
           addCategorizationActions(this.id);
           
         } 
