@@ -1,31 +1,54 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel = "stylesheet" type = "text/css"href = "styles.css">
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!--bootstrap import -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        window.jQuery = window.$ = require('jquery');
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!--end of bootstrap import -->
 
     <meta charset="UTF-8">
     <title>IDEAS Conference Planner</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
 
-  </head>
+<body>
 
-  <body>
-    <!-- Navigation bar at the top-->
-    <div class="navbar">
-      <div class="container" onclick="myFunction(this)" style = "float: left;padding-left: 30px">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </div>
-      <img style="float: left; width:55px;height:50px;padding-left: 30px" src="images/idea.png" alt="idea logo">
-      <h1 style = "font-size: 20px;padding-left: 20px; padding-right: 80px; color: white; float: left"> IDEA Conference Planner</h1>
-      <a style = "padding-left: 20px" href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015" target = "_blank">Email</a>
-      <a href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin" target = "_blank">Calendar</a>
-      <a href="#Resource">Resource</a>
+<!-- Navigation bar at the top-->
 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="#">IDEAS Conference Planner</a>
+        </div>
+        <div class="float-right">
+            lol
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 40px">
+                <li class="active">
+                    <a class=href="#">Home</a></li>
+                <li>
+                    <a class="nav-link"
+                       href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
+                       target="_blank">Calendar</a></li>
+                <li>
+                    <a class="nav-link"
+                       href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015"
+                       target="_blank">Email <span class="sr-only">(current)</span></a></li>
+                <li>
+                    <a href="#">Resource</a></li>
+            </ul>
+        </div>
     </div>
+</nav>
 
-    <!-- End of top nav bar -->
+<!-- End of navigation bar at top -->
 
     <!-- Body of the web app, centered to middle -->
     <div style = "padding: 5px 30px 25px">

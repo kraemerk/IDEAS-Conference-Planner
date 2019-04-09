@@ -42,28 +42,26 @@ function getReview(review) {
 
 
 function ratePresentation(rowID, presID) {
-  if(sessionStorage.reviewerName == null || sessionStorage.reviewerID == null) {
-    alert("Please select a user first.");
-  } else {
 
     var button = document.createElement('button');
     button.textContent = 'Rate';
     var actionSpace = document.getElementById('actions' + rowID);
 
-    button.addEventListener('click', () => {
-
-      // stores the raw html data for the row in session storage.
-      sessionStorage.presTitle = document.getElementById(rowID).cells[2].innerHTML;
-      sessionStorage.presDesc = document.getElementById(rowID).cells[3].innerHTML;
-      sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
-      sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
-      sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
-      sessionStorage.presID = presID;
-      window.location = "index-rating.html";
-    }, false)
+    button.onclick = function () {
+      if(sessionStorage.reviewerName == null || sessionStorage.reviewerID == null) {
+        alert("Please select a user first.");
+      } else {
+        sessionStorage.presTitle = document.getElementById(rowID).cells[2].innerHTML;
+        sessionStorage.presDesc = document.getElementById(rowID).cells[3].innerHTML;
+        sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
+        sessionStorage.presObj2 = document.getElementById(rowID).cells[5].innerHTML;
+        sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
+        sessionStorage.presID = presID;
+        window.location = "index-rating.html";
+      }
+    }
 
     actionSpace.appendChild(button);
-  }
 }
 
 function getCategoryIdFromName(categoryName) {
@@ -829,10 +827,10 @@ function populateReviewer(data){
     var li = document.createElement("li");
     var button = document.createElement("button");
     button.innerHTML = data[i].first + " " + data[i].last;
-    button.id = i;
+    button.id = i + 100;
     button.onclick = function () {
-      sessionStorage.reviewerName = data[this.id].first + " " + data[this.id].last;
-      sessionStorage.reviewerID = data[this.id].id;
+      sessionStorage.reviewerName = data[this.id - 100].first + " " + data[this.id - 100].last;
+      sessionStorage.reviewerID = data[this.id - 100].id;
     }
     li.appendChild(button);
     dropdown.appendChild(li);
