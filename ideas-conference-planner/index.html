@@ -51,7 +51,6 @@
 <!-- End of navigation bar at top -->
 
 <div style="padding: 5px 30px 25px">
-
     <h2 style="margin-bottom: 1cm; margin-top :2cm">Submitted Presentations:</h2>
 
     <div class="row">
@@ -60,6 +59,7 @@
           </span>:&nbsp Import JotForms:</label>
             <input style="margin-bottom: 1cm;" type="file" id="getjotfile" value="Import JotForm">
         </div>
+        <button onclick="sync_eventmobi()"> Sync to EventMobi</button>
         <div class="col-sm-3">
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select User
@@ -110,11 +110,15 @@
 
 <div id="myModal" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p id="pEntry">Full Entry</p>
-    </div>
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="pEntry"></p>
+    <table id="categoriesTable"></table>
+    <input id="newCatInput" type="text"/>
+    <div id="newCatBtnDiv"></div>
+  </div>
+</div>
 
 
     <script type="text/javascript" src="index.js"></script>
