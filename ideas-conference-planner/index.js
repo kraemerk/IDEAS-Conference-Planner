@@ -342,19 +342,6 @@ function generateTable(data) {
 
 
 
-  th = document.createElement('th');
-
-  th.appendChild(document.createTextNode('Rating 1'));
-
-  row.appendChild(th);
-
-
-
-  th = document.createElement('th');
-
-  th.appendChild(document.createTextNode('Rating 2'));
-
-  row.appendChild(th);
 
 
 
@@ -365,7 +352,15 @@ function generateTable(data) {
   row.appendChild(th);
 
   th = document.createElement('th');
-  th.appendChild(document.createTextNode('Reviewer'));
+  th.appendChild(document.createTextNode('Reviewer 1'));
+  row.appendChild(th);
+
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Review'));
+  row.appendChild(th);
+
+  th = document.createElement('th');
+  th.appendChild(document.createTextNode('Reviewer 2'));
   row.appendChild(th);
 
   th = document.createElement('th');
