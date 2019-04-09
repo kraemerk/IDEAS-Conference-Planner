@@ -4,6 +4,7 @@ var config;
 const electron = require('electron');
 const { app, BrowserWindow } = require('electron');
 const ipc = require('electron').ipcMain;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 ini = require('ini');
 
@@ -94,7 +95,8 @@ const Presentation = sequelize.define('presentation', {
   copresenter_2_id: Sequelize.INTEGER,
   copresenter_3_id: Sequelize.INTEGER,
   category_id: Sequelize.INTEGER,
-  overall_rating: Sequelize.INTEGER
+  overall_rating: Sequelize.INTEGER,
+  accepted: Sequelize.BOOLEAN
 }, {
   schema: config.database.schema,
   freezeTableName: true,
@@ -395,6 +397,133 @@ function updateRating (event, arg) {
     })
   });
 }
+
+function syncPresentersWithDatabase(event, people, sessions) {
+  Presentation.findAll({
+    attributes: ['title', 'description', ],
+
+    include: [
+      {
+        model: Attendee,
+        as: 'Presenter'
+      }, {
+        model: Attendee,
+        as: 'Copresenter1'
+      }, {
+        model: Attendee,
+        as: 'Copresenter2'
+      }, {
+        model: Attendee,
+        as: 'Copresenter3'
+      }
+    ],
+
+    where: {
+      accepted: true
+    }
+  }).then(dbPresentations => {
+    for (var i = 0; i < dbPresentations.length; i++) {
+      dbPresentation = dbPresentations[i];
+
+      eventmobiPresentation = null;
+      for (var j = 0; j < sessions.length; j++) {
+        if (sessions[j].name == dbPresentation.title) {
+          eventmobiPresentation = sessions[j];
+          break;
+        }
+      }
+      eventmobiSpeakers = [];
+      TYPES_OF_SPEAKERS = ["Presenter", "Copresenter1", "Copresenter2", "Copresenter3"];
+      for (var type = 0; type < TYPES_OF_SPEAKERS.length; type++) {
+        if (dbPresentation[TYPES_OF_SPEAKERS[type]] == null) {
+          break;
+        }
+        dbPerson = dbPresentation[TYPES_OF_SPEAKERS[type]];
+        for (var j = 0; j < people.length; j++) {
+          eventmobiPerson = people[j];
+          if ((eventmobiPerson.first_name == dbPerson.prefix + " "+ dbPerson.first || eventmobiPerson.first_name == dbPerson.first) &&
+              eventmobiPerson.last_name == dbPerson.last &&
+              eventmobiPerson.email == dbPerson.email) {
+
+            eventmobiSpeakers.push(eventmobiPerson.id);
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                console.log("Person Updated");
+              }
+            };
+            xmlHttp.open("PATCH", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/people/resources/"+eventmobiPerson.id);
+            xmlHttp.setRequestHeader("Content-Type", "application/json");
+            xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+            xmlHttp.send('{ "group_ids": ["'+config.eventmobi.speaker_id+'"] }');
+          }
+        }
+      }
+      for (var j = 0; j < eventmobiSpeakers.length; j++) {
+        eventmobiSpeakers[j] = "\""+eventmobiSpeakers[j]+"\"";
+      }
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log("Event Updated");
+        }
+      };
+      xmlHttp.open("PATCH", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/sessions/resources/"+eventmobiPresentation.id);
+      xmlHttp.setRequestHeader("Content-Type", "application/json");
+      xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+      xmlHttp.send("{ \"roles\" : [{\"id\":\""+config.eventmobi.speaker_role_id+"\",\"name\":\"Speaker\",\"people_ids\":["+eventmobiSpeakers+"]}]}");
+    }
+    event.returnValue = "SUCCESS";
+  });
+}
+
+function getPresentations(event, people) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var ret = JSON.parse(xmlHttp.responseText);
+      syncPresentersWithDatabase(event, people, ret.data);
+    }
+  };
+  xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/sessions/resources?limit=1000");
+  xmlHttp.setRequestHeader("Content-Type", "application/json");
+  xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+  xmlHttp.send();
+}
+
+function evalPaginatedPeople(event, xmlHttp, out) {
+  return function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var ret = JSON.parse(xmlHttp.responseText);
+      out = out.concat(ret.data);
+      if (ret.meta.pagination.next_page) {
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = evalPaginatedPeople(event, xmlHttp, out);
+        xmlHttp.open("GET", ret.meta.pagination.next_page);
+        xmlHttp.setRequestHeader("Content-Type", "application/json");
+        xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+        xmlHttp.send();
+      } else {
+        getPresentations(event, out);
+      }
+    }
+  }
+}
+
+function syncPresentersToEventmobi(event) {
+  var xmlHttp = new XMLHttpRequest();
+  var people = [];
+  xmlHttp.onreadystatechange = evalPaginatedPeople(event, xmlHttp, people);
+  xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/people/resources?limit=1000");
+  xmlHttp.setRequestHeader("Content-Type", "application/json");
+  xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
+  xmlHttp.send();
+}
+
+// MAKE IPC CALL TO RUN EVENTMOBI SYNC AND TIE IT TO A BUTTON
+// CALL EVENTMOBI SYNC APPROVED PRESENTATIONS WITH: `syncPresentersToEventmobi(event);`
+// WHEN COMPLETED, THIS WILL SET event.returnValue to "SUCCESS"
 
 ipc.on('ingest-csv', function(event, arg) {
   ingestCSV(arg);
