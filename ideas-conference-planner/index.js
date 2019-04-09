@@ -13,7 +13,7 @@ var selectedCategory;
 var tb = null;
 
 document.addEventListener('DOMContentLoaded', queryReviewer);
-//document.addEventListener('DOMContentLoaded', createReviewerButton);
+document.addEventListener('DOMContentLoaded', createReviewerButton);
 
 
 function getAttendeeName(attendee) {
@@ -575,7 +575,6 @@ function populateReviewer(data){
     button.addEventListener('click', () => {
       sessionStorage.reviewerName = button.innerHTML;
       sessionStorage.reviewerID = button.id;
-      console.log(sessionStorage);
     }, false)
     li.appendChild(button);
     dropdown.appendChild(li);
@@ -583,14 +582,14 @@ function populateReviewer(data){
 }
 
 function createReviewerButton() {
-  var button = document.getElementById("createUser");
-  button.addEventListener('click', () => {
-
-  }, false)
+  alert(getNewReviewer());
 }
 
-function createReviewer(reviewerfName, reviewerlName) {
-  ipc.send('create-reviewer', reviewerfName, reviewerlName);
+function getNewReviewer() {
+  return {
+    firstName: document.getElementById('formFirstName').value,
+    lastName: document.getElementById('formLastName').value
+  }
 }
 
 function queryReviewer() {

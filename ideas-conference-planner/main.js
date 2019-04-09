@@ -377,6 +377,23 @@ function updateRating (event, arg) {
   });
 }
 
+function updateReviewer (event, arg) {
+  var reviewer = arg;
+  Reviewer.create({
+    first: reviewer.first,
+    last: reviewer.last
+  }).catch(Sequelize.ValidationErrorm, function (err) {
+    Reviewer.update({
+      first: reviewer.first,
+      last: reviewer.last
+    },{
+      where: {
+        reviewer_id: reviewer.id,
+      }
+    })
+  });
+}
+
 ipc.on('ingest-csv', function(event, arg) {
   ingestCSV(arg);
   event.returnValue = queryPresentations(event);
@@ -404,6 +421,10 @@ ipc.on('query-radios', function(event, arg) {
 ipc.on('query-reviewer', function(event, arg) {
   event.returnValue = queryReviewer(event, arg);
 });
+
+ipc.on('create-reviewer', function(event, arg) {
+  event.returnValue = updateReviewer(event, arg);
+})
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
 app.on('ready', createWindow);
