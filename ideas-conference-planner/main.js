@@ -475,6 +475,7 @@ function syncPresentersWithDatabase(event, people, sessions) {
       xmlHttp.send("{ \"roles\" : [{\"id\":\""+config.eventmobi.speaker_role_id+"\",\"name\":\"Speaker\",\"people_ids\":["+eventmobiSpeakers+"]}]}");
     }
     event.returnValue = "SUCCESS";
+    console.log("process sync")
   });
 }
 
@@ -524,6 +525,12 @@ function syncPresentersToEventmobi(event) {
 // MAKE IPC CALL TO RUN EVENTMOBI SYNC AND TIE IT TO A BUTTON
 // CALL EVENTMOBI SYNC APPROVED PRESENTATIONS WITH: `syncPresentersToEventmobi(event);`
 // WHEN COMPLETED, THIS WILL SET event.returnValue to "SUCCESS"
+
+ipc.on('eventmobi-call', function(event, arg) {
+  syncPresentersToEventmobi(event);
+});
+
+
 
 ipc.on('ingest-csv', function(event, arg) {
   ingestCSV(arg);
