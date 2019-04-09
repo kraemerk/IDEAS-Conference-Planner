@@ -896,7 +896,8 @@ function sortTable(n) {
 
 function sync_eventmobi(){
     console.log("syncing eventmobi")
-    ipc.send('eventmobi-call', sessionStorage.presID);
+    result = ipc.sendSync('eventmobi-call', '');
+    alert(result);
 }
 
 function searchFunc() {
