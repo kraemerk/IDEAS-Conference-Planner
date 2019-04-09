@@ -286,7 +286,7 @@ function setCategory(event, presentationTitle, categoryID) {
 }
 
 function countCategorized(event, arg) {
-  
+
   Presentation.count({ where: {category_id: arg} }).then(c => {
     console.log("actual id: " + arg + " count: " + c);
     event.returnValue = c;
@@ -348,7 +348,7 @@ function addCategory(event, categoryName) {
 }
 
 function deleteCategory(event, categoryID) {
-  
+
   console.log('destroy category: ' + categoryID);
   Category.destroy({
     where: {id: categoryID}
@@ -358,12 +358,12 @@ function deleteCategory(event, categoryID) {
 
 function updateCategoryName(event, categoryId, newValue) {
   console.log("cID: " + categoryId);
-  
-  
+
+
   Category.update(
    {title: newValue},
    {where: { id: categoryId }});
-  
+
   event.returnValue = newValue;
 }
 
@@ -474,7 +474,8 @@ function syncPresentersWithDatabase(event, people, sessions) {
       xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
       xmlHttp.send("{ \"roles\" : [{\"id\":\""+config.eventmobi.speaker_role_id+"\",\"name\":\"Speaker\",\"people_ids\":["+eventmobiSpeakers+"]}]}");
     }
-    event.returnValue = "SUCCESS";
+    event.returnValue = "EventMobi Successfully Updated";
+    console.log("process sync")
   });
 }
 
@@ -521,9 +522,11 @@ function syncPresentersToEventmobi(event) {
   xmlHttp.send();
 }
 
-// MAKE IPC CALL TO RUN EVENTMOBI SYNC AND TIE IT TO A BUTTON
-// CALL EVENTMOBI SYNC APPROVED PRESENTATIONS WITH: `syncPresentersToEventmobi(event);`
-// WHEN COMPLETED, THIS WILL SET event.returnValue to "SUCCESS"
+ipc.on('eventmobi-call', function(event, arg) {
+  syncPresentersToEventmobi(event);
+});
+
+
 
 ipc.on('ingest-csv', function(event, arg) {
   ingestCSV(arg);
