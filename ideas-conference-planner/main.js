@@ -382,15 +382,6 @@ function updateReviewer (event, arg) {
   Reviewer.create({
     first: reviewer.first,
     last: reviewer.last
-  }).catch(Sequelize.ValidationErrorm, function (err) {
-    Reviewer.update({
-      first: reviewer.first,
-      last: reviewer.last
-    },{
-      where: {
-        reviewer_id: reviewer.id,
-      }
-    })
   });
 }
 

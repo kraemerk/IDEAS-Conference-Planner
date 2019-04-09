@@ -13,7 +13,6 @@ var selectedCategory;
 var tb = null;
 
 document.addEventListener('DOMContentLoaded', queryReviewer);
-document.addEventListener('DOMContentLoaded', createReviewerButton);
 
 
 function getAttendeeName(attendee) {
@@ -582,14 +581,11 @@ function populateReviewer(data){
 }
 
 function createReviewerButton() {
-  alert(getNewReviewer());
-}
-
-function getNewReviewer() {
-  return {
-    firstName: document.getElementById('formFirstName').value,
-    lastName: document.getElementById('formLastName').value
+  var reviewer = {
+    first: document.getElementById('formFirstName').value,
+    last: document.getElementById('formLastName').value
   }
+  ipc.send('create-reviewer', reviewer);
 }
 
 function queryReviewer() {
