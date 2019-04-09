@@ -206,7 +206,7 @@ function getReview(review) {
 
 
 function ratePresentation(rowID, presID) {
-  if(sessionStorage.raterName == null) {
+  if(sessionStorage.reviewerName == null || sessionStorage.reviewerID == null) {
     alert("Please select a user first.");
   } else {
 
@@ -573,10 +573,9 @@ function populateReviewer(data){
     button.innerHTML = data[i].first + " " + data[i].last;
     button.id = data[i].id;
     button.addEventListener('click', () => {
-      sessionStorage.raterName = button.innerHTML;
-      sessionStorage.raterID = button.id;
-      console.log(sessionStorage.raterName);
-      console.log(sessionStorage.raterID);
+      sessionStorage.reviewerName = button.innerHTML;
+      sessionStorage.reviewerID = button.id;
+      console.log(sessionStorage);
     }, false)
     li.appendChild(button);
     dropdown.appendChild(li);
@@ -612,7 +611,6 @@ ipc.on('get-categories-reply', function(event, arg) {
 });
 
 ipc.on('query-presentations-reply', function(event, arg) {
-
   var query = JSON.parse(arg);
   generateTable(query);
 });

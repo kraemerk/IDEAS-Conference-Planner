@@ -1,127 +1,93 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        window.jQuery = window.$ = require('jquery');
-    </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel = "stylesheet" type = "text/css"href = "styles.css">
+
     <meta charset="UTF-8">
     <title>IDEAS Conference Planner</title>
 
-</head>
+  </head>
 
-<body>
-<!-- Navigation bar at the top-->
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-
-            <a class="navbar-brand" href="#">IDEAS Conference Planner</a>
-        </div>
-        <div class="float-right">
-            lol
-            <ul class="nav navbar-nav navbar-right" style="margin-right: 40px">
-                <li class="active">
-                    <a class=href="#">Home</a></li>
-                <li>
-                    <a class="nav-link"
-                       href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
-                       target="_blank">Calendar</a></li>
-                <li>
-                    <a class="nav-link"
-                       href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015"
-                       target="_blank">Email <span class="sr-only">(current)</span></a></li>
-                <li>
-                    <a href="#">Resource</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-
-<!-- End of top nav bar -->
-
-<!-- Body of the web app, centered to middle -->
-<div style="padding: 5px 30px 25px">
-
-    <h3 style="margin-top: 60px">Title</h3>
-    <div id="titleDiv"></div>
-    <h3>Description</h3>
-    <div id="descDiv" style="margin-top: 25px"></div>
-    <h3>Objectives</h3>
-    <div id="objDiv" style="margin-top: 25px"></div>
-    <br>
-    <div class=container>
-        <div class=row>
-            <div class="col-sm-4" align="right">
-                <p>
-                    <label for="test1">Title</label>
-                    <label align="right" class="checkbox-inline"><input name = "group1" type="checkbox" value=""> 1</label>
-                    <label align="right" class="checkbox-inline"><input name = "group1" type="checkbox" value=""> 2</label>
-                    <label align="right" class="checkbox-inline"><input name = "group1" type="checkbox" value=""> 3</label>
-                </p>
-                <p>
-                    <label for="test2">Grammar</label>
-                    <label class="checkbox-inline"><input  name = "group2" type="checkbox" value=""> 1</label>
-                    <label class="checkbox-inline"><input name = "group2"type="checkbox" value=""> 2</label>
-                    <label class="checkbox-inline"><input name = "group2"type="checkbox" value=""> 3</label>
-                </p>
-                <p>
-                    <label for="test3">Credibility</label>
-                    <label class="checkbox-inline"><input name = "group3" type="checkbox" value=""> 1</label>
-                    <label class="checkbox-inline"><input name = "group3"type="checkbox" value=""> 2</label>
-                    <label class="checkbox-inline"><input name = "group3"type="checkbox" value=""> 3</label>
-                </p>
-                <p>
-                    <label for="test4">Interest</label>
-                    <label class="checkbox-inline"><input name = "group4"type="checkbox" value=""> 1</label>
-                    <label class="checkbox-inline"><input name = "group4"type="checkbox" value=""> 2</label>
-                    <label class="checkbox-inline"><input name = "group4"type="checkbox" value=""> 3</label>
-                </p>
-                <p>
-                    <label for="test5">Content</label>
-                    <label class="checkbox-inline"><input name = "group5" type="checkbox" value=""> 1</label>
-                    <label class="checkbox-inline"><input name = "group5" type="checkbox" value=""> 2</label>
-                    <label class="checkbox-inline"><input name = "group5"type="checkbox" value=""> 3</label>
-                </p>
-                <p>
-                    <label for="test6">Novelty</label>
-                    <label class="checkbox-inline"><input name = "group6" type="checkbox" value=""> 1</label>
-                    <label class="checkbox-inline"><input name = "group6"type="checkbox" value=""> 2</label>
-                    <label class="checkbox-inline"><input name = "group6"type="checkbox" value=""> 3</label>
-                </p>
-                <p>
-                    <label for="test6">Overall</label>
-                    <label class="checkbox-inline"><input name = "group7" type="checkbox" value=""> 1</label>
-                    <label class="checkbox-inline"><input name = "group7" type="checkbox" value=""> 2</label>
-                    <label class="checkbox-inline"><input name = "group7" type="checkbox" value=""> 3</label>
-                </p>
-            </div>
-
-
-        </div>
+  <body>
+    <!-- Navigation bar at the top-->
+    <div class="navbar">
+      <div class="container" onclick="myFunction(this)" style = "float: left;padding-left: 30px">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+      <img style="float: left; width:55px;height:50px;padding-left: 30px" src="images/idea.png" alt="idea logo">
+      <h1 style = "font-size: 20px;padding-left: 20px; padding-right: 80px; color: white; float: left"> IDEA Conference Planner</h1>
+      <a style = "padding-left: 20px" href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015" target = "_blank">Email</a>
+      <a href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin" target = "_blank">Calendar</a>
+      <a href="#Resource">Resource</a>
 
     </div>
 
+    <!-- End of top nav bar -->
 
-    First name:
-    <input type="text" name="firstname" id="fname"> &nbsp&nbsp
-    Last name:
-    <input type="text" name="lastname" id="lname">
-    <br><br>
+    <!-- Body of the web app, centered to middle -->
+    <div style = "padding: 5px 30px 25px">
 
+      <h3 style="margin-top: 60px">Title</h3>
+      <div id="titleDiv"></div>
+      <h3>Description</h3>
+      <div id="descDiv" style="margin-top: 25px"></div>
+      <h3>Objectives</h3>
+      <div id="objDiv" style="margin-top: 25px"></div>
+      <p> 1 &nbsp&nbsp&nbsp 2 &nbsp&nbsp&nbsp 3</p>
+      <p>
+        <input class="with-gap" name="group1" type="radio" value="1"/>
+        <input class="with-gap" name="group1" type="radio" value="2"/>
+        <input class="with-gap" name="group1" type="radio" value="3"/>
+        <label for="test1">Title</label>
+      </p>
+      <p>
+        <input class="with-gap" name="group2" type="radio" value="1"/>
+        <input class="with-gap" name="group2" type="radio" value="2"/>
+        <input class="with-gap" name="group2" type="radio" value="3"/>
+        <label for="test2">Grammar</label>
+      </p>
+      <p>
+        <input class="with-gap" name="group3" type="radio" value="1"/>
+        <input class="with-gap" name="group3" type="radio" value="2"/>
+        <input class="with-gap" name="group3" type="radio" value="3"/>
+        <label for="test3">Credibility</label>
+      </p>
+      <p>
+        <input class="with-gap" name="group4" type="radio" value="1"/>
+        <input class="with-gap" name="group4" type="radio" value="2"/>
+        <input class="with-gap" name="group4" type="radio" value="3"/>
+        <label for="test4">Interest</label>
+      </p>
+      <p>
+        <input class="with-gap" name="group5" type="radio" value="1"/>
+        <input class="with-gap" name="group5" type="radio" value="2"/>
+        <input class="with-gap" name="group5" type="radio" value="3"/>
+        <label for="test5">Content</label>
+      </p>
+      <p>
+        <input class="with-gap" name="group6" type="radio" value="1"/>
+        <input class="with-gap" name="group6" type="radio" value="2"/>
+        <input class="with-gap" name="group6" type="radio" value="3"/>
+        <label for="test6">Novelty</label>
+      </p>
+      <p>
+        <input class="with-gap" name="group7" type="radio" value="1"/>
+        <input class="with-gap" name="group7" type="radio" value="2"/>
+        <input class="with-gap" name="group7" type="radio" value="3"/>
+        <label for="test6">Overall</label>
+      </p>
 
-    <button type="button" class="btn btn-primary" id="submitreview">Submit</button>
+      <p id="reviewerName"></p>
 
-    <button type="button" class="btn btn-warning" id="backHome">Back</button>
-</div>
-<!-- End of body -->
+      <button type="button"  class="btn btn-primary" id="submitreview">Submit</button>
 
-<script type="text/javascript" src="index-rating.js"></script>
-</body>
+      <button type="button" class="btn btn-warning" id="backHome">Back</button>
+    </div>
+    <!-- End of body -->
+
+    <script type="text/javascript" src="index-rating.js"></script>
+  </body>
 </html>

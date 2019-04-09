@@ -51,14 +51,14 @@ function getRatingVals() {
     contVal: document.querySelector('input[name="group5"]:checked').value,
     novVal: document.querySelector('input[name="group6"]:checked').value,
     overVal: document.querySelector('input[name="group7"]:checked').value,
-    rateFName: document.getElementById('fname').value,
-    rateLName: document.getElementById('lname').value,
-    presID: sessionStorage.presID
+    presID: sessionStorage.presID,
+    reviewerID: sessionStorage.reviewerID
   };
 }
 
 function generateRadioValues(radiosList) {
   console.log(radiosList);
+  console.log(sessionStorage);
   var radios1 = document.getElementsByName('group1');
   var radios2 = document.getElementsByName('group2');
   var radios3 = document.getElementsByName('group3');
@@ -162,14 +162,6 @@ function checkRadioStatus() {
     return false;
   }
 
-  if(document.getElementById('fname').value.length == 0) {
-    return false;
-  }
-
-  if(document.getElementById('lname').value.length == 0) {
-    return false;
-  }
-
   return true;
 }
 
@@ -179,5 +171,6 @@ function queryRadioButtons() {
 
 ipc.on('query-radios-reply', function(event, arg) {
   var radiosList = JSON.parse(arg);
+  document.getElementById("reviewerName").innerHTML = sessionStorage.reviewerName;
   generateRadioValues(radiosList);
 });
