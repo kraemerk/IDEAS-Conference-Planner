@@ -827,10 +827,10 @@ function populateReviewer(data){
     var li = document.createElement("li");
     var button = document.createElement("button");
     button.innerHTML = data[i].first + " " + data[i].last;
-    button.id = i + 100;
+    button.id = -i;
     button.onclick = function () {
-      sessionStorage.reviewerName = data[this.id - 100].first + " " + data[this.id - 100].last;
-      sessionStorage.reviewerID = data[this.id - 100].id;
+      sessionStorage.reviewerName = data[-this.id].first + " " + data[-this.id].last;
+      sessionStorage.reviewerID = data[-this.id].id;
     }
     li.appendChild(button);
     dropdown.appendChild(li);
