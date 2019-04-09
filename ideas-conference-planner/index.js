@@ -317,7 +317,9 @@ function addCategorizationActions(rowID) {
   if (presentationCount == 0) {
     deleteButton.onclick = function() {
       var cID = getCategoryIdFromName(catTitle);
+      alert("Cat title " + catTitle);
       var actualRow = +rowID + 1;
+      alert("actual row: " + actualRow);
       catTable.deleteRow(actualRow);
       rowWasDeleted = true;
       // alert('deletedrow');
@@ -328,7 +330,7 @@ function addCategorizationActions(rowID) {
       var testDelete = ipc.sendSync('delete-category', cID);
       categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
       populateCategoryCountList();
-      refreshPresentations();
+      // refreshPresentations();
 
       cCount--;
       
@@ -336,7 +338,7 @@ function addCategorizationActions(rowID) {
       // alert("start");
       for (i = 1; i <= cCount; i++) {
         // alert("catTable.rows[i]: " + catTable.rows[i].cells[0].innerHTML);
-        catTable.rows[i].id = i - 1 ;
+        catTable.rows[i].id = i - 1;
       }
       
     }
@@ -350,6 +352,11 @@ function addCategorizationActions(rowID) {
 
 function editCategory() {
   cCount = categoryList.length;
+
+  categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
+  populateCategoryCountList();
+  refreshPresentations();
+  
   // alert("Edit Category");
   if (tb != null) {
     // alert("tb: " + tb.cells[2].i/nnerHTML);
