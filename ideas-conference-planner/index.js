@@ -570,11 +570,11 @@ function populateReviewer(data){
     var li = document.createElement("li");
     var button = document.createElement("button");
     button.innerHTML = data[i].first + " " + data[i].last;
-    button.id = data[i].id;
-    button.addEventListener('click', () => {
-      sessionStorage.reviewerName = button.innerHTML;
-      sessionStorage.reviewerID = button.id;
-    }, false)
+    button.id = i;
+    button.onclick = function () {
+      sessionStorage.reviewerName = data[this.id].first + " " + data[this.id].last;
+      sessionStorage.reviewerID = data[this.id].id;
+    }
     li.appendChild(button);
     dropdown.appendChild(li);
   }
