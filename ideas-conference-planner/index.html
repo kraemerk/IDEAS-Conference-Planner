@@ -59,22 +59,23 @@
           </span>:&nbsp Import JotForms:</label>
             <input style="margin-bottom: 1cm;" type="file" id="getjotfile" value="Import JotForm">
         </div>
-        <button onclick="sync_eventmobi()"> Sync to EventMobi</button>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select User
+                <button id = "selectbtn" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select User
                     <span class="caret"></span></button>
-                <ul id = "userDropDown" class="dropdown-menu">
+                <ul id="userDropDown" class="dropdown-menu">
 
                 </ul>
             </div>
         </div>
         <div class="col-sm-2">
             <div class="btn-group">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
                     Add user
                 </button>
-                <form class="dropdown-menu p-4">
+
+                <form style = "margin: 10px 10px 5px 5px" class="dropdown-menu p-4">
                     <div class="form-group">
                         <label for="formFirstName">First Name: </label>
                         <input type="text" class="form-control" id="formFirstName" placeholder="first name">
@@ -84,13 +85,21 @@
                         <input type="text" class="form-control" id="formLastName" placeholder="last name">
                     </div>
 
-                    <button type="submit" onclick="createReviewerButton()" class="btn btn-primary" id="addUserBtn">Create User</button>
+                    <button type="submit" onclick="createReviewerButton()" class="btn btn-primary" id="addUserBtn">
+                        Create User
+                    </button>
                 </form>
             </div>
         </div>
+        <div class = "col-sm-2">
+            <button class="btn btn-info" onclick="editCategory()">Edit Categories</button>
+        </div>
+        <div class = "col-sm-2">
+            <button class = "btn btn-warning" onclick="sync_eventmobi()"> Sync to EventMobi</button>
+
+        </div>
     </div>
 
-    <button onclick="editCategory()">Edit Categories</button>
 
     <div>
         <div class="form-group">
@@ -110,17 +119,17 @@
 
 <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p id="pEntry"></p>
-    <table id="categoriesTable"></table>
-    <input id="newCatInput" type="text"/>
-    <div id="newCatBtnDiv"></div>
-  </div>
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="pEntry"></p>
+        <table id="categoriesTable"></table>
+        <input id="newCatInput" type="text"/>
+        <div id="newCatBtnDiv"></div>
+    </div>
 </div>
 
 
-    <script type="text/javascript" src="index.js"></script>
+<script type="text/javascript" src="index.js"></script>
 </body>
 </html>

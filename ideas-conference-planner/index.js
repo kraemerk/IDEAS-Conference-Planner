@@ -826,11 +826,16 @@ function populateReviewer(data){
   for(var i = 0; i < data.length; i++){
     var li = document.createElement("li");
     var button = document.createElement("button");
-    button.innerHTML = data[i].first + " " + data[i].last;
+    button.classList.add("btn");
+    button.classList.add("btn-primary");
+
+
+      button.innerHTML = data[i].first + " " + data[i].last;
     button.id = -(i+1);
     button.onclick = function () {
       sessionStorage.reviewerName = data[(-this.id)-1].first + " " + data[(-this.id)-1].last;
       sessionStorage.reviewerID = data[(-this.id)-1].id;
+        document.getElementById("selectbtn").innerHTML = button.innerHTML;
     }
     li.appendChild(button);
     dropdown.appendChild(li);
