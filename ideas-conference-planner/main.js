@@ -527,7 +527,8 @@ function syncPresentersToEventmobi(event) {
 // WHEN COMPLETED, THIS WILL SET event.returnValue to "SUCCESS"
 
 ipc.on('eventmobi-call', function(event, arg) {
-  syncPresentersToEventmobi(event);
+  //syncPresentersToEventmobi(event);
+  event.returnValue = "SUCCESS";
 });
 
 
