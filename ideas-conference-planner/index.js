@@ -317,9 +317,9 @@ function addCategorizationActions(rowID) {
   if (presentationCount == 0) {
     deleteButton.onclick = function() {
       var cID = getCategoryIdFromName(catTitle);
-      alert("Cat title " + catTitle);
+      // alert("Cat title " + catTitle);
       var actualRow = +rowID + 1;
-      alert("actual row: " + actualRow);
+      // alert("actual row: " + actualRow);
       catTable.deleteRow(actualRow);
       rowWasDeleted = true;
       // alert('deletedrow');
