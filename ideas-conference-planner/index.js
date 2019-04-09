@@ -14,10 +14,11 @@ var editCategoryFlag;
 var selectedCategory;
 var tb = null;
 
+document.addEventListener('DOMContentLoaded', queryReviewer);
+
+
 function getAttendeeName(attendee) {
-
     return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
-
 }
 
 function getReviewer(review) {
@@ -41,12 +42,15 @@ function getReview(review) {
 
 
 function ratePresentation(rowID, presID) {
+
     var button = document.createElement('button');
     button.textContent = 'Rate';
     var actionSpace = document.getElementById('actions' + rowID);
 
-    button.addEventListener('click', () => {
-        // stores the raw html data for the row in session storage.
+    button.onclick = function () {
+      if(sessionStorage.reviewerName == null || sessionStorage.reviewerID == null) {
+        alert("Please select a user first.");
+      } else {
         sessionStorage.presTitle = document.getElementById(rowID).cells[2].innerHTML;
         sessionStorage.presDesc = document.getElementById(rowID).cells[3].innerHTML;
         sessionStorage.presObj1 = document.getElementById(rowID).cells[4].innerHTML;
@@ -54,30 +58,10 @@ function ratePresentation(rowID, presID) {
         sessionStorage.presObj3 = document.getElementById(rowID).cells[6].innerHTML;
         sessionStorage.presID = presID;
         window.location = "index-rating.html";
-    }, false)
+      }
+    }
 
     actionSpace.appendChild(button);
-}
-
-
-function ratePresentation(rowID) {
-
-    var button = document.createElement('button');
-
-    button.textContent = 'Rate';
-
-    var actionSpace = document.getElementById('actions' + rowID);
-
-
-    button.addEventListener('click', () => {
-
-        window.location = 'index-rating.html'
-
-    }, false);
-
-
-    actionSpace.appendChild(button);
-
 }
 
 function getCategoryIdFromName(categoryName) {
@@ -836,24 +820,51 @@ function ingestCSV() {
 
 }
 
+function populateReviewer(data){
+  console.log(data);
+  var dropdown = document.getElementById("userDropDown")
+  for(var i = 0; i < data.length; i++){
+    var li = document.createElement("li");
+    var button = document.createElement("button");
+    button.innerHTML = data[i].first + " " + data[i].last;
+    button.id = -(i+1);
+    button.onclick = function () {
+      sessionStorage.reviewerName = data[(-this.id)-1].first + " " + data[(-this.id)-1].last;
+      sessionStorage.reviewerID = data[(-this.id)-1].id;
+    }
+    li.appendChild(button);
+    dropdown.appendChild(li);
+  }
+}
+
+function createReviewerButton() {
+  var reviewer = {
+    first: document.getElementById('formFirstName').value,
+    last: document.getElementById('formLastName').value
+  }
+  ipc.send('create-reviewer', reviewer);
+}
+
+function queryReviewer() {
+  ipc.send('query-reviewer', sessionStorage.presID);
+}
 
 ipc.on('ingest-csv', function (event, arg) {
-
     alert(arg);
-
 });
-
 
 ipc.on('delete-category-reply', function (event, arg) {
     ipc.send('get-categories', '');
 })
 
+ipc.on('query-presentations-reply', function(event, arg) {
+  var query = JSON.parse(arg);
+  generateTable(query);
+});
 
-ipc.on('query-presentations-reply', function (event, arg) {
-
-    var query = JSON.parse(arg);
-
-    generateTable(query);
+ipc.on('query-reviewer-reply', function(event, arg) {
+  var query = JSON.parse(arg);
+  populateReviewer(query);
 });
 
 function sortTable(n) {

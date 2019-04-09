@@ -294,6 +294,13 @@ function countCategorized(event, arg) {
 
 }
 
+function queryReviewer(event) {
+  Reviewer.findAll({
+    attributes:['id', 'first', 'last']
+  }).then(review => {
+    event.sender.send('query-reviewer-reply', JSON.stringify(review));
+  });
+}
 
 function queryPresentations (event) {
   Presentation.findAll({
@@ -325,6 +332,22 @@ function queryPresentations (event) {
     ]
   }).then(presentations => {
     event.sender.send('query-presentations-reply', JSON.stringify(presentations));
+  });
+}
+
+function queryRadio (event, arg) {
+  var presentationID = arg;
+  Review.findOne({
+    where: {presentation_id: presentationID},
+    attributes:['id', 'grammar_rating',
+               'title_rating',
+               'credibility_rating',
+               'interest_rating',
+               'content_rating',
+               'novelty_rating',
+               'overall_rating']
+  }).then(review => {
+    event.sender.send('query-radios-reply', JSON.stringify(review));
   });
 }
 
@@ -371,7 +394,7 @@ function updateCategoryName(event, categoryId, newValue) {
 function updateRating (event, arg) {
   var ratings = arg;
   Review.create({
-    reviewer_id: 1,
+    reviewer_id: ratings.reviewerID,
     presentation_id: ratings.presID,
     grammar_rating: ratings.gramVal,
     title_rating: ratings.titleVal,
@@ -391,10 +414,18 @@ function updateRating (event, arg) {
       overall_rating: ratings.overVal
     },{
       where: {
-        reviewer_id: 1,
+        reviewer_id: ratings.reviewerID,
         presentation_id: ratings.presID
       }
     })
+  });
+}
+
+function updateReviewer (event, arg) {
+  var reviewer = arg;
+  Reviewer.create({
+    first: reviewer.first,
+    last: reviewer.last
   });
 }
 
@@ -526,8 +557,6 @@ ipc.on('eventmobi-call', function(event, arg) {
   syncPresentersToEventmobi(event);
 });
 
-
-
 ipc.on('ingest-csv', function(event, arg) {
   ingestCSV(arg);
   queryPresentations(event);
@@ -562,13 +591,20 @@ ipc.on('set-category', function(event, arg) {
 });
 
 ipc.on('update-rating', function(event, arg) {
-  console.log(arg.presID);
-  updateRating(event, arg);
+  event.returnValue = updateRating(event, arg);
 });
 
-ipc.on('validate-rater', function(event, arg) {
-  validateRater(event,arg);
+ipc.on('query-radios', function(event, arg) {
+  event.returnValue = queryRadio(event, arg);
 });
+
+ipc.on('query-reviewer', function(event, arg) {
+  event.returnValue = queryReviewer(event, arg);
+});
+
+ipc.on('create-reviewer', function(event, arg) {
+  event.returnValue = updateReviewer(event, arg);
+})
 
 //ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
 app.on('ready', createWindow);

@@ -1,63 +1,126 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!--bootstrap import -->
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        window.jQuery = window.$ = require('jquery');
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!--end of bootstrap import -->
 
     <meta charset="UTF-8">
     <title>IDEAS Conference Planner</title>
-    <link rel = "stylesheet" type = "text/css"href = "styles.css">
-  </head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
 
-  <body>
-    <!-- Navigation bar at the top-->
-    <div class="navbar">
-      <div class="container" onclick="myFunction(this)" style = "float: left;padding-left: 30px">
-        <div class="bar1"></div>
-        <div class="bar2"></div>
-        <div class="bar3"></div>
-      </div>
-      <img style="float: left; width:55px;height:50px;padding-left: 30px" src="images/idea.png" alt="idea logo">
-      <h1 style = "font-size: 20px;padding-left: 20px; padding-right: 80px; color: white; float: left"> IDEA Conference Planner</h1>
-      <a style = "padding-left: 20px" href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015" target = "_blank">Email</a>
-      <a href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin" target = "_blank">Calendar</a>
-      <a href="#Resource">Resource</a>
-    </div>
-    <!-- End of navigation bar at top -->
+<body>
 
-    <div style = "padding: 5px 30px 25px">
-      <h2 style = "margin-bottom: 1cm; margin-top :2cm">Submitted Presentations:</h2>
-      <button onclick="sync_eventmobi()"> Sync to EventMobi</button>
-      <span class="fas fa-file-import"> Import JotForms:</span>&nbsp;
-      <input style = "margin-bottom: 1cm;" type="file" id="getjotfile" value="Import JotForm">
-        <div>
-          <span style="font-size:20px" class="fa">&#xf002;
-          </span>:&nbsp
-          <input type="text" style = "font-size:18px" id="myInput" onkeyup="searchFunc()" placeholder="Search for Titles..">
+<!-- Navigation bar at the top-->
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="#">IDEAS Conference Planner</a>
         </div>
-        <br>
-      
-      <button onclick="editCategory()">Edit Categories</button>
+        <div class="float-right">
+            lol
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 40px">
+                <li class="active">
+                    <a class=href="#">Home</a></li>
+                <li>
+                    <a class="nav-link"
+                       href="https://accounts.google.com/signin/v2/identifier?service=cl&passive=1209600&osid=1&continue=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&followup=https%3A%2F%2Fcalendar.google.com%2Fcalendar%2Frender%3Ftab%3Dwc&scc=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
+                       target="_blank">Calendar</a></li>
+                <li>
+                    <a class="nav-link"
+                       href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1550488233&rver=7.0.6737.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fnlp%3d1%26RpsCsrfState%3d42bc3392-7fa2-9819-d493-dcac046d6713&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=90015"
+                       target="_blank">Email <span class="sr-only">(current)</span></a></li>
+                <li>
+                    <a href="#">Resource</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-      <div id="presentationDiv">
-      </div>
+<!-- End of navigation bar at top -->
 
+<div style="padding: 5px 30px 25px">
+    <h2 style="margin-bottom: 1cm; margin-top :2cm">Submitted Presentations:</h2>
 
+    <div class="row">
+        <div class="col-sm-3">
+            <label for="usr"><span style="font-size:20px" class="fa">&#xf002;
+          </span>:&nbsp Import JotForms:</label>
+            <input style="margin-bottom: 1cm;" type="file" id="getjotfile" value="Import JotForm">
+        </div>
+        <button onclick="sync_eventmobi()"> Sync to EventMobi</button>
+        <div class="col-sm-3">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select User
+                    <span class="caret"></span></button>
+                <ul id = "userDropDown" class="dropdown-menu">
 
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Add user
+                </button>
+                <form class="dropdown-menu p-4">
+                    <div class="form-group">
+                        <label for="formFirstName">First Name: </label>
+                        <input type="text" class="form-control" id="formFirstName" placeholder="first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="formLastName">Last Name: </label>
+                        <input type="text" class="form-control" id="formLastName" placeholder="last name">
+                    </div>
+
+                    <button type="submit" onclick="createReviewerButton()" class="btn btn-primary" id="addUserBtn">Create User</button>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <div id="myModal" class="modal">
+    <button onclick="editCategory()">Edit Categories</button>
 
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-        <p id="pEntry"></p>
-        <table id="categoriesTable"></table>
-        <input id="newCatInput" type="text"/>
-        <div id="newCatBtnDiv"></div>
+    <div>
+        <div class="form-group">
+            <label for="usr">Search:</label>
+            <input type="text" style="font-size:18px" id="myInput" onkeyup="searchFunc()"
+                   placeholder="Search for Titles.." class="form-control" id="myInput">
+        </div>
+
     </div>
+    <br>
+
+    <div id="presentationDiv">
+        <!-- reserved space for table -->
+    </div>
+
+</div>
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="pEntry"></p>
+    <table id="categoriesTable"></table>
+    <input id="newCatInput" type="text"/>
+    <div id="newCatBtnDiv"></div>
+  </div>
+</div>
 
 
     <script type="text/javascript" src="index.js"></script>
-  </body>
+</body>
 </html>
