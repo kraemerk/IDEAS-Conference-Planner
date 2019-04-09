@@ -474,7 +474,7 @@ function syncPresentersWithDatabase(event, people, sessions) {
       xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
       xmlHttp.send("{ \"roles\" : [{\"id\":\""+config.eventmobi.speaker_role_id+"\",\"name\":\"Speaker\",\"people_ids\":["+eventmobiSpeakers+"]}]}");
     }
-    event.returnValue = "SUCCESS";
+    event.returnValue = "EventMobi Successfully Updated";
     console.log("process sync")
   });
 }
@@ -522,13 +522,8 @@ function syncPresentersToEventmobi(event) {
   xmlHttp.send();
 }
 
-// MAKE IPC CALL TO RUN EVENTMOBI SYNC AND TIE IT TO A BUTTON
-// CALL EVENTMOBI SYNC APPROVED PRESENTATIONS WITH: `syncPresentersToEventmobi(event);`
-// WHEN COMPLETED, THIS WILL SET event.returnValue to "SUCCESS"
-
 ipc.on('eventmobi-call', function(event, arg) {
-  //syncPresentersToEventmobi(event);
-  event.returnValue = "SUCCESS";
+  syncPresentersToEventmobi(event);
 });
 
 
