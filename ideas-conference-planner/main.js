@@ -286,7 +286,7 @@ function setCategory(event, presentationTitle, categoryID) {
 }
 
 function countCategorized(event, arg) {
-  
+
   Presentation.count({ where: {category_id: arg} }).then(c => {
     console.log("actual id: " + arg + " count: " + c);
     event.returnValue = c;
@@ -348,7 +348,7 @@ function addCategory(event, categoryName) {
 }
 
 function deleteCategory(event, categoryID) {
-  
+
   console.log('destroy category: ' + categoryID);
   Category.destroy({
     where: {id: categoryID}
@@ -358,12 +358,12 @@ function deleteCategory(event, categoryID) {
 
 function updateCategoryName(event, categoryId, newValue) {
   console.log("cID: " + categoryId);
-  
-  
+
+
   Category.update(
    {title: newValue},
    {where: { id: categoryId }});
-  
+
   event.returnValue = newValue;
 }
 
