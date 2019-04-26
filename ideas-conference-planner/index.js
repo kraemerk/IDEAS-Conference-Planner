@@ -533,6 +533,11 @@ function editCategory() {
         }
     }
 
+    pEntry.innerHTML = '';
+    var tEntry = document.getElementById('tEntry');
+    tEntry.innerHTML = 'Tips <br>- Clicking on a category gives you options: edit and delete <br>' +
+    '- Only categories that are unassigned can be deleted <br> - To delete multiple categories, go from the bottom of the table to the top';
+
     //display the modal window and define the span as anything outside it
     var modal = document.getElementById('myModal');
     var span = document.getElementsByClassName("close")[0];
@@ -548,8 +553,7 @@ function editCategory() {
             modal.style.display = "none";
         }
     }
-    pEntry.innerHTML = 'Tips <br>- Clicking on a category gives you options: edit and delete <br>' +
-    '- Only categories that are unassigned can be deleted <br> - To delete multiple categories, go from the bottom of the table to the top';
+    
 }
 
 
@@ -756,8 +760,15 @@ function generateTable(data) {
 
             var pEntry = document.getElementById('pEntry');
             var catTable = document.getElementById('categoriesTable');
+            var newCatInput = document.getElementById('newCatInput');
+            var newCatBtnDiv = document.getElementById('newCatBtnDiv');
+            var tEntry = document.getElementById('tEntry');
+            newCatInput.innerHTML = '';
+            newCatBtnDiv.innerHTML = '';
+            tEntry.innerHTML = '';
             catTable.innerHTML = '';
             pEntry.innerHTML = '';
+
             var length = this.cells.length - 1;
             var nextCell = document.createElement('p');
 
@@ -773,6 +784,7 @@ function generateTable(data) {
             var span = document.getElementsByClassName("close")[0];
 
             modal.style.display = "block";
+
 
 
             span.onclick = function () {
