@@ -433,7 +433,7 @@ function editCategory() {
     newCatBtnDiv.appendChild(newCategoryButton);
 
 
-    pEntry.innerHTML = '';
+    
     categoryTable.innerHTML = '';
 
 
@@ -548,8 +548,8 @@ function editCategory() {
             modal.style.display = "none";
         }
     }
-
-    // cCount = categoryTable.rows.length;
+    pEntry.innerHTML = 'Tips <br>- Clicking on a category gives you options: edit and delete <br>' +
+    '- Only categories that are unassigned can be deleted <br> - To delete multiple categories, go from the bottom of the table to the top';
 }
 
 

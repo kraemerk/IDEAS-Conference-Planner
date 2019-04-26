@@ -277,8 +277,8 @@ function ingestCSV (file) {
 }
 
 function setCategory(event, presentationTitle, categoryID) {
-  console.log(presentationTitle);
-  console.log(categoryID);
+  // console.log(presentationTitle);
+  // console.log(categoryID);
   Presentation.update({ category_id: categoryID },
     { where: { title: presentationTitle }});
 
@@ -288,7 +288,7 @@ function setCategory(event, presentationTitle, categoryID) {
 function countCategorized(event, arg) {
 
   Presentation.count({ where: {category_id: arg} }).then(c => {
-    console.log("actual id: " + arg + " count: " + c);
+    // console.log("actual id: " + arg + " count: " + c);
     event.returnValue = c;
   });
 
@@ -352,7 +352,7 @@ function queryRadio (event, arg) {
 }
 
 function addCategory(event, categoryName) {
-  console.log('Add category: ' + categoryName);
+  // console.log('Add category: ' + categoryName);
   Category.findAll({
     where: {
       title: categoryName
@@ -372,7 +372,7 @@ function addCategory(event, categoryName) {
 
 function deleteCategory(event, categoryID) {
 
-  console.log('destroy category: ' + categoryID);
+  // console.log('destroy category: ' + categoryID);
   Category.destroy({
     where: {id: categoryID}
   });
@@ -380,7 +380,7 @@ function deleteCategory(event, categoryID) {
 }
 
 function updateCategoryName(event, categoryId, newValue) {
-  console.log("cID: " + categoryId);
+  // console.log("cID: " + categoryId);
 
 
   Category.update(
