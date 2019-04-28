@@ -322,7 +322,8 @@ function countCategorized(event, arg) {
   });
 }
 
-// get reviewers
+//queries the database for the full list of reviewers and their id for use
+//on updating ratings
 function queryReviewer(event) {
   Reviewer.findAll({
     attributes:['id', 'first', 'last']
@@ -365,7 +366,8 @@ function queryPresentations (event) {
   });
 }
 
-// get details of specific review
+//query the database for the latest rating values for a presentation
+//and send them back to the renderer in a JSON string
 function queryRadio (event, arg) {
   var presentationID = arg;
   Review.findOne({
@@ -421,7 +423,7 @@ function updateCategoryName(event, categoryId, newValue) {
   event.returnValue = newValue;
 }
 
-// update rating in database with new values
+//Upserts the rating passed from the ipc renderer call tied to the reviewer
 function updateRating (event, arg) {
   var ratings = arg;
   Review.create({
@@ -452,7 +454,7 @@ function updateRating (event, arg) {
   });
 }
 
-// update reviewer name
+//Upserts a reviewer into the database
 function updateReviewer (event, arg) {
   var reviewer = arg;
   Reviewer.create({
@@ -645,18 +647,23 @@ ipc.on('set-category', function(event, arg) {
   setCategory(event, arg.presentation, arg.category);
 });
 
+
+//call the upsert for ratings with the value passed from the ratings screen
 ipc.on('update-rating', function(event, arg) {
   event.returnValue = updateRating(event, arg);
 });
 
+//calls the select query for the radio button values passed from ratings screen
 ipc.on('query-radios', function(event, arg) {
   event.returnValue = queryRadio(event, arg);
 });
 
+//calls the select query for the appropriate review passed from index
 ipc.on('query-reviewer', function(event, arg) {
   event.returnValue = queryReviewer(event, arg);
 });
 
+//calls the upsert for reviewers passed from index
 ipc.on('create-reviewer', function(event, arg) {
   event.returnValue = updateReviewer(event, arg);
 })
