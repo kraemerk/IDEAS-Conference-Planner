@@ -8,8 +8,10 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 ini = require('ini');
 
+// load configuration file
 config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
 
+// create sequelize connection to the database
 const sequelize = new Sequelize(config.database.database, config.database.user, config.database.password, {
   dialect: 'postgres',
   host: config.database.host,
@@ -18,6 +20,7 @@ const sequelize = new Sequelize(config.database.database, config.database.user, 
   logging: false
 });
 
+// define a category object as defined in the database
 const Category = sequelize.define('category', {
   id: {
     type: Sequelize.TEXT,
@@ -31,6 +34,7 @@ const Category = sequelize.define('category', {
   timestamps: false
 });
 
+// define an attendee object as defined in the database
 const Attendee = sequelize.define('attendee', {
   prefix: Sequelize.TEXT,
   first: Sequelize.TEXT,
@@ -45,6 +49,7 @@ const Attendee = sequelize.define('attendee', {
   timestamps: false
 });
 
+// define a reviewer object as defined in the database
 const Reviewer = sequelize.define('reviewer', {
   first: Sequelize.TEXT,
   last: Sequelize.TEXT
@@ -54,6 +59,7 @@ const Reviewer = sequelize.define('reviewer', {
   timestamps: false
 });
 
+// define a review object as defined in the database
 const Review = sequelize.define('review', {
   grammar_rating: Sequelize.INTEGER,
   title_rating: Sequelize.INTEGER,
@@ -68,6 +74,7 @@ const Review = sequelize.define('review', {
   timestamps: false
 });
 
+// define a presentation object as defined in the database
 const Presentation = sequelize.define('presentation', {
   submission_date: Sequelize.DATE,
   title: Sequelize.TEXT,
@@ -104,6 +111,7 @@ const Presentation = sequelize.define('presentation', {
 });
 
 
+// define the foreign key relationships between the objects in the database
 Presentation.belongsTo(Category, {as: 'Category', foreignKey: 'id'});
 
 Review.belongsTo(Presentation, {as: 'PresentationReview', foreignKey: 'presentation_id'});
@@ -137,7 +145,7 @@ function insertObj(sequelize, obj, insertfunc, errfunc) {
   });
 }
 
-
+// get a json of all the categories from the database
 function getCategories(event) {
   Category.findAll({
     attributes: ['id', 'title'],
@@ -146,21 +154,23 @@ function getCategories(event) {
   });
 }
 
-
-
+// ingest a CSV of presentations from JotForms into the database
 function ingestCSV (file) {
   var csv = require('csv');
 
 
 
+  // set csv options
   var options = {
     columns: true,
     trim: true,
     rtrim: true
   }
 
+  // define csv parser
   var parser = csv.parse(options);
 
+  // connect to database
   sequelize
     .authenticate()
     .then(() => {
@@ -171,8 +181,11 @@ function ingestCSV (file) {
     });
 
 
+  // define csv transformation function to go from csv row to row in database
   var transform = csv.transform(function(row) {
+    // set empty keys to null
     Object.keys(row).forEach((key) => {if (row[key] == '') row[key] = null});
+    // build a presenter entry
     var presenter = Attendee.build({
       prefix: row['Prefix'],
       first: row['First Name'],
@@ -182,8 +195,11 @@ function ingestCSV (file) {
       agency: row['Primary Presenter Agency/School District:'],
       role: row['Which category best describes your role in your agency or school district?'],
     });
+    // define function to happen after insert is successful
     var insertfunc = function(inserted) {
+      // if a row is inserted successfully, get presenter ID
       var presenterId = inserted != null ? inserted.dataValues.id : null
+      // build a copresenter object
       var copresenter1 = Attendee.build({
         prefix: row['Co-Presenter 1 (Prefix)'],
         first: row['Co-Presenter 1 (First Name)'],
@@ -191,8 +207,11 @@ function ingestCSV (file) {
         email: row['Co-Presenter 1'],
         agency: row['Co- Presenter 1 Agency/School District:']
       })
+      // define function to happen after insert is successful
       var insertfunc = function(inserted) {
+        // if there was a copresenter, check for second copresenter
         var copresenter1Id = inserted != null ? inserted.dataValues.id : null
+        // create another copresenter
         var copresenter2 = Attendee.build({
           prefix: row['Co-Presenter 2 (Prefix)'],
           first: row['Co-Presenter 2 (First Name)'],
@@ -200,8 +219,11 @@ function ingestCSV (file) {
           email: row['Co-Presenter 2'],
           agency: row['Co- Presenter 2 Agency/School District:']
         })
+        // define function to happen after insert is successful
         var insertfunc = function(inserted) {
+          // if there was a second copresenter, check for third copresenter
           var copresenter2Id = inserted != null ? inserted.dataValues.id : null
+          // create another copresenter
           var copresenter3 = Attendee.build({
             prefix: row['Co-Presenter 3 (Prefix)'],
             first: row['Co-Presenter 3 (First Name)'],
@@ -210,9 +232,11 @@ function ingestCSV (file) {
             agency: row['Co- Presenter 3 Agency/School District:']
           })
 
+          // define function to happen after insert is successful
           var insertfunc = function(inserted) {
             var copresenter3Id = inserted != null ? inserted.dataValues.id : null
 
+            // create a presentation object
             var presentation = Presentation.build({
               submission_date: new Date(row['Submission Date'].replace(" ", "T") + "-05:00"),
               title: row['Session Title'],
@@ -239,6 +263,7 @@ function ingestCSV (file) {
               copresenter_2_id: copresenter2Id,
               copresenter_3_id: copresenter3Id
             })
+            // insert the presentation
             insertObj(sequelize, presentation, {}, function(err) { console.log(err) });
           }
           var errfunc = function(err) {
@@ -246,6 +271,7 @@ function ingestCSV (file) {
               insertfunc(attendee)
             })
           }
+          // insert copresenter 3
           insertObj(sequelize, copresenter3, insertfunc, errfunc);
 
         }
@@ -254,6 +280,7 @@ function ingestCSV (file) {
             insertfunc(attendee)
           })
         }
+        // insert copresenter 2
         insertObj(sequelize, copresenter2, insertfunc, errfunc);
       }
       var errfunc = function(err) {
@@ -261,6 +288,7 @@ function ingestCSV (file) {
           insertfunc(attendee)
         })
       }
+      // insert copresenter 1
       insertObj(sequelize, copresenter1, insertfunc, errfunc);
     }
     var errfunc = function(err) {
@@ -268,30 +296,30 @@ function ingestCSV (file) {
           insertfunc(attendee)
       })
     }
-
+    // insert presenter
     insertObj(sequelize, presenter, insertfunc, errfunc);
 
   });
-
+  // apply transformation to entire csv file
   fs.createReadStream(file).pipe(parser).pipe(transform);
 }
 
+// set category id of a given presentation
 function setCategory(event, presentationTitle, categoryID) {
-  console.log(presentationTitle);
-  console.log(categoryID);
+  // console.log(presentationTitle);
+  // console.log(categoryID);
   Presentation.update({ category_id: categoryID },
     { where: { title: presentationTitle }});
 
   event.returnValue = 1;
 }
 
+// count how many of each category appear
 function countCategorized(event, arg) {
-
   Presentation.count({ where: {category_id: arg} }).then(c => {
-    console.log("actual id: " + arg + " count: " + c);
+    // console.log("actual id: " + arg + " count: " + c);
     event.returnValue = c;
   });
-
 }
 
 //queries the database for the full list of reviewers and their id for use
@@ -304,6 +332,7 @@ function queryReviewer(event) {
   });
 }
 
+// get all presentations, presenters, and reviews
 function queryPresentations (event) {
   Presentation.findAll({
     attributes: ['id', 'title', 'description', 'submission_date', 'objective_1', 'objective_2', 'objective_3', 'category_id', ],
@@ -355,8 +384,9 @@ function queryRadio (event, arg) {
   });
 }
 
+// insert new category into database
 function addCategory(event, categoryName) {
-  console.log('Add category: ' + categoryName);
+  // console.log('Add category: ' + categoryName);
   Category.findAll({
     where: {
       title: categoryName
@@ -374,19 +404,18 @@ function addCategory(event, categoryName) {
   });
 }
 
+// delete category in database
 function deleteCategory(event, categoryID) {
-
-  console.log('destroy category: ' + categoryID);
+  // console.log('destroy category: ' + categoryID);
   Category.destroy({
     where: {id: categoryID}
   });
   event.returnValue = "1";
 }
 
+// update category name
 function updateCategoryName(event, categoryId, newValue) {
-  console.log("cID: " + categoryId);
-
-
+  // console.log("cID: " + categoryId);
   Category.update(
    {title: newValue},
    {where: { id: categoryId }});
@@ -434,7 +463,9 @@ function updateReviewer (event, arg) {
   });
 }
 
+// sync accepted presentation presenters to EventMobi
 function syncPresentersWithDatabase(event, people, sessions) {
+  // get all presentations from database with accepted set to True
   Presentation.findAll({
     attributes: ['title', 'description', ],
 
@@ -458,10 +489,12 @@ function syncPresentersWithDatabase(event, people, sessions) {
       accepted: true
     }
   }).then(dbPresentations => {
+    // for each presentation
     for (var i = 0; i < dbPresentations.length; i++) {
       dbPresentation = dbPresentations[i];
 
       eventmobiPresentation = null;
+      // find the presentation in EventMobi
       for (var j = 0; j < sessions.length; j++) {
         if (sessions[j].name == dbPresentation.title) {
           eventmobiPresentation = sessions[j];
@@ -470,13 +503,17 @@ function syncPresentersWithDatabase(event, people, sessions) {
       }
       eventmobiSpeakers = [];
       TYPES_OF_SPEAKERS = ["Presenter", "Copresenter1", "Copresenter2", "Copresenter3"];
+      iterate over each type of speaker
       for (var type = 0; type < TYPES_OF_SPEAKERS.length; type++) {
         if (dbPresentation[TYPES_OF_SPEAKERS[type]] == null) {
           break;
         }
+        // get that speaker for presentation
         dbPerson = dbPresentation[TYPES_OF_SPEAKERS[type]];
+        // iterate over EventMobi attendees to find the person's ID
         for (var j = 0; j < people.length; j++) {
           eventmobiPerson = people[j];
+          // if people match, update their group ID to add them to the Speaker group
           if ((eventmobiPerson.first_name == dbPerson.prefix + " "+ dbPerson.first || eventmobiPerson.first_name == dbPerson.first) &&
               eventmobiPerson.last_name == dbPerson.last &&
               eventmobiPerson.email == dbPerson.email) {
@@ -496,6 +533,7 @@ function syncPresentersWithDatabase(event, people, sessions) {
           }
         }
       }
+      // add quotes around speakers for API call
       for (var j = 0; j < eventmobiSpeakers.length; j++) {
         eventmobiSpeakers[j] = "\""+eventmobiSpeakers[j]+"\"";
       }
@@ -505,42 +543,53 @@ function syncPresentersWithDatabase(event, people, sessions) {
           console.log("Event Updated");
         }
       };
+      // Add speakers to the event page in EventMobi
       xmlHttp.open("PATCH", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/sessions/resources/"+eventmobiPresentation.id);
       xmlHttp.setRequestHeader("Content-Type", "application/json");
       xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
       xmlHttp.send("{ \"roles\" : [{\"id\":\""+config.eventmobi.speaker_role_id+"\",\"name\":\"Speaker\",\"people_ids\":["+eventmobiSpeakers+"]}]}");
     }
+    // set return value used in an Alert on success
     event.returnValue = "EventMobi Successfully Updated";
-    console.log("process sync")
+    // console.log("process sync")
   });
 }
 
+// get list of presentations from EventMobi
 function getPresentations(event, people) {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = function() {
+    // if there is a successful return, sync presenters of the Database with EventMobi
     if (this.readyState == 4 && this.status == 200) {
       var ret = JSON.parse(xmlHttp.responseText);
       syncPresentersWithDatabase(event, people, ret.data);
     }
   };
+  // get presentations of given event_id
   xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/sessions/resources?limit=1000");
   xmlHttp.setRequestHeader("Content-Type", "application/json");
   xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
   xmlHttp.send();
 }
 
+// recursively continue to get people until no more pages
 function evalPaginatedPeople(event, xmlHttp, out) {
   return function() {
+    // if there is a successful
     if (this.readyState == 4 && this.status == 200) {
+      // parse response text
       var ret = JSON.parse(xmlHttp.responseText);
       out = out.concat(ret.data);
+      // if there is a next page, recursively iterate
       if (ret.meta.pagination.next_page) {
+        // get next page and call this function
         xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = evalPaginatedPeople(event, xmlHttp, out);
         xmlHttp.open("GET", ret.meta.pagination.next_page);
         xmlHttp.setRequestHeader("Content-Type", "application/json");
         xmlHttp.setRequestHeader("X-API-KEY", config.eventmobi.api_key);
         xmlHttp.send();
+      // if there isn't another page, go to presentation parsing
       } else {
         getPresentations(event, out);
       }
@@ -548,9 +597,11 @@ function evalPaginatedPeople(event, xmlHttp, out) {
   }
 }
 
+// set EventMobi attendees as presenters
 function syncPresentersToEventmobi(event) {
   var xmlHttp = new XMLHttpRequest();
   var people = [];
+  // Get list of all attendees in EventMobi, call evalPaginatedPeople to recursively get all pages
   xmlHttp.onreadystatechange = evalPaginatedPeople(event, xmlHttp, people);
   xmlHttp.open("GET", "https://api.eventmobi.com/v2/events/"+config.eventmobi.event_id+"/people/resources?limit=1000");
   xmlHttp.setRequestHeader("Content-Type", "application/json");
@@ -558,6 +609,7 @@ function syncPresentersToEventmobi(event) {
   xmlHttp.send();
 }
 
+// IPC calls to connect backend to frontend
 ipc.on('eventmobi-call', function(event, arg) {
   syncPresentersToEventmobi(event);
 });
@@ -616,5 +668,4 @@ ipc.on('create-reviewer', function(event, arg) {
   event.returnValue = updateReviewer(event, arg);
 })
 
-//ingestCSV('/Users/kkraemer/Library/MobileDocuments/com~apple~CloudDocs/Documents/GT/cs3312/presentations.csv');
 app.on('ready', createWindow);

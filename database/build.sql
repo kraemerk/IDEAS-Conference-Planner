@@ -82,5 +82,3 @@ CREATE TABLE IF NOT EXISTS ideas.review (
   UNIQUE(reviewer_id, presentation_id)
   -- these rating categories may change as we find out more concrete information
 );
-
-INSERT INTO ideas.reviewer (first, last) VALUES ('Micah', 'Halter');
