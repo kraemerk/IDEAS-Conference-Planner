@@ -503,7 +503,7 @@ function syncPresentersWithDatabase(event, people, sessions) {
       }
       eventmobiSpeakers = [];
       TYPES_OF_SPEAKERS = ["Presenter", "Copresenter1", "Copresenter2", "Copresenter3"];
-      iterate over each type of speaker
+      // iterate over each type of speaker
       for (var type = 0; type < TYPES_OF_SPEAKERS.length; type++) {
         if (dbPresentation[TYPES_OF_SPEAKERS[type]] == null) {
           break;

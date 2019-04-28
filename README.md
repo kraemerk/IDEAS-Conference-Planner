@@ -26,9 +26,9 @@ This application requires a working PostgreSQL database. The installation and co
 	5. Above this new window, press the `Open File` button, and select the file: `database/build.sql` from this repository.
 	6. Click the lightning bolt to run the script.
 	7. You can now close the browser window.
-3. Download and extract this application from [fix this link](google.com)
+3. Download and extract this application from [the Releases](https://github.com/ideas-team/IDEAS-Conference-Planner/releases)
 4. Initialize the Config file.
-	1. Navigate to the `ideas-conference-planner` folder
+	1. Navigate into the folder containing this application
 	2. Create a Copy of `config-template.ini` and rename it to `config.ini`
 	3. Open this file in the text editor of your choice.
 		1. Leave the host and port at their default setting, unless you installed postgresql with another port/on another computer
@@ -70,7 +70,10 @@ Run the following from within a terminal window in the folder `ideas-conference-
 
 
 ## Packaging
->TODO: Packaging Step
+Run the following from within a terminal window in this folder.
 ```
-npm install electron-builder
+cd ideas-conference-planner
+npm install
+npm install electron-packager -g
+electron-packager ./ "IDEAS Conference Planner"
 ``
