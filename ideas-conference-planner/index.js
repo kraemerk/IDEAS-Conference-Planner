@@ -16,7 +16,7 @@ var tb = null;
 
 document.addEventListener('DOMContentLoaded', queryReviewer);
 
-//test adding comment
+
 function getAttendeeName(attendee) {
     return attendee == null ? "" : (attendee.prefix == null ? "" : attendee.prefix) + ' ' + attendee.first + ' ' + attendee.last;
 }
@@ -64,11 +64,18 @@ function ratePresentation(rowID, presID) {
     actionSpace.appendChild(button);
 }
 
+
+//this function gets a categories' ID given its name
 function getCategoryIdFromName(categoryName) {
+    
+    //the category name is empty, return empty
     if (categoryName == null) {
         return "";
     }
 
+    //loop through the category list until the name
+    //of the current member equals a name in the list
+    //then return the id
     for (var i = 0; i < categoryList.length; ++i) {
         if (categoryList[i].title == categoryName) {
             return categoryList[i].id;
@@ -76,11 +83,15 @@ function getCategoryIdFromName(categoryName) {
     }
 }
 
+//this function gets a categories name given its ID
 function getCategoryFromId(categoryID) {
-    // alert('hello');
+    //the id is empty, return empty
     if (categoryID == null)
         return "";
 
+    //loop through the category list until the name
+    //of the current member equals a name in the list
+    //then return the id
     for (var i = 0; i < categoryList.length; ++i) {
         if (categoryList[i].id == categoryID)
             return categoryList[i].title;
@@ -88,22 +99,28 @@ function getCategoryFromId(categoryID) {
     return "";
 }
 
+
+//goes through all the categories and populates the list with their
+//counts in order
 function populateCategoryCountList() {
 
-    //so that javascript knows this is an array
+    //reinitialize the array to empty
     categoryCountList = [];
 
-
+    //loop through all categories and use ipc synchronous command to 
+    //get the count for the current category
     for (i = 0; i < categoryList.length; i++) {
         var newCatCount = ipc.sendSync('get-category-count', categoryList[i].id);
         categoryCountList.push(newCatCount);
     }
 }
 
+//this function adds the dropdown for the selected presentation
+//in the main table
 function addCategorization(rowID) {
 
-    // alert("entered add categorization");
-
+    //make sure all of our variables are updated before we add the
+    //dropdown
     categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
     populateCategoryCountList();
     var dropDownSpace = document.getElementById('dropDownSpace' + rowID);
@@ -114,6 +131,8 @@ function addCategorization(rowID) {
     var dropDownMenu = document.createElement("SELECT");
     dropDownMenu.id = "categoryDropDown" + rowID;
 
+    //creates the default option for the dropdown
+    //this one cannot be selected
     var option = document.createElement('option');
     option.text = 'Select Category';
     dropDownMenu.add(option);
@@ -140,12 +159,15 @@ function addCategorization(rowID) {
                 "category": categoryList[sIndex].id
             });
 
-        // categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
         populateCategoryCountList();
     }
 
+    //if there is no dropdown, add it to the presentation
     if (dropDownSpace.innerHTML == '') {
         dropDownSpace.appendChild(dropDownMenu);
+
+    //if there is already a dropdown, remake it so
+    //it contains the data after the update
     } else {
         dropDownSpace.innerHTML = '';
         var newDropDownMenu = document.createElement("SELECT");
@@ -171,14 +193,13 @@ function addCategorization(rowID) {
 //this function handles adding the buttons
 //to the selected category in the edit categories modal window
 function addCategorizationActions(rowID) {
+
+    //get all the html components we need to begin
     categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
     populateCategoryCountList();
-
     var catActions = document.getElementById('categoryActions' + rowID);
     var catTitle = categoryList[rowID].title;
     var catTable = document.getElementById('categoriesTable');
-
-    // alert('entry name: ' + catTable.rows[rowID].cells[0].innerHTML);
 
     //create the edit button
     var editButton = document.createElement('button');
@@ -192,8 +213,6 @@ function addCategorizationActions(rowID) {
 
     //gets the number of presentations in order to check if delete button should be added
     var presentationCount = document.getElementById('presentationCount' + rowID).innerHTML;
-    // presentationCount.innerHTML = categoryCountList[rowID];
-
 
     //when the edit button is clicked the user should be allowed to modify the text
     //in the selected category and they will be shown a button to save and a button to cancel
@@ -202,11 +221,13 @@ function addCategorizationActions(rowID) {
         categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
         populateCategoryCountList();
         refreshPresentations();
+
         //first - turn the category title space into a textbox
         var catTitleSpace = document.getElementById('categoryValue' + rowID);
         var oldText = catTitleSpace.innerHTML;
         catTitleSpace.innerHTML = '';
 
+        //create the textbox to edit the text and fill it with the old value
         var editTextBox = document.createElement('INPUT');
         editTextBox.id = 'editTextBox' + rowID;
         editTextBox.defaultValue = oldText;
@@ -214,6 +235,7 @@ function addCategorizationActions(rowID) {
 
         //second - change the buttons in the catActions space
         catActions.innerHTML = '';
+
         //the first one is save
         var saveButton = document.createElement('button');
         saveButton.textContent = 'Save';
@@ -239,7 +261,7 @@ function addCategorizationActions(rowID) {
                 if (presentationCount == 0) {
                     catActions.appendChild(deleteButton);
                 }
-                //the value is new so update it in the database and the table
+             //the value is new so update it in the database and the table
             } else {
                 //change the category value in the database
                 var newSavedName = ipc.sendSync('update-category-name',
@@ -248,11 +270,12 @@ function addCategorizationActions(rowID) {
                         "newValue": newText
                     });
 
+                //make sure the category information is up to date
                 categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
                 populateCategoryCountList();
                 refreshPresentations();
-
                 editCategoryFlag = false;
+                
                 //change the value in the table
                 catTitleSpace.innerHTML = newText;
 
@@ -265,6 +288,8 @@ function addCategorizationActions(rowID) {
                 }
 
             }
+
+            //make sure the category information is up to date
             categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
             populateCategoryCountList();
             refreshPresentations();
@@ -293,32 +318,31 @@ function addCategorizationActions(rowID) {
     //and redraw the table without the old category
     if (presentationCount == 0) {
         deleteButton.onclick = function () {
+
+            //get the information needed to delete the row
             var cID = getCategoryIdFromName(catTitle);
-            // alert("Cat title " + catTitle);
             var actualRow = +rowID + 1;
-            // alert("actual row: " + actualRow);
             catTable.deleteRow(actualRow);
             rowWasDeleted = true;
-            // alert('deletedrow');
-
 
             //delete it and recalculate the category list and
             //category count list
             var testDelete = ipc.sendSync('delete-category', cID);
             categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
             populateCategoryCountList();
-            // refreshPresentations();
+            
 
+            //subtract one from the count of categories
             cCount--;
 
-            // alert("cCount: " + cCount);
-            // alert("start");
+            //remake the table with updated indices
             for (i = 1; i <= cCount; i++) {
-                // alert("catTable.rows[i]: " + catTable.rows[i].cells[0].innerHTML);
                 catTable.rows[i].id = i - 1;
             }
 
         }
+
+        //add the delete button
         catActions.appendChild(deleteButton);
 
     }
@@ -326,33 +350,33 @@ function addCategorizationActions(rowID) {
 
 }
 
+//this function handles everything that the button edit Categories does
 function editCategory() {
+    
+    //make sure the categories are updated
     cCount = categoryList.length;
-
     categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
     populateCategoryCountList();
     refreshPresentations();
 
-    // alert("Edit Category");
+    //unselect the item selected in the presentations table
     if (tb != null) {
-        // alert("tb: " + tb.cells[2].i/nnerHTML);
         tb.style.backgroundColor = tb.origColor;
         tb.hilite = false;
         tb = null;
     }
-    // alert("here");
 
     //get the table inside the modal window and resets it to nothing
     var categoryTable = document.getElementById('categoriesTable');
     var pEntry = document.getElementById('pEntry');
-    // alert("tb name: " + tb.cells[1].innerHTML);
 
-
+    //create the new category button
     var newCatBtnDiv = document.getElementById('newCatBtnDiv');
     newCatBtnDiv.innerHTML = '';
     var newCategoryButton = document.createElement('button');
     newCategoryButton.textContent = '+ New Category';
 
+    //handle creating a new category
     newCategoryButton.onclick = function () {
         var newCatInput = document.getElementById('newCatInput');
 
@@ -391,7 +415,6 @@ function editCategory() {
         var td = document.createElement('td');
         td.id = 'categoryActions' + i;
         newRow.appendChild(td);
-
         tb = null;
 
         categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
@@ -533,6 +556,7 @@ function editCategory() {
         }
     }
 
+    //add the tips to the window so the user has an idea of what they can do
     pEntry.innerHTML = '';
     var tEntry = document.getElementById('tEntry');
     tEntry.innerHTML = 'Tips <br>- Clicking on a category gives you options: edit and delete <br>' +
