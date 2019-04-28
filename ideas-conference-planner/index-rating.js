@@ -1,11 +1,13 @@
 const ipc = require('electron').ipcRenderer;
 
+//obtain all html elements used to populate the review and submit
 var titleDiv = document.getElementById('titleDiv');
 var descDiv = document.getElementById('descDiv');
 var objDiv = document.getElementById('objDiv');
 var subButton = document.getElementById('submitreview');
 var backButton = document.getElementById('backHome');
 
+//populate the review from sessionStorage obtained from a row in index.js
 var td = document.createElement('td');
 td.appendChild(document.createTextNode(sessionStorage.presTitle));
 titleDiv.appendChild(td);
@@ -26,6 +28,9 @@ td = document.createElement('td');
 td.appendChild(document.createTextNode(sessionStorage.presObj3));
 objDiv.appendChild(td);
 
+//add event listener to submission button that does the following:
+//1) if all radios are filled, send an ipc to update the rating
+//2) alert that all fields in the rating must have a value
 subButton.addEventListener('click', () => {
   var allFilled = checkRadioStatus();
   if(allFilled) {
@@ -36,12 +41,15 @@ subButton.addEventListener('click', () => {
   }
 }, false)
 
+//cancel the rating and return to the presentations screen
 backButton.addEventListener('click', () => {
   window.location = "index.html";
 }, false)
 
+//on page load, get the latest rating value for the presentation
 document.addEventListener('DOMContentLoaded', queryRadioButtons);
 
+//obtain the value selected out of the radio buttons for the rating
 function getRatingVals() {
   return {
     titleVal: document.querySelector('input[name="group1"]:checked').value,
@@ -56,6 +64,7 @@ function getRatingVals() {
   };
 }
 
+//populate the radios with the latest rating by the rater from the database call
 function generateRadioValues(radiosList) {
   console.log(radiosList);
   console.log(sessionStorage);
@@ -76,6 +85,7 @@ function generateRadioValues(radiosList) {
   radios7[radiosList.overall_rating - 1].checked = true;
 }
 
+//loops through the radios to ensure all are checked
 function checkRadioStatus() {
   var radios1 = document.getElementsByName('group1');
   var radios2 = document.getElementsByName('group2');
@@ -165,10 +175,13 @@ function checkRadioStatus() {
   return true;
 }
 
+//ipc call to obtain the radio values for their latest value
 function queryRadioButtons() {
   ipc.send('query-radios', sessionStorage.presID);
 }
 
+//uses the obtained values from the database to call the population function
+//for the radio buttons
 ipc.on('query-radios-reply', function(event, arg) {
   var radiosList = JSON.parse(arg);
   document.getElementById("reviewerName").innerHTML = sessionStorage.reviewerName;
