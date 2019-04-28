@@ -76,4 +76,4 @@ cd ideas-conference-planner
 npm install
 npm install electron-packager -g
 electron-packager ./ "IDEAS Conference Planner"
-``
+```
