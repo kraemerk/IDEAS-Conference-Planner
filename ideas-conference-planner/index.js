@@ -795,16 +795,55 @@ function generateTable(data) {
             catTable.innerHTML = '';
             pEntry.innerHTML = '';
 
-            var length = this.cells.length - 1;
             var nextCell = document.createElement('p');
+            var innerCell = document.createElement('i');
+            innerCell.innerHTML = this.cells[1].innerHTML;
+            nextCell.appendChild(innerCell);
+            pEntry.appendChild(nextCell);
 
-            for (i = 0; i < length; i++) {
-                if (i != 13 && i != 0) {
-                    nextCell.innerHTML = this.cells[i].innerHTML;
-                    pEntry.appendChild(nextCell);
-                    nextCell = document.createElement('p');
-                }
-            }
+            nextCell = document.createElement('p');
+            nextCell.innerHTML = this.cells[7].innerHTML;
+            pEntry.appendChild(nextCell);
+
+            nextCell = document.createElement('p');
+            nextCell.innerHTML = this.cells[8].innerHTML;
+            pEntry.appendChild(nextCell);
+
+            nextCell = document.createElement('p');
+            nextCell.innerHTML = this.cells[9].innerHTML;
+            pEntry.appendChild(nextCell);
+
+            nextCell = document.createElement('p');
+            nextCell.innerHTML = this.cells[10].innerHTML;
+            pEntry.appendChild(nextCell);
+
+            nextCell = document.createElement('h1');
+            nextCell.innerHTML = this.cells[2].innerHTML;
+            pEntry.appendChild(nextCell);
+
+            nextCell = document.createElement('p');
+            nextCell.innerHTML = this.cells[3].innerHTML;
+            pEntry.appendChild(nextCell);
+
+            nextCell = document.createElement('p');
+            innerCell = document.createElement('b');
+            innerCell.innerHTML = this.cells[4].innerHTML;
+            nextCell.appendChild(innerCell);
+            pEntry.appendChild(nextCell);
+
+            nextCell = document.createElement('p');
+            innerCell = document.createElement('b');
+            innerCell.innerHTML = this.cells[5].innerHTML;
+            nextCell.appendChild(innerCell);
+            pEntry.appendChild(nextCell);
+
+            nextCell = document.createElement('p');
+            innerCell = document.createElement('b');
+            innerCell.innerHTML = this.cells[6].innerHTML;
+            nextCell.appendChild(innerCell);
+            pEntry.appendChild(nextCell);
+
+
 
             var modal = document.getElementById('myModal');
             var span = document.getElementsByClassName("close")[0];
