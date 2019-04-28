@@ -40,7 +40,9 @@ function getReview(review) {
     }
 }
 
-
+//when a row is selected, create a rate button and check
+//to see if a reviewer is selected
+//if so, store relevant data on click and change window a rating screen
 function ratePresentation(rowID, presID) {
 
     var button = document.createElement('button');
@@ -797,7 +799,6 @@ function pageLoad() {
     refreshPresentations();
     categoryList = JSON.parse(ipc.sendSync('get-categories', ''));
     populateCategoryCountList();
-
 }
 
 function refreshPresentations() {
@@ -820,28 +821,33 @@ function ingestCSV() {
 
 }
 
+//fills the dropdown for reviewers
 function populateReviewer(data){
   console.log(data);
   var dropdown = document.getElementById("userDropDown")
   for(var i = 0; i < data.length; i++){
+    //create a button
     var li = document.createElement("li");
     var button = document.createElement("button");
     button.classList.add("btn");
     button.classList.add("btn-primary");
-
-
-      button.innerHTML = data[i].first + " " + data[i].last;
+    //fill the button with the reviwer name
+    button.innerHTML = data[i].first + " " + data[i].last;
     button.id = -(i+1);
+    //on click, store their name data in sessionStorage
     button.onclick = function () {
       sessionStorage.reviewerName = data[(-this.id)-1].first + " " + data[(-this.id)-1].last;
       sessionStorage.reviewerID = data[(-this.id)-1].id;
-        document.getElementById("selectbtn").innerHTML = button.innerHTML;
+      document.getElementById("selectbtn").innerHTML = button.innerHTML;
     }
+    //append the button to the list
     li.appendChild(button);
     dropdown.appendChild(li);
   }
 }
 
+//obtains the first and last name inputed for a new reviwer and sends it
+//to main for insertion into the reviewers table
 function createReviewerButton() {
   var reviewer = {
     first: document.getElementById('formFirstName').value,
@@ -850,6 +856,7 @@ function createReviewerButton() {
   ipc.send('create-reviewer', reviewer);
 }
 
+//sends ipc to query the database for the list of reviewers
 function queryReviewer() {
   ipc.send('query-reviewer', sessionStorage.presID);
 }
@@ -867,6 +874,7 @@ ipc.on('query-presentations-reply', function(event, arg) {
   generateTable(query);
 });
 
+//takes the obtained query and populates the dropdown of reviewers
 ipc.on('query-reviewer-reply', function(event, arg) {
   var query = JSON.parse(arg);
   populateReviewer(query);
