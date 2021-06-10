@@ -14,7 +14,7 @@
   "dependencies": {
     "sequelize": "^6.6.2",
     "pg": "^8.6.0",
-    "pg-hstore": "^2.3.2",
+    "pg-hstore": "^2.3.4",
     "csv": "^5.1.1",
     "fs": "^0.0.1-security",
     "ini": "^2.0.0",
